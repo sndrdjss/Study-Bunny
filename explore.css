@@ -620,3 +620,47 @@ a {
         display: none;
     }
 }
+
+
+/* =========================================================
+   SIMPLE PLACEHOLDER PAGES (create / library / progress)
+   Reuses the navbar, theme, and gradient background.
+   ========================================================= */
+.placeholder {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    min-height: calc(100vh - 82px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.placeholder-title {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+}
+
+.placeholder-text {
+    max-width: 520px;
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.placeholder-badge {
+    margin-top: 22px;
+    padding: 8px 18px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--purple-bright);
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+}

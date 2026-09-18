@@ -1,0 +1,262 @@
+/* =========================================================
+   StudyBuddy — Login page styles (login.css)
+   HTML + CSS only. Self-contained (own theme + layout).
+   ========================================================= */
+
+/* ---------- Theme variables ---------- */
+:root {
+    --bg:            #0a0e1a;
+    --bg-nav:        #10162a;
+    --surface:       #141b30;
+    --surface-2:     #1c2540;
+    --purple:        #7c3aed;
+    --purple-bright: #9d5cff;
+    --pink:          #ffb3e6;
+    --text:          #f5f7ff;
+    --text-muted:    #9aa4c2;
+    --text-dim:      #6b7599;
+    --border:        #263054;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 999px;
+    --font: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    /* Gradient background matching StudyBuddy */
+    background-color: var(--bg);
+    background-image:
+        radial-gradient(1000px 600px at 50% -5%, rgba(124, 58, 237, 0.20), transparent 60%),
+        radial-gradient(900px 700px at 12% 25%, rgba(37, 99, 235, 0.14), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(157, 92, 255, 0.14), transparent 55%),
+        linear-gradient(180deg, #0b1024 0%, #0a0e1a 55%, #070a14 100%);
+    background-attachment: fixed;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================================================
+   NAVIGATION BAR
+   ========================================================= */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    background-color: var(--bg-nav);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--text);
+}
+
+.logo span {
+    color: var(--purple-bright);
+}
+
+.nav-cta {
+    padding: 8px 22px;
+    border-radius: var(--radius-pill);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--purple);
+    transition: background-color 0.2s ease;
+}
+
+.nav-cta:hover {
+    background-color: var(--purple-bright);
+}
+
+/* =========================================================
+   LEFT-ALIGNED AUTH LAYOUT
+   ========================================================= */
+.auth-wrap {
+    min-height: calc(100vh - 82px);   /* fill viewport minus navbar */
+    display: flex;
+    align-items: stretch;
+    padding: 48px 64px 80px;          /* outer breathing room */
+    gap: 40px;
+}
+
+/* Left section (~45%) — holds the login panel, vertically centered */
+.auth-left {
+    flex: 0 0 45%;
+    max-width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;      /* panel toward the LEFT */
+}
+
+/* Right section (~55%) — plain empty area, divided by a vertical line */
+.auth-side {
+    flex: 1 1 55%;
+    max-width: 55%;
+    border-left: 1px solid var(--border);
+}
+
+/* Login panel */
+.auth-card {
+    width: min(360px, 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-title {
+    text-align: left;
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    /* Purple-to-pink gradient accent on the heading */
+    background-image: linear-gradient(90deg, var(--purple-bright) 0%, var(--pink) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.auth-subtitle {
+    text-align: left;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+}
+
+/* Form */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+/* Clean rectangular input fields with rounded corners */
+.field input {
+    height: 46px;
+    padding: 0 16px;
+    font-size: 0.95rem;
+    color: var(--text);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input::placeholder {
+    color: var(--text-dim);
+}
+
+.field input:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.35);
+}
+
+/* LOGIN button (styled <a>) with purple-to-pink gradient */
+.auth-submit {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 14px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    background: linear-gradient(90deg, var(--purple) 0%, var(--pink) 100%);
+    border-radius: var(--radius-pill);
+    transition: filter 0.2s ease, transform 0.05s ease;
+}
+
+.auth-submit:hover {
+    filter: brightness(1.08);
+}
+
+.auth-submit:active {
+    transform: translateY(1px);
+}
+
+/* Footer link */
+.auth-footer {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.auth-footer a {
+    color: var(--purple-bright);
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+    .auth-wrap {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .auth-left,
+    .auth-side {
+        flex: 1 1 auto;
+        max-width: 100%;
+    }
+    .auth-left {
+        justify-content: center;
+    }
+    .auth-side {
+        min-height: 200px;
+    }
+}
+
+@media (max-width: 640px) {
+    .navbar {
+        padding: 16px 20px;
+    }
+    .auth-wrap {
+        padding: 40px 20px 60px;
+    }
+}
