@@ -1,0 +1,622 @@
+/* =========================================================
+   StudyBuddy — Explore page
+   HTML + CSS only. No JavaScript, no frameworks.
+   ========================================================= */
+
+/* ---------- Theme variables ---------- */
+:root {
+    --bg:            #0a0e1a;   /* page background (dark navy/black) */
+    --bg-nav:        #10162a;   /* nav + surfaces */
+    --surface:       #141b30;   /* card background */
+    --surface-2:     #1c2540;   /* raised / pills / inputs */
+    --surface-3:     #232e52;   /* hover / secondary buttons */
+    --purple:        #7c3aed;   /* primary accent */
+    --purple-bright: #9d5cff;   /* accent highlight */
+    --text:          #f5f7ff;   /* primary light text */
+    --text-muted:    #9aa4c2;   /* secondary text */
+    --text-dim:      #6b7599;   /* subtle labels */
+    --border:        #263054;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 999px;
+    --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    --font: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;          /* guarantee no horizontal scrollbar */
+
+    /* Subtle gradient background covering the whole page.
+       Layered radial glows (purple/blue) over a dark navy base to
+       match the ambient card glow. Sits behind all page elements. */
+    background-color: var(--bg);
+    background-image:
+        radial-gradient(1000px 600px at 50% -5%, rgba(124, 58, 237, 0.20), transparent 60%),
+        radial-gradient(900px 700px at 12% 25%, rgba(37, 99, 235, 0.14), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(157, 92, 255, 0.14), transparent 55%),
+        linear-gradient(180deg, #0b1024 0%, #0a0e1a 55%, #070a14 100%);
+    background-attachment: fixed; /* gradient stays fixed behind scrolling content */
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Screen-reader-only helper */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* =========================================================
+   NAVIGATION BAR
+   ========================================================= */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 40px;
+    background-color: var(--bg-nav);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-left,
+.nav-right {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-right {
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--text);
+}
+
+.logo span {
+    color: var(--purple-bright);
+}
+
+.nav-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-link {
+    padding: 8px 18px;
+    border-radius: var(--radius-pill);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--text);
+    background-color: var(--surface-2);
+}
+
+.nav-link.active {
+    background-color: var(--purple);
+    color: #fff;
+    font-weight: 600;
+}
+
+.nav-link.active:hover {
+    background-color: var(--purple-bright);
+}
+
+.avatar {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--purple-bright));
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.username {
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   PAGE LAYOUT
+   ========================================================= */
+.page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+    text-align: center;
+    padding: 48px 16px 24px;
+}
+
+.hero-title {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+/* Soft pastel purple -> pink gradient applied directly to the text.
+   Inherits font/size/weight from .hero-title — only the fill changes. */
+.gradient-text {
+    background-image: linear-gradient(90deg, #c8a8ff 0%, #ffb3e6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.hero-subtitle {
+    max-width: 640px;
+    margin: 14px auto 0;
+    font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* =========================================================
+   SEARCH BAR — single unified rounded bar, icon inside (left)
+   ========================================================= */
+.search {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: min(680px, 100%);
+    padding: 0 24px;
+    height: 56px;
+    background-color: #d9dde6;
+    border-radius: var(--radius-pill);
+    transition: box-shadow 0.2s ease;
+}
+
+.search-bar:focus-within {
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.5);
+}
+
+.search-icon {
+    font-size: 1rem;
+    line-height: 1;
+    color: #5c6270;          /* subtle, aligned with placeholder */
+    flex-shrink: 0;
+}
+
+.search-input {
+    flex: 1 1 auto;
+    min-width: 0;            /* prevent overflow, allow text to fit */
+    height: 100%;
+    padding: 0;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.search-input::placeholder {
+    font-size: 0.9rem;       /* smaller than typed text */
+    color: #6b7180;          /* slightly muted */
+}
+
+/* =========================================================
+   CAROUSEL / CARD DECK
+   ========================================================= */
+.carousel {
+    position: relative;
+    margin-top: 4px;             /* tighter gap to the search bar (deck padding keeps glow room) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.deck {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    /* Clip horizontally only: hides the peeking side-card overflow (no
+       horizontal scrollbar) while letting the center card's glow spill
+       and fade freely above and below instead of being cut off. */
+    overflow-x: clip;
+    overflow-y: visible;
+    padding: 60px 0;             /* vertical room so the glow haze fades fully */
+}
+
+/* Decorative arrows (non-interactive) */
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: rgba(20, 27, 48, 0.85);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 1.6rem;
+    line-height: 1;
+    user-select: none;
+}
+
+.carousel-arrow--prev { left: 6%; }
+.carousel-arrow--next { right: 6%; }
+
+/* =========================================================
+   LEARNING CARD — FIXED SIZE CONTRACT
+   ========================================================= */
+.card {
+    /* Fixed dimensions: description length must never change these */
+    width: 520px;
+    height: 300px;
+    flex-shrink: 0;
+    position: relative;          /* stacking context for the glow layer */
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+/* Center (active) card only.
+   The glow is built from many closely-spaced box-shadow layers. Each layer
+   follows the card's border-radius, so the light hugs the rounded outline.
+   Blur increases steadily while opacity decays smoothly toward zero across
+   the layers, so there is no single visible ring or hard edge — the outer
+   glow reads as a natural light haze that dissolves into the gradient. */
+.card--active {
+    z-index: 2;
+    transform: scale(1);
+    opacity: 1;
+    box-shadow:
+        /* bright, tight edge hugging the shape */
+        0 0 3px 0 rgba(157, 92, 255, 0.50),
+        0 0 8px 0 rgba(157, 92, 255, 0.38),
+        /* smooth gradual falloff — blur up, opacity down, no hard ring */
+        0 0 16px 0 rgba(140, 78, 246, 0.26),
+        0 0 26px 0 rgba(132, 70, 242, 0.18),
+        0 0 40px 0 rgba(124, 58, 237, 0.12),
+        0 0 58px 0 rgba(124, 58, 237, 0.075),
+        0 0 80px 0 rgba(124, 58, 237, 0.045),
+        0 0 110px 0 rgba(124, 58, 237, 0.022),
+        /* haze tail — fades into transparency */
+        0 0 150px 0 rgba(124, 58, 237, 0.010),
+        /* subtle grounding depth */
+        0 14px 34px rgba(0, 0, 0, 0.38);
+}
+
+/* Peeking neighbor cards: scaled down + dimmed, NO glow */
+.card--side {
+    transform: scale(0.9);
+    opacity: 0.35;
+    z-index: 1;
+    box-shadow: none;
+}
+
+.card--side:first-child {
+    margin-right: -160px;        /* pull active card over the left neighbor */
+}
+
+.card--side:last-child {
+    margin-left: -160px;         /* pull active card over the right neighbor */
+}
+
+/* ---- Left: square image ---- */
+.card-image {
+    width: 200px;
+    height: 200px;               /* forced square */
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--surface-2);
+}
+
+.card--active .card-image {
+    outline: 4px solid var(--purple);
+    outline-offset: 0;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ---- Right: content column ---- */
+.card-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;                /* allow text truncation inside flex */
+    overflow: hidden;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;     /* long title never breaks layout */
+}
+
+.card-desc {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    /* Clamp to 2 lines so long descriptions never resize the card */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-author {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-created {
+    font-size: 0.65rem;
+    letter-spacing: 0.8px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+}
+
+.card-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.card-pills {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: var(--radius-pill);
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.pill::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.pill--category::before { background-color: var(--purple-bright); }
+.pill--subject::before  { background-color: #e0a24b; }
+
+/* ---- Bottom controls: pinned to bottom regardless of text length ---- */
+.card-controls {
+    margin-top: auto;            /* push to bottom */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 14px;
+}
+
+.btn-collection {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--purple);
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-collection:hover {
+    background-color: var(--purple-bright);
+}
+
+.btn-heart {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-heart:hover {
+    color: #ff6b81;
+    background-color: var(--surface-3);
+}
+
+/* =========================================================
+   CAROUSEL INDICATOR
+   ========================================================= */
+.carousel-indicator {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   FEATURED CATEGORIES
+   ========================================================= */
+.featured {
+    margin-top: 56px;
+}
+
+.featured-title {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 28px;
+}
+
+.category-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+}
+
+.category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 96px;
+}
+
+.category-icon {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;                /* square container */
+    border-radius: var(--radius-md);
+    /* Translucent glass-like fill so the gradient background shows through,
+       while icon/text stay clearly visible. Not fully transparent. */
+    background-color: rgba(255, 255, 255, 0.06);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 1.8rem;
+    color: var(--text);
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.category-icon--code {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--purple-bright);
+}
+
+.category:hover .category-icon {
+    transform: translateY(-4px);
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: var(--purple);
+}
+
+.category-name {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================= */
+@media (max-width: 900px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        padding: 16px 20px;
+    }
+    .nav-left,
+    .nav-right {
+        flex: 0 0 auto;
+    }
+    .card--side {
+        display: none;           /* hide peeking neighbors on small screens */
+    }
+    .carousel-arrow--prev { left: 2%; }
+    .carousel-arrow--next { right: 2%; }
+}
+
+@media (max-width: 560px) {
+    .card {
+        width: 92vw;
+        height: auto;
+        min-height: 300px;
+        flex-direction: column;
+    }
+    .card-image {
+        width: 100%;
+        height: 180px;
+    }
+    .carousel-arrow {
+        display: none;
+    }
+}

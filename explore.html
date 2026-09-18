@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyBuddy — Explore</title>
+    <link rel="stylesheet" href="explore.css">
+</head>
+<body>
+
+    <!-- ============================ NAVIGATION BAR ============================ -->
+    <header class="navbar">
+        <div class="nav-left">
+            <a href="explore.html" class="logo">Study<span>Buddy</span></a>
+        </div>
+
+        <nav class="nav-center" aria-label="Primary">
+            <a href="explore.html" class="nav-link active" aria-current="page">Explore</a>
+            <a href="#" class="nav-link">Create</a>
+            <a href="#" class="nav-link">Library</a>
+            <a href="#" class="nav-link">Progress</a>
+        </nav>
+
+        <div class="nav-right">
+            <span class="avatar" aria-hidden="true">JD</span>
+            <span class="username">Jane Doe</span>
+        </div>
+    </header>
+
+    <main class="page">
+
+        <!-- ============================ HERO HEADING ============================ -->
+        <section class="hero">
+            <h1 class="hero-title">Explore, Learn, and <span class="gradient-text">Have Fun</span></h1>
+            <p class="hero-subtitle">Master equations, codebases, languages, and history with verified peer-crafted decks and spaced repetition.</p>
+
+            <!-- ============================ SEARCH BAR ============================ -->
+            <form class="search" role="search" action="#" method="get">
+                <label for="search-input" class="sr-only">Search subjects, decks, formulas, or concepts</label>
+                <div class="search-bar">
+                    <span class="search-icon" aria-hidden="true">&#128269;</span>
+                    <input
+                        type="text"
+                        id="search-input"
+                        name="q"
+                        class="search-input"
+                        placeholder="Search subjects, decks, formulas, or concepts ..."
+                        autocomplete="off">
+                    <button type="submit" class="search-submit sr-only">Search</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- ============================ CARD DECK / CAROUSEL ============================ -->
+        <section class="carousel" aria-label="Featured learning decks">
+            <span class="carousel-arrow carousel-arrow--prev" aria-hidden="true">&#8249;</span>
+
+            <div class="deck">
+                <!-- CARD 1 (prev / peeking) -->
+                <article class="card card--side">
+                    <div class="card-image">
+                        <img src="https://i.pinimg.com/1200x/2e/2b/58/2e2b58e005e91f684ad7f5f69ff2fd65.jpg" alt="">
+                    </div>
+                    <div class="card-content">
+                        <h2 class="card-title">World History</h2>
+                        <p class="card-desc">Explore important historical events, civilizations, people, and developments that shaped the modern world.</p>
+                        <div class="card-author">
+                            <span class="card-created">CREATED BY</span>
+                            <span class="card-name">Emma Davis</span>
+                        </div>
+                        <div class="card-pills">
+                            <span class="pill pill--category">History</span>
+                            <span class="pill pill--subject">World History</span>
+                        </div>
+                        <div class="card-controls">
+                            <button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button>
+                            <button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CARD 2 (ACTIVE / center) -->
+                <article class="card card--active">
+                    <div class="card-image">
+                        <img src="https://i.pinimg.com/1200x/ae/6c/5a/ae6c5ad074182cf3d77c42eb041b12d7.jpg" alt="Algebra deck cover">
+                    </div>
+                    <div class="card-content">  
+                        <h2 class="card-title">Algebra</h2>
+                        <p class="card-desc">Master equations, functions, and problem solving through simple lessons and practice questions.</p>
+                        <div class="card-author">
+                            <span class="card-created">CREATED BY</span>
+                            <span class="card-name">Davis Curtis</span>
+                        </div>
+                        <div class="card-pills">
+                            <span class="pill pill--category">Mathematics</span>
+                            <span class="pill pill--subject">Algebra</span>
+                        </div>
+                        <div class="card-controls">
+                            <button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button>
+                            <button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CARD 3 (next / peeking) -->
+                <article class="card card--side">
+                    <div class="card-image">
+                        <img src="https://i.pinimg.com/736x/82/c3/87/82c387769f9306447c918a18fd10691d.jpg" alt="">
+                    </div>
+                    <div class="card-content">
+                        <h2 class="card-title">App Development</h2>
+                        <p class="card-desc">Learn the fundamentals of building modern applications and understand how different technologies work together.</p>
+                        <div class="card-author">
+                            <span class="card-created">CREATED BY</span>
+                            <span class="card-name">Daniel Smith</span>
+                        </div>
+                        <div class="card-pills">
+                            <span class="pill pill--category">Web Development</span>
+                            <span class="pill pill--subject">App Development</span>
+                        </div>
+                        <div class="card-controls">
+                            <button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button>
+                            <button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <span class="carousel-arrow carousel-arrow--next" aria-hidden="true">&#8250;</span>
+        </section>
+
+        <!-- ============================ CAROUSEL INDICATOR ============================ -->
+        <p class="carousel-indicator">1 / 7</p>
+
+        <!-- Remaining sample cards (4-7) kept in the deck data but hidden off the active view.
+             Rendered here so all 7 sample decks exist in the markup for future carousel wiring. -->
+        <div class="deck-data" hidden>
+            <article class="card">
+                <div class="card-image"><img src="images/placeholders/science.svg" alt=""></div>
+                <div class="card-content">
+                    <h2 class="card-title">Biology Basics</h2>
+                    <p class="card-desc">Learn the fundamentals of cells, organisms, ecosystems, and how living things interact with their environment.</p>
+                    <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Sarah Miller</span></div>
+                    <div class="card-pills"><span class="pill pill--category">Science</span><span class="pill pill--subject">Biology</span></div>
+                    <div class="card-controls"><button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
+                </div>
+            </article>
+            <article class="card">
+                <div class="card-image"><img src="images/placeholders/english.svg" alt=""></div>
+                <div class="card-content">
+                    <h2 class="card-title">English Grammar</h2>
+                    <p class="card-desc">Practice sentence structure, grammar rules, punctuation, and effective communication.</p>
+                    <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Alex Johnson</span></div>
+                    <div class="card-pills"><span class="pill pill--category">English</span><span class="pill pill--subject">Grammar</span></div>
+                    <div class="card-controls"><button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
+                </div>
+            </article>
+            <article class="card">
+                <div class="card-image"><img src="images/placeholders/geography.svg" alt=""></div>
+                <div class="card-content">
+                    <h2 class="card-title">Physical Geography</h2>
+                    <p class="card-desc">Discover landforms, climate, oceans, natural resources, and the physical processes shaping Earth.</p>
+                    <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Michael Lee</span></div>
+                    <div class="card-pills"><span class="pill pill--category">Geography</span><span class="pill pill--subject">Physical Geography</span></div>
+                    <div class="card-controls"><button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
+                </div>
+            </article>
+            <article class="card">
+                <div class="card-image"><img src="images/placeholders/art.svg" alt=""></div>
+                <div class="card-content">
+                    <h2 class="card-title">Digital Art</h2>
+                    <p class="card-desc">Learn the fundamentals of digital art, including composition, color, tools, and creative techniques.</p>
+                    <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Sophia Brown</span></div>
+                    <div class="card-pills"><span class="pill pill--category">Art</span><span class="pill pill--subject">Digital Art</span></div>
+                    <div class="card-controls"><button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
+                </div>
+            </article>
+        </div>
+
+        <!-- ============================ FEATURED CATEGORIES ============================ -->
+        <section class="featured">
+            <h2 class="featured-title">Featured Categories</h2>
+            <div class="category-row">
+                <a href="#" class="category">
+                    <span class="category-icon" aria-hidden="true">&#960;</span>
+                    <span class="category-name">Mathematics</span>
+                </a>
+                <a href="#" class="category">
+                    <span class="category-icon" aria-hidden="true">&#128300;</span>
+                    <span class="category-name">Science</span>
+                </a>
+                <a href="#" class="category">
+                    <span class="category-icon" aria-hidden="true">A</span>
+                    <span class="category-name">English</span>
+                </a>
+                <a href="#" class="category">
+                    <span class="category-icon" aria-hidden="true">&#8987;</span>
+                    <span class="category-name">History</span>
+                </a>
+                <a href="#" class="category">
+                    <span class="category-icon" aria-hidden="true">&#127758;</span>
+                    <span class="category-name">Geography</span>
+                </a>
+                <a href="#" class="category">
+                    <span class="category-icon" aria-hidden="true">&#127912;</span>
+                    <span class="category-name">Art</span>
+                </a>
+                <a href="#" class="category">
+                    <span class="category-icon category-icon--code" aria-hidden="true">&lt;/&gt;</span>
+                    <span class="category-name">Web Development</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
