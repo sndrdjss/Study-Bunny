@@ -1,0 +1,193 @@
+/* =========================================================
+   StudyBuddy — Create page (placeholder) styles
+   HTML + CSS only. Matches the existing StudyBuddy design.
+   ========================================================= */
+
+/* ---------- Theme variables ---------- */
+:root {
+    --bg:            #0a0e1a;
+    --bg-nav:        #10162a;
+    --surface-2:     #1c2540;
+    --purple:        #7c3aed;
+    --purple-bright: #9d5cff;
+    --text:          #f5f7ff;
+    --text-muted:    #9aa4c2;
+    --border:        #263054;
+    --radius-md: 16px;
+    --radius-pill: 999px;
+    --font: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    /* Gradient background matching StudyBuddy */
+    background-color: var(--bg);
+    background-image:
+        radial-gradient(1000px 600px at 50% -5%, rgba(124, 58, 237, 0.20), transparent 60%),
+        radial-gradient(900px 700px at 12% 25%, rgba(37, 99, 235, 0.14), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(157, 92, 255, 0.14), transparent 55%),
+        linear-gradient(180deg, #0b1024 0%, #0a0e1a 55%, #070a14 100%);
+    background-attachment: fixed;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================================================
+   NAVIGATION BAR
+   ========================================================= */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 40px;
+    background-color: var(--bg-nav);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-left,
+.nav-right {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-right {
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--text);
+}
+
+.logo span {
+    color: var(--purple-bright);
+}
+
+.nav-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-link {
+    padding: 8px 18px;
+    border-radius: var(--radius-pill);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--text);
+    background-color: var(--surface-2);
+}
+
+.nav-link.active {
+    background-color: var(--purple);
+    color: #fff;
+    font-weight: 600;
+}
+
+.nav-link.active:hover {
+    background-color: var(--purple-bright);
+}
+
+.avatar {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--purple-bright));
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.username {
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   PLACEHOLDER CONTENT
+   ========================================================= */
+.placeholder {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    min-height: calc(100vh - 82px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.placeholder-title {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+}
+
+.placeholder-text {
+    max-width: 520px;
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.placeholder-badge {
+    margin-top: 22px;
+    padding: 8px 18px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--purple-bright);
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        padding: 16px 20px;
+    }
+    .nav-left,
+    .nav-right {
+        flex: 0 0 auto;
+    }
+}
