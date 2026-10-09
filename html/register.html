@@ -22,7 +22,26 @@
             <h1 class="auth-title">SIGN UP</h1>
             <p class="auth-subtitle">Create your StudyBuddy account.</p>
 
-            <form class="auth-form" action="login.html" method="get">
+            <!-- Shows a message based on the ?error= flag added by register.php -->
+            <script>
+                (function () {
+                    var params = new URLSearchParams(window.location.search);
+                    var err = params.get('error');
+                    var messages = {
+                        empty: 'Please fill in all fields.',
+                        mismatch: 'Passwords do not match.',
+                        taken: 'That username is already taken.',
+                        db: 'Something went wrong. Please try again.'
+                    };
+                    if (err && messages[err]) {
+                        document.write(
+                            '<p style="color:#c0392b;font-weight:bold;">' + messages[err] + '</p>'
+                        );
+                    }
+                })();
+            </script>
+
+            <form class="auth-form" action="../register.php" method="post">
                 <div class="field-row">
                     <div class="field">
                         <label for="last-name">Last Name</label>
@@ -49,8 +68,7 @@
                     <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter your password" autocomplete="new-password">
                 </div>
 
-                <!-- Simulated sign up: link navigates to the Login page -->
-                <a href="login.html" class="auth-submit">SIGN UP</a>
+                <button type="submit" class="auth-submit">SIGN UP</button>
             </form>
 
             <p class="auth-footer">Already have an account? <a href="login.html">Login</a></p>
