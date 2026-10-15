@@ -1,149 +1,153 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StudyBuddy — Create</title>
-    <link rel="stylesheet" href="../css/create.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="../css/create.css" />
+  </head>
+  <body>
     <!-- ============================ NAVIGATION BAR ============================ -->
     <header class="navbar">
-        <div class="nav-left">
-            <a href="explore.html" class="logo">Study<span>Buddy</span></a>
-        </div>
+      <div class="nav-left">
+        <a href="explore.html" class="logo">Study<span>Buddy</span></a>
+      </div>
 
-        <nav class="nav-center" aria-label="Primary">
-            <a href="explore.html" class="nav-link">Explore</a>
-            <a href="create.html" class="nav-link active" aria-current="page">Create</a>
-            <a href="library.html" class="nav-link">Library</a>
-            <a href="progress.html" class="nav-link">Progress</a>
-        </nav>
+      <nav class="nav-center" aria-label="Primary">
+        <a href="explore.html" class="nav-link">Explore</a>
+        <a href="create.html" class="nav-link active" aria-current="page"
+          >Create</a
+        >
+        <a href="library.html" class="nav-link">Library</a>
+        <a href="progress.html" class="nav-link">Progress</a>
+      </nav>
 
-        <div class="nav-right">
-            <span class="avatar" aria-hidden="true">JD</span>
-            <span class="username">Jane Doe</span>
-        </div>
+      <div class="nav-right">
+        <span class="avatar" aria-hidden="true">JD</span>
+        <span class="username">Jane Doe</span>
+      </div>
     </header>
 
     <!-- ============================ PAGE CONTENT ============================ -->
     <main class="page">
+      <!-- ---------- Breadcrumb ---------- -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="library.html" class="breadcrumb-link">Decks</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Studio Builder</span>
+      </nav>
 
-        <!-- ---------- Breadcrumb ---------- -->
-        <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="library.html" class="breadcrumb-link">Decks</a>
-            <span class="breadcrumb-sep" aria-hidden="true">/</span>
-            <span class="breadcrumb-current">Studio Builder</span>
-        </nav>
-
-        <!-- ---------- Studio header ---------- -->
-        <div class="studio-header">
-            <div class="studio-header-left">
-                <h1 class="studio-title">Create a new card deck</h1>
-                <p class="studio-subtitle">Build interactive study sets with markdown formatting, AI enrichment, and smart spaced repetition.</p>
-            </div>
-
-            <div class="studio-actions">
-                <span class="autosave" aria-hidden="true">&#10003; Autosaved 1m ago</span>
-                <button type="button" class="btn-ghost">&#128065; Preview</button>
-                <button type="button" class="btn-secondary">Save Draft</button>
-                <button type="button" class="btn-primary">&#10022; Publish Deck</button>
-                <button type="button" class="btn-overflow" aria-label="More options">&#8943;</button>
-            </div>
+      <!-- ---------- Studio header ---------- -->
+      <div class="studio-header">
+        <div class="studio-header-left">
+          <h1 class="studio-title">Create a new card deck</h1>
+          <p class="studio-subtitle">
+            Build interactive study sets with markdown formatting, AI
+            enrichment, and smart spaced repetition.
+          </p>
         </div>
 
-        <!-- ---------- Name & Description card ---------- -->
-        <section class="builder-card" aria-label="Name and Description">
+        <div class="studio-actions">
+          <span class="autosave" aria-hidden="true"
+            >&#10003; Autosaved 1m ago</span
+          >
+          <button type="button" class="btn-secondary">Save Draft</button>
+        </div>
+      </div>
 
-            <div class="section-head">
-                <h2 class="section-title">Name &amp; Description</h2>
+      <!-- ---------- Name & Description card ---------- -->
+      <section class="builder-card" aria-label="Name and Description">
+        <div class="section-head">
+          <h2 class="section-title">Name &amp; Description</h2>
+        </div>
+        <hr class="divider" />
+
+        <!-- TITLE -->
+        <div class="field">
+          <div class="label-row">
+            <label class="field-label" for="deck-title"
+              >Title <span class="req">*</span></label
+            >
+            <span class="field-hint">0 / 100 characters</span>
+          </div>
+          <input
+            type="text"
+            id="deck-title"
+            class="text-input title-input"
+            maxlength="100"
+            placeholder="Enter a title for your card deck"
+          />
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="field">
+          <label class="field-label" for="deck-description">Description</label>
+          <div class="editor">
+            <!-- Static, non-functional formatting toolbar -->
+            <div class="rt-toolbar" aria-hidden="true">
+              <button type="button" class="rt-btn rt-btn--bold" tabindex="-1">
+                B
+              </button>
+              <button type="button" class="rt-btn rt-btn--italic" tabindex="-1">
+                I
+              </button>
+              <button
+                type="button"
+                class="rt-btn rt-btn--underline"
+                tabindex="-1"
+              >
+                U
+              </button>
+              <span class="rt-spacer"></span>
+              <button type="button" class="rt-btn" tabindex="-1">
+                &#8630;
+              </button>
+              <button type="button" class="rt-btn" tabindex="-1">
+                &#10530;
+              </button>
             </div>
-            <hr class="divider">
+            <textarea
+              id="deck-description"
+              class="text-area"
+              placeholder="Master common Spanish dialogue phrases, natural responses, and core social interaction expressions tailored for daily conversational fluency."
+            ></textarea>
+          </div>
+        </div>
 
-            <!-- TITLE -->
-            <div class="field">
-                <div class="label-row">
-                    <label class="field-label" for="deck-title">Title <span class="req">*</span></label>
-                    <span class="field-hint">0 / 100 characters</span>
-                </div>
-                <input
-                    type="text"
-                    id="deck-title"
-                    class="text-input title-input"
-                    maxlength="100"
-                    placeholder="Enter a title for your card deck">
-            </div>
+        <!-- BOTTOM ROW: Subject Category | Tags -->
+        <div class="field-row">
+          <!-- SUBJECT CATEGORY -->
+          <div class="field">
+            <label class="field-label" for="deck-category"
+              >Subject Category</label
+            >
+            <select id="deck-category" class="select-input">
+              <option value="" selected disabled>
+                Select a subject category
+              </option>
+              <option value="mathematics">Mathematics</option>
+              <option value="science">Science</option>
+              <option value="english">English</option>
+              <option value="history">History</option>
+              <option value="geography">Geography</option>
+              <option value="art">Art</option>
+              <option value="web-development">Web Development</option>
+              <option value="languages">Languages</option>
+            </select>
+          </div>
 
-            <!-- DESCRIPTION -->
-            <div class="field">
-                <label class="field-label" for="deck-description">Description</label>
-                <div class="editor">
-                    <!-- Static, non-functional formatting toolbar -->
-                    <div class="rt-toolbar" aria-hidden="true">
-                        <button type="button" class="rt-btn rt-btn--bold" tabindex="-1">B</button>
-                        <button type="button" class="rt-btn rt-btn--italic" tabindex="-1">I</button>
-                        <button type="button" class="rt-btn rt-btn--underline" tabindex="-1">U</button>
-                        <span class="rt-sep"></span>
-                        <button type="button" class="rt-btn" tabindex="-1">&#128279;</button>
-                        <button type="button" class="rt-btn" tabindex="-1">&#128247;</button>
-                        <button type="button" class="rt-btn" tabindex="-1">&lt;/&gt;</button>
-                        <button type="button" class="rt-btn" tabindex="-1">&#8801;</button>
-                        <button type="button" class="rt-btn" tabindex="-1">&#8226;</button>
-                        <span class="rt-spacer"></span>
-                        <button type="button" class="rt-btn" tabindex="-1">&#8630;</button>
-                        <button type="button" class="rt-btn" tabindex="-1">&#10530;</button>
-                    </div>
-                    <textarea
-                        id="deck-description"
-                        class="text-area"
-                        placeholder="Master common Spanish dialogue phrases, natural responses, and core social interaction expressions tailored for daily conversational fluency."></textarea>
-                </div>
-            </div>
-
-            <!-- BOTTOM ROW: Subject Category | Tags | Access & Algorithm -->
-            <div class="field-row">
-
-                <!-- SUBJECT CATEGORY -->
-                <div class="field">
-                    <label class="field-label" for="deck-category">Subject Category</label>
-                    <select id="deck-category" class="select-input">
-                        <option value="" selected disabled>Select a subject category</option>
-                        <option value="mathematics">Mathematics</option>
-                        <option value="science">Science</option>
-                        <option value="english">English</option>
-                        <option value="history">History</option>
-                        <option value="geography">Geography</option>
-                        <option value="art">Art</option>
-                        <option value="web-development">Web Development</option>
-                        <option value="languages">Languages</option>
-                    </select>
-                </div>
-
-                <!-- TAGS -->
-                <div class="field">
-                    <label class="field-label" for="deck-tags">Tags</label>
-                    <input
-                        type="text"
-                        id="deck-tags"
-                        class="text-input"
-                        placeholder="Conversation, Beginner, A2 ...">
-                </div>
-
-                <!-- ACCESS & ALGORITHM -->
-                <div class="field">
-                    <label class="field-label">Access &amp; Algorithm</label>
-                    <div class="access-row">
-                        <span class="access-pill access-pill--public">&#128274; Public Deck</span>
-                        <span class="access-pill access-pill--algo">&#9889; FSRS 4.5</span>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
+          <!-- TAGS -->
+          <div class="field">
+            <label class="field-label" for="deck-tags">Tags</label>
+            <input
+              type="text"
+              id="deck-tags"
+              class="text-input"
+              placeholder="Conversation, Beginner, A2 ..."
+            />
+          </div>
+        </div>
+      </section>
     </main>
-
-</body>
+  </body>
 </html>

@@ -224,9 +224,7 @@ a {
 }
 
 /* ---------- Buttons ---------- */
-.btn-secondary,
-.btn-primary,
-.btn-ghost {
+.btn-secondary {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -240,17 +238,6 @@ a {
     white-space: nowrap;
 }
 
-.btn-ghost {
-    color: var(--text-muted);
-    background-color: transparent;
-    border: 1px solid var(--border);
-}
-
-.btn-ghost:hover {
-    color: var(--text);
-    background-color: var(--surface-2);
-}
-
 .btn-secondary {
     color: var(--text);
     background-color: var(--surface-2);
@@ -261,39 +248,7 @@ a {
     background-color: var(--surface-3);
 }
 
-.btn-primary {
-    color: #fff;
-    background: linear-gradient(135deg, var(--purple), var(--purple-bright));
-    border: 1px solid transparent;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, var(--purple-bright), var(--purple-bright));
-}
-
-.btn-overflow {
-    display: inline-grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    background-color: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.btn-overflow:hover {
-    background-color: var(--surface-3);
-    color: var(--text);
-}
-
-.btn-secondary:active,
-.btn-primary:active,
-.btn-ghost:active,
-.btn-overflow:active {
+.btn-secondary:active {
     transform: translateY(1px);
 }
 
@@ -552,48 +507,16 @@ a {
     color: var(--text);
 }
 
-/* ---------- Bottom row (3 columns) ---------- */
+/* ---------- Bottom row (2 columns) ---------- */
 .field-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 22px;
     align-items: start;
 }
 
 .field-row .field {
     margin-bottom: 0;
-}
-
-/* ---------- Access & Algorithm pills ---------- */
-.access-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.access-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 12px 16px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: var(--radius-md);
-    white-space: nowrap;
-}
-
-.access-pill--public {
-    color: #fff;
-    background: linear-gradient(135deg, var(--purple), var(--purple-bright));
-    border: 1px solid transparent;
-    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
-}
-
-.access-pill--algo {
-    color: var(--text);
-    background-color: var(--surface-2);
-    border: 1px solid var(--border);
 }
 
 /* =========================================================

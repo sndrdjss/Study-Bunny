@@ -3,7 +3,7 @@
 $host     = 'localhost';
 $user     = 'root';
 $password = '';
-$database = 'studybuddy_auth';
+$database = 'hcieinsproject';
 
 
 $conn = new mysqli($host, $user, $password, $database);

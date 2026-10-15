@@ -2,7 +2,7 @@
 
 require "db.php";
 
-$result = $conn->query("SELECT * FROM users");
+$result = $conn->query("SELECT * FROM study_buddy_auth");
 
 while ($row = $result->fetch_assoc()) {
       echo $row['id'] . " - "
