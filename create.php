@@ -1,0 +1,285 @@
+<?php
+// TEMP DEBUG — shows errors on screen so we can diagnose. Remove later.
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+require 'db.php';
+?>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyBuddy — Create</title>
+    <link rel="stylesheet" href="css/create.css" />
+  </head>
+  <body>
+    <!-- ============================ NAVIGATION BAR ============================ -->
+    <header class="navbar">
+      <div class="nav-left">
+        <a href="html/explore.html" class="logo">Study<span>Buddy</span></a>
+      </div>
+
+      <nav class="nav-center" aria-label="Primary">
+        <a href="html/explore.html" class="nav-link">Explore</a>
+        <a href="create.php" class="nav-link active" aria-current="page"
+          >Create</a
+        >
+        <a href="html/library.html" class="nav-link">Library</a>
+        <a href="html/progress.html" class="nav-link">Progress</a>
+      </nav>
+
+      <div class="nav-right">
+        <span class="avatar" aria-hidden="true">JD</span>
+        <span class="username">Jane Doe</span>
+      </div>
+    </header>
+
+    <!-- ============================ PAGE CONTENT ============================ -->
+    <main class="page">
+      <!-- ---------- Breadcrumb ---------- -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="html/library.html" class="breadcrumb-link">Decks</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Studio Builder</span>
+      </nav>
+
+      <!-- ---------- Studio header ---------- -->
+      <div class="studio-header">
+        <div class="studio-header-left">
+          <h1 class="studio-title">Create a new card deck</h1>
+          <p class="studio-subtitle">
+            Build interactive study sets with markdown formatting, AI
+            enrichment, and smart spaced repetition.
+          </p>
+        </div>
+
+        <div class="studio-actions">
+          <span class="autosave" aria-hidden="true"
+            >&#10003; Autosaved 1m ago</span
+          >
+          <button type="submit" form="deck-form" class="btn-secondary">
+            Save Draft
+          </button>
+        </div>
+      </div>
+
+      <!-- ---------- Status banner ---------- -->
+      <?php if (isset($_GET['saved']) && $_GET['saved'] === '1'): ?>
+        <div class="banner banner--success" role="status">
+          &#10003; Draft saved!
+        </div>
+      <?php elseif (isset($_GET['deleted']) && $_GET['deleted'] === '1'): ?>
+        <div class="banner banner--success" role="status">
+          &#10003; Deck deleted.
+        </div>
+      <?php elseif (isset($_GET['error'])): ?>
+        <?php
+          $error = $_GET['error'];
+          if ($error === 'empty') {
+              $message = 'Title is required to save a draft.';
+          } elseif ($error === 'image') {
+              $message = 'There was a problem uploading your cover image.';
+          } elseif ($error === 'db') {
+              $message = 'Could not save your draft. Please try again.';
+          } elseif ($error === 'delete') {
+              $message = 'Could not delete the deck. Please try again.';
+          } else {
+              $message = 'Something went wrong. Please try again.';
+          }
+        ?>
+        <div class="banner banner--error" role="alert">
+          &#9888; <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
+        </div>
+      <?php endif; ?>
+
+      <!-- ---------- Name & Description card ---------- -->
+      <form
+        id="deck-form"
+        method="post"
+        action="create_deck.php"
+        enctype="multipart/form-data"
+      >
+        <section class="builder-card" aria-label="Name and Description">
+          <div class="section-head">
+            <h2 class="section-title">Name &amp; Description</h2>
+          </div>
+          <hr class="divider" />
+
+          <!-- TITLE -->
+          <div class="field">
+            <div class="label-row">
+              <label class="field-label" for="deck-title"
+                >Title <span class="req">*</span></label
+              >
+              <span class="field-hint">0 / 100 characters</span>
+            </div>
+            <input
+              type="text"
+              id="deck-title"
+              name="title"
+              class="text-input title-input"
+              maxlength="100"
+              placeholder="Enter a title for your card deck"
+            />
+          </div>
+
+          <!-- DESCRIPTION -->
+          <div class="field">
+            <label class="field-label" for="deck-description">Description</label>
+            <div class="editor">
+              <textarea
+                id="deck-description"
+                name="description"
+                class="text-area"
+                placeholder="Master common Spanish dialogue phrases, natural responses, and core social interaction expressions tailored for daily conversational fluency."
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- BOTTOM ROW: Subject Category | Tags | Cover Photo -->
+          <div class="field-row">
+            <!-- SUBJECT CATEGORY -->
+            <div class="field">
+              <label class="field-label" for="deck-category"
+                >Subject Category</label
+              >
+              <select id="deck-category" name="category" class="select-input">
+                <option value="" selected disabled>
+                  Select a subject category
+                </option>
+                <option value="mathematics">Mathematics</option>
+                <option value="science">Science</option>
+                <option value="english">English</option>
+                <option value="history">History</option>
+                <option value="geography">Geography</option>
+                <option value="art">Art</option>
+                <option value="web-development">Web Development</option>
+                <option value="languages">Languages</option>
+              </select>
+            </div>
+
+            <!-- TAGS -->
+            <div class="field">
+              <label class="field-label" for="deck-tags">Tags</label>
+              <input
+                type="text"
+                id="deck-tags"
+                name="tags"
+                class="text-input"
+                placeholder="Conversation, Beginner, A2 ..."
+              />
+            </div>
+
+            <!-- COVER PHOTO -->
+            <div class="field">
+              <label class="field-label" for="deck-cover">Cover Photo</label>
+              <input
+                type="file"
+                id="deck-cover"
+                name="cover"
+                accept="image/*"
+                class="file-input"
+              />
+            </div>
+          </div>
+        </section>
+      </form>
+
+      <!-- ---------- Saved drafts ---------- -->
+      <section class="saved-section" aria-label="Saved Drafts">
+        <h2 class="saved-heading">Saved Drafts</h2>
+
+        <?php
+          $decks = null;
+          $deckError = null;
+          try {
+              $decks = $conn->query('SELECT * FROM deck ORDER BY created_at DESC, id DESC');
+          } catch (mysqli_sql_exception $e) {
+              $deckError = $e->getMessage();
+          }
+        ?>
+
+        <?php if ($deckError): ?>
+          <p class="saved-empty" style="color:#fca5a5;">
+            Could not load decks: <?= htmlspecialchars($deckError, ENT_QUOTES, 'UTF-8') ?>
+          </p>
+        <?php elseif ($decks && $decks->num_rows > 0): ?>
+          <div class="saved-deck-list">
+            <?php while ($deck = $decks->fetch_assoc()): ?>
+              <article class="saved-deck">
+                <?php if (!empty($deck['cover_image'])): ?>
+                  <div class="saved-deck-cover">
+                    <img
+                      src="<?= htmlspecialchars($deck['cover_image'], ENT_QUOTES, 'UTF-8') ?>"
+                      alt="<?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?> cover"
+                    />
+                  </div>
+                <?php endif; ?>
+
+                <div class="saved-deck-body">
+                  <h3 class="saved-deck-title">
+                    <?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?>
+                  </h3>
+
+                  <?php if (!empty($deck['description'])): ?>
+                    <p class="saved-deck-desc">
+                      <?= htmlspecialchars($deck['description'], ENT_QUOTES, 'UTF-8') ?>
+                    </p>
+                  <?php endif; ?>
+
+                  <?php if (!empty($deck['category']) || !empty($deck['tags'])): ?>
+                    <div class="saved-deck-chips">
+                      <?php if (!empty($deck['category'])): ?>
+                        <span class="chip chip--category">
+                          <span class="chip-dot"></span>
+                          <?= htmlspecialchars($deck['category'], ENT_QUOTES, 'UTF-8') ?>
+                        </span>
+                      <?php endif; ?>
+                      <?php if (!empty($deck['tags'])): ?>
+                        <?php foreach (array_filter(array_map('trim', explode(',', $deck['tags']))) as $tag): ?>
+                          <span class="chip chip--tag">
+                            <span class="chip-dot"></span>
+                            <?= htmlspecialchars($tag, ENT_QUOTES, 'UTF-8') ?>
+                          </span>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
+                    </div>
+                  <?php endif; ?>
+
+                  <div class="saved-deck-actions">
+                    <button type="button" class="btn-public">
+                      Publish Deck &#8594;
+                    </button>
+                    <form
+                      class="saved-deck-delete-form"
+                      action="delete_deck.php"
+                      method="post"
+                      onsubmit="return confirm('Delete this deck? This cannot be undone.');"
+                    >
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="<?= (int) $deck['id'] ?>"
+                      />
+                      <button
+                        type="submit"
+                        class="saved-deck-delete"
+                        aria-label="Delete deck"
+                        title="Delete deck"
+                      >
+                        &#128465;
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </article>
+            <?php endwhile; ?>
+          </div>
+        <?php else: ?>
+          <p class="saved-empty">No drafts yet.</p>
+        <?php endif; ?>
+      </section>
+    </main>
+  </body>
+</html>
