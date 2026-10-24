@@ -21,8 +21,8 @@ require 'db.php';
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="css/create.css" />
-    <link rel="stylesheet" href="css/theme.css?v=2" />
+    <link rel="stylesheet" href="css/create.css?v=4" />
+    <link rel="stylesheet" href="css/theme.css?v=3" />
   </head>
   <body>
     <!-- ============================ NAVIGATION BAR ============================ -->
@@ -41,8 +41,6 @@ require 'db.php';
       </nav>
 
       <div class="nav-right">
-        <span class="avatar" aria-hidden="true">JD</span>
-        <span class="username">Jane Doe</span>
         <label class="theme-switch" title="Toggle light / dark mode">
           <input type="checkbox" role="switch" aria-label="Toggle light or dark mode" />
           <span class="track">
@@ -54,6 +52,8 @@ require 'db.php';
             </span>
           </span>
         </label>
+        <span class="avatar" aria-hidden="true">JD</span>
+        <span class="username">Jane Doe</span>
       </div>
     </header>
 

@@ -177,7 +177,7 @@ a {
 }
 
 .hero-title {
-    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-size: clamp(2.6rem, 6vw, 4rem);
     font-weight: 800;
     letter-spacing: -0.5px;
 }
@@ -193,11 +193,11 @@ a {
 }
 
 .hero-subtitle {
-    max-width: 640px;
-    margin: 14px auto 0;
-    font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+    max-width: 720px;
+    margin: 18px auto 0;
+    font-size: clamp(1.05rem, 1.9vw, 1.3rem);
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--text-muted);
 }
 
@@ -272,10 +272,10 @@ a {
        and fade freely above and below instead of being cut off. */
     overflow-x: clip;
     overflow-y: visible;
-    padding: 60px 0;             /* vertical room so the glow haze fades fully */
+    padding: 24px 0 60px;        /* less top gap to the search bar; keep bottom glow room */
 }
 
-/* Decorative arrows (non-interactive) */
+/* Interactive carousel arrows */
 .carousel-arrow {
     position: absolute;
     top: 50%;
@@ -292,6 +292,23 @@ a {
     font-size: 1.6rem;
     line-height: 1;
     user-select: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+.carousel-arrow:hover {
+    background-color: var(--purple);
+    color: #fff;
+}
+
+.carousel-arrow:active {
+    transform: translateY(-50%) scale(0.92);
+}
+
+.carousel-arrow:focus-visible {
+    outline: 2px solid var(--purple-bright);
+    outline-offset: 2px;
 }
 
 .carousel-arrow--prev { left: 6%; }
@@ -302,13 +319,13 @@ a {
    ========================================================= */
 .card {
     /* Fixed dimensions: description length must never change these */
-    width: 520px;
-    height: 300px;
+    width: 640px;
+    height: 368px;
     flex-shrink: 0;
     position: relative;          /* stacking context for the glow layer */
     display: flex;
-    gap: 20px;
-    padding: 20px;
+    gap: 24px;
+    padding: 26px;
     background-color: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -350,18 +367,23 @@ a {
     box-shadow: none;
 }
 
-.card--side:first-child {
-    margin-right: -160px;        /* pull active card over the left neighbor */
+/* Cards outside the visible prev/active/next window are removed from flow. */
+.card--hidden {
+    display: none;
 }
 
-.card--side:last-child {
-    margin-left: -160px;         /* pull active card over the right neighbor */
+.card--side-prev {
+    margin-right: -200px;        /* pull active card over the left neighbor */
+}
+
+.card--side-next {
+    margin-left: -200px;         /* pull active card over the right neighbor */
 }
 
 /* ---- Left: square image ---- */
 .card-image {
-    width: 200px;
-    height: 200px;               /* forced square */
+    width: 264px;
+    height: 264px;               /* forced square */
     flex-shrink: 0;
     border-radius: var(--radius-md);
     overflow: hidden;
@@ -390,7 +412,7 @@ a {
 }
 
 .card-title {
-    font-size: 1.4rem;
+    font-size: 1.7rem;
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
@@ -398,8 +420,8 @@ a {
 }
 
 .card-desc {
-    margin-top: 8px;
-    font-size: 0.9rem;
+    margin-top: 10px;
+    font-size: 1.02rem;
     color: var(--text-muted);
     /* Clamp to 2 lines so long descriptions never resize the card */
     display: -webkit-box;
@@ -410,26 +432,26 @@ a {
 }
 
 .card-author {
-    margin-top: 14px;
+    margin-top: 18px;
     display: flex;
     flex-direction: column;
 }
 
 .card-created {
-    font-size: 0.65rem;
+    font-size: 0.72rem;
     letter-spacing: 0.8px;
     color: var(--text-dim);
     text-transform: uppercase;
 }
 
 .card-name {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--text);
 }
 
 .card-pills {
-    margin-top: 12px;
+    margin-top: 14px;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -439,8 +461,8 @@ a {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
-    font-size: 0.75rem;
+    padding: 6px 14px;
+    font-size: 0.82rem;
     font-weight: 500;
     border-radius: var(--radius-pill);
     background-color: var(--surface-2);
@@ -465,16 +487,16 @@ a {
     margin-top: auto;            /* push to bottom */
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding-top: 14px;
+    gap: 12px;
+    padding-top: 16px;
 }
 
 .btn-collection {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 18px;
-    font-size: 0.85rem;
+    padding: 12px 22px;
+    font-size: 0.95rem;
     font-weight: 600;
     color: #fff;
     background-color: var(--purple);
@@ -491,9 +513,9 @@ a {
 .btn-heart {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
-    font-size: 1.1rem;
+    width: 46px;
+    height: 46px;
+    font-size: 1.25rem;
     color: var(--text-muted);
     background-color: var(--surface-2);
     border: 1px solid var(--border);
@@ -609,12 +631,12 @@ a {
     .card {
         width: 92vw;
         height: auto;
-        min-height: 300px;
+        min-height: 360px;
         flex-direction: column;
     }
     .card-image {
         width: 100%;
-        height: 180px;
+        height: 200px;
     }
     .carousel-arrow {
         display: none;
