@@ -1,5 +1,5 @@
 <?php
-// ======================= DATABASE / LOGIN LOGIC =======================
+//login database po ituh
 require 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

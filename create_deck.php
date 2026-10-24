@@ -51,13 +51,13 @@ if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
 
     $filename = uniqid('', true) . '.' . $ext;
     $target   = $uploadDir . DIRECTORY_SEPARATOR . $filename;
-
+//imomove yung mga file sa image file dito sa vscode ang file exp.
     if (!move_uploaded_file($_FILES['cover']['tmp_name'], $target)) {
         header('Location: create.php?error=image');
         exit;
     }
 
-    // Store the relative web path.
+    // TO THE DATABASE
     $coverPath = 'images/covers/' . $filename;
 }
 

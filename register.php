@@ -1,5 +1,4 @@
 <?php
-// ===================== DATABASE / REGISTER LOGIC =====================
 require 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -12,15 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirm   = $_POST['confirm-password'];
 
     // Basic validation.
+    //para sa fill up all fields kung kulang ang pagka input (fill in)
     if ($lastName === '' || $firstName === '' || $username === '' || $pass === '') {
         header('Location: register.php?error=empty');
         exit;
     }
+    //para sa confirmation kung tugma yung nilagay sa password habang nagrereg (password)
     if ($pass !== $confirm) {
         header('Location: register.php?error=mismatch');
         exit;
     }
-
+    //insert the values sa mysql
     try {
         $sql = "INSERT INTO study_buddy_auth (last_name, first_name, username, password)
               VALUES ('$lastName', '$firstName', '$username', '$pass')";

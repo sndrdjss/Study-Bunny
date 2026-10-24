@@ -1,0 +1,211 @@
+/* =========================================================
+   StudyBuddy — Shared theme + neumorphic light/dark toggle
+   Linked by all app pages (create.php, explore/library/progress).
+   Dark theme is the default (defined in each page's :root).
+   Light theme overrides the same CSS variables under
+   [data-theme="light"] so the whole site re-themes with no
+   per-page CSS changes.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. LIGHT THEME — variable overrides
+   Reuses the exact variable names from each page's :root.
+   Purple accents are kept (slightly darkened for contrast
+   on light surfaces).
+   --------------------------------------------------------- */
+:root[data-theme="light"],
+[data-theme="light"] {
+    --bg:            #e8ebf2;   /* page background (soft light grey) */
+    --bg-nav:        #eef1f7;   /* nav + surfaces */
+    --surface:       #f4f6fb;   /* card background */
+    --surface-2:     #e6eaf3;   /* raised / pills / inputs */
+    --surface-3:     #dbe1ee;   /* hover / secondary buttons */
+    --purple:        #7c3aed;   /* primary accent (kept) */
+    --purple-bright: #6d28d9;   /* accent highlight (darkened for light bg) */
+    --text:          #1b2138;   /* primary dark text */
+    --text-muted:    #556083;   /* secondary text */
+    --text-dim:      #7b85a3;   /* subtle labels */
+    --border:        #d2d9e8;   /* light borders */
+    --shadow:        0 18px 40px rgba(90, 104, 150, 0.22);
+}
+
+/* Light-mode page background gradient (replaces the dark navy
+   radial/linear glows with soft light-grey tints + faint purple). */
+[data-theme="light"] body {
+    background-color: var(--bg);
+    background-image:
+        radial-gradient(1000px 600px at 50% -5%, rgba(124, 58, 237, 0.10), transparent 60%),
+        radial-gradient(900px 700px at 12% 25%, rgba(37, 99, 235, 0.07), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(157, 92, 255, 0.07), transparent 55%),
+        linear-gradient(180deg, #eef1f7 0%, #e8ebf2 55%, #e2e6f0 100%);
+}
+
+/* Smooth color transition when switching themes. */
+body,
+.navbar,
+.nav-link,
+.avatar,
+.username {
+    transition: background-color 0.25s ease, color 0.25s ease,
+                border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   2. NEUMORPHIC THEME TOGGLE SWITCH
+   Pill track + large raised circular knob with dual soft
+   shadows (one dark, one light) for the embossed soft-UI look.
+   Knob LEFT  = light mode (orange sun active)
+   Knob RIGHT = dark  mode (blue moon active)
+   Per-theme neumorphic palette so it matches each background.
+   ========================================================= */
+
+/* Neumorphic palette — DARK mode (default) */
+:root {
+    --neu-surface:      #10162a;  /* track/knob base ~ --bg-nav */
+    --neu-shadow-dark:  #080b17;  /* lower-right dark shadow */
+    --neu-shadow-light: #1a2440;  /* upper-left light highlight */
+    --neu-track-inset-d:#070a14;
+    --neu-track-inset-l:#182138;
+    --icon-sun:         #f59e0b;  /* orange */
+    --icon-moon:        #6366f1;  /* indigo/blue */
+    --icon-dim:         #4b5578;  /* dimmed inactive icon */
+}
+
+/* Neumorphic palette — LIGHT mode (soft grey, like the reference) */
+[data-theme="light"] {
+    --neu-surface:      #e8ebf2;
+    --neu-shadow-dark:  #c3c9d9;
+    --neu-shadow-light: #ffffff;
+    --neu-track-inset-d:#c8cedd;
+    --neu-track-inset-l:#ffffff;
+    --icon-sun:         #f59e0b;
+    --icon-moon:        #4f46e5;
+    --icon-dim:         #9aa3bd;
+}
+
+/* Wrapper label — makes the whole control clickable. */
+.theme-switch {
+    --sw-w: 76px;    /* track width  */
+    --sw-h: 34px;    /* track height */
+    --sw-knob: 42px; /* knob diameter (overhangs the track like the reference) */
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: var(--sw-w);
+    height: var(--sw-knob);
+    flex: none;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Hidden native checkbox drives the state. */
+.theme-switch input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+/* The recessed pill track. */
+.theme-switch .track {
+    position: relative;
+    width: var(--sw-w);
+    height: var(--sw-h);
+    border-radius: 999px;
+    background: var(--neu-surface);
+    /* inset dual shadow -> recessed look */
+    box-shadow:
+        inset 3px 3px 6px var(--neu-track-inset-d),
+        inset -3px -3px 6px var(--neu-track-inset-l);
+}
+
+/* The raised circular knob. */
+.theme-switch .knob {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: var(--sw-knob);
+    height: var(--sw-knob);
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: var(--neu-surface);
+    display: grid;
+    place-items: center;
+    /* raised dual shadow -> embossed look */
+    box-shadow:
+        4px 4px 8px var(--neu-shadow-dark),
+        -4px -4px 8px var(--neu-shadow-light);
+    transition: left 0.3s cubic-bezier(0.4, 0.1, 0.3, 1);
+    z-index: 2;
+}
+
+/* Knob positions: LEFT = light (default/unchecked), RIGHT = dark (checked). */
+.theme-switch input:not(:checked) ~ .track .knob {
+    left: 0;
+}
+.theme-switch input:checked ~ .track .knob {
+    left: calc(var(--sw-w) - var(--sw-knob));
+}
+
+/* ---------- Icons ---------- */
+.theme-switch .icon {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    stroke-width: 2;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Icon inside the knob (the active one). */
+.theme-switch .knob .icon {
+    position: absolute;
+    transition: opacity 0.2s ease;
+}
+
+/* Track icons (background, the inactive-side hint). */
+.theme-switch .track .track-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--icon-dim);
+    z-index: 1;
+    pointer-events: none;
+}
+.theme-switch .track .track-icon.sun  { left: 9px; }
+.theme-switch .track .track-icon.moon { right: 9px; }
+
+/* Show sun in knob when LIGHT (unchecked), moon when DARK (checked). */
+.theme-switch .knob .icon-sun  { color: var(--icon-sun); }
+.theme-switch .knob .icon-moon { color: var(--icon-moon); }
+
+.theme-switch input:not(:checked) ~ .track .knob .icon-moon { opacity: 0; }
+.theme-switch input:not(:checked) ~ .track .knob .icon-sun  { opacity: 1; }
+.theme-switch input:checked        ~ .track .knob .icon-sun  { opacity: 0; }
+.theme-switch input:checked        ~ .track .knob .icon-moon { opacity: 1; }
+
+/* Hide the track hint that is currently "covered" by the knob side. */
+.theme-switch input:not(:checked) ~ .track .track-icon.sun  { opacity: 0; }
+.theme-switch input:checked        ~ .track .track-icon.moon { opacity: 0; }
+
+/* ---------- Accessibility: focus ring ---------- */
+.theme-switch input:focus-visible ~ .track {
+    outline: 2px solid var(--purple-bright);
+    outline-offset: 3px;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .theme-switch .knob,
+    .theme-switch .knob .icon,
+    body, .navbar, .nav-link, .avatar, .username {
+        transition: none;
+    }
+}
