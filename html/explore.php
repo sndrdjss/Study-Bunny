@@ -1,4 +1,12 @@
-<?php require '../db.php'; ?>
+<?php
+require '../db.php';
+function cover_src($path) {
+    if (preg_match('#^https?://#i', $path)) {
+        return $path;
+    }
+    return '../' . $path;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +22,7 @@
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="../css/explore.css?v=3">
+    <link rel="stylesheet" href="../css/explore.css?v=4">
     <link rel="stylesheet" href="../css/theme.css?v=3">
 </head>
 <body>
@@ -86,18 +94,18 @@
                         <img src="https://i.pinimg.com/1200x/2e/2b/58/2e2b58e005e91f684ad7f5f69ff2fd65.jpg" alt="">
                     </div>
                     <div class="card-content">
-                        <h2 class="card-title">World History</h2>
-                        <p class="card-desc">Explore important historical events, civilizations, people, and developments that shaped the modern world.</p>
+                        <h2 class="card-title">Ancient Civilizations</h2>
+                        <p class="card-desc">Journey through the rise and fall of ancient civilizations, their leaders, cultures, and the events that shaped them.</p>
                         <div class="card-author">
                             <span class="card-created">CREATED BY</span>
                             <span class="card-name">Emma Davis</span>
                         </div>
                         <div class="card-pills">
                             <span class="pill pill--category">History</span>
-                            <span class="pill pill--subject">World History</span>
+                            <span class="pill pill--subject">Civilizations</span>
                         </div>
                         <div class="card-controls">
-                            <button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button>
+                            <a class="btn-collection" href="quiz.php?id=6">Take Quiz <span aria-hidden="true">&rarr;</span></a>
                             <button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
                         </div>
                     </div>
@@ -109,17 +117,17 @@
                     </div>
                     <div class="card-content">
                         <h2 class="card-title">Algebra</h2>
-                        <p class="card-desc">Master equations, functions, and problem solving through simple lessons and practice questions.</p>
+                        <p class="card-desc">Master algebraic equations, functions, and problem solving through clear lessons and plenty of practice questions.</p>
                         <div class="card-author">
                             <span class="card-created">CREATED BY</span>
                             <span class="card-name">Davis Curtis</span>
                         </div>
                         <div class="card-pills">
                             <span class="pill pill--category">Mathematics</span>
-                            <span class="pill pill--subject">Algebra</span>
+                            <span class="pill pill--subject">Equations</span>
                         </div>
                         <div class="card-controls">
-                            <button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button>
+                            <a class="btn-collection" href="quiz.php?id=4">Take Quiz <span aria-hidden="true">&rarr;</span></a>
                             <button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
                         </div>
                     </div>
@@ -131,17 +139,17 @@
                     </div>
                     <div class="card-content">
                         <h2 class="card-title">App Development</h2>
-                        <p class="card-desc">Learn the fundamentals of building modern applications and understand how different technologies work together.</p>
+                        <p class="card-desc">Build modern mobile and web apps while learning how different technologies connect to create real products.</p>
                         <div class="card-author">
                             <span class="card-created">CREATED BY</span>
                             <span class="card-name">Daniel Smith</span>
                         </div>
                         <div class="card-pills">
                             <span class="pill pill--category">Web Development</span>
-                            <span class="pill pill--subject">App Development</span>
+                            <span class="pill pill--subject">Mobile Apps</span>
                         </div>
                         <div class="card-controls">
-                            <button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button>
+                            <a class="btn-collection" href="quiz.php?id=7">Take Quiz <span aria-hidden="true">&rarr;</span></a>
                             <button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
                         </div>
                     </div>
@@ -150,44 +158,44 @@
                 <article class="card card--hidden">
                     <div class="card-image"><img src="../images/placeholders/science.svg" alt=""></div>
                     <div class="card-content">
-                        <h2 class="card-title">Biology Basics</h2>
-                        <p class="card-desc">Learn the fundamentals of cells, organisms, ecosystems, and how living things interact with their environment.</p>
+                        <h2 class="card-title">Cell Biology</h2>
+                        <p class="card-desc">Discover how cells work, how living things grow, and how organisms interact within their ecosystems.</p>
                         <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Sarah Miller</span></div>
-                        <div class="card-pills"><span class="pill pill--category">Science</span><span class="pill pill--subject">Biology</span></div>
-                        <div class="card-controls"><button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
+                        <div class="card-pills"><span class="pill pill--category">Science</span><span class="pill pill--subject">Living Things</span></div>
+                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=8">Take Quiz <span aria-hidden="true">&rarr;</span></a><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
                     </div>
                 </article>
 
                 <article class="card card--hidden">
                     <div class="card-image"><img src="../images/placeholders/english.svg" alt=""></div>
                     <div class="card-content">
-                        <h2 class="card-title">English Grammar</h2>
-                        <p class="card-desc">Practice sentence structure, grammar rules, punctuation, and effective communication.</p>
+                        <h2 class="card-title">Grammar Essentials</h2>
+                        <p class="card-desc">Sharpen your sentence structure, punctuation, and grammar rules for clear and confident communication.</p>
                         <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Alex Johnson</span></div>
-                        <div class="card-pills"><span class="pill pill--category">English</span><span class="pill pill--subject">Grammar</span></div>
-                        <div class="card-controls"><button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
+                        <div class="card-pills"><span class="pill pill--category">English</span><span class="pill pill--subject">Sentence Structure</span></div>
+                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=9">Take Quiz <span aria-hidden="true">&rarr;</span></a><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
                     </div>
                 </article>
 
                 <article class="card card--hidden">
                     <div class="card-image"><img src="../images/placeholders/geography.svg" alt=""></div>
                     <div class="card-content">
-                        <h2 class="card-title">Physical Geography</h2>
-                        <p class="card-desc">Discover landforms, climate, oceans, natural resources, and the physical processes shaping Earth.</p>
+                        <h2 class="card-title">Landforms &amp; Climate</h2>
+                        <p class="card-desc">Explore the landforms, oceans, climate patterns, and natural processes that continuously shape our planet.</p>
                         <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Michael Lee</span></div>
-                        <div class="card-pills"><span class="pill pill--category">Geography</span><span class="pill pill--subject">Physical Geography</span></div>
-                        <div class="card-controls"><button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
+                        <div class="card-pills"><span class="pill pill--category">Geography</span><span class="pill pill--subject">Earth Systems</span></div>
+                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=10">Take Quiz <span aria-hidden="true">&rarr;</span></a><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
                     </div>
                 </article>
 
                 <article class="card card--hidden">
                     <div class="card-image"><img src="../images/placeholders/art.svg" alt=""></div>
                     <div class="card-content">
-                        <h2 class="card-title">Digital Art</h2>
-                        <p class="card-desc">Learn the fundamentals of digital art, including composition, color, tools, and creative techniques.</p>
+                        <h2 class="card-title">Digital Illustration</h2>
+                        <p class="card-desc">Create stunning digital illustrations by mastering composition, color, and the essential creative tools.</p>
                         <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Sophia Brown</span></div>
-                        <div class="card-pills"><span class="pill pill--category">Art</span><span class="pill pill--subject">Digital Art</span></div>
-                        <div class="card-controls"><button type="button" class="btn-collection">View Collection <span aria-hidden="true">&rarr;</span></button><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
+                        <div class="card-pills"><span class="pill pill--category">Art</span><span class="pill pill--subject">Creative Tools</span></div>
+                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=11">Take Quiz <span aria-hidden="true">&rarr;</span></a><button type="button" class="btn-heart" aria-label="Add to favorites">&#9825;</button></div>
                     </div>
                 </article>
             </div>
@@ -202,31 +210,31 @@
         <section class="featured">
             <h2 class="featured-title">Featured Categories</h2>
             <div class="category-row">
-                <a href="#" class="category">
+                <a href="collection.php?category=Mathematics" class="category">
                     <span class="category-icon" aria-hidden="true">&#960;</span>
                     <span class="category-name">Mathematics</span>
                 </a>
-                <a href="#" class="category">
+                <a href="collection.php?category=Science" class="category">
                     <span class="category-icon" aria-hidden="true">&#128300;</span>
                     <span class="category-name">Science</span>
                 </a>
-                <a href="#" class="category">
+                <a href="collection.php?category=English" class="category">
                     <span class="category-icon" aria-hidden="true">A</span>
                     <span class="category-name">English</span>
                 </a>
-                <a href="#" class="category">
+                <a href="collection.php?category=History" class="category">
                     <span class="category-icon" aria-hidden="true">&#8987;</span>
                     <span class="category-name">History</span>
                 </a>
-                <a href="#" class="category">
+                <a href="collection.php?category=Geography" class="category">
                     <span class="category-icon" aria-hidden="true">&#127758;</span>
                     <span class="category-name">Geography</span>
                 </a>
-                <a href="#" class="category">
+                <a href="collection.php?category=Art" class="category">
                     <span class="category-icon" aria-hidden="true">&#127912;</span>
                     <span class="category-name">Art</span>
                 </a>
-                <a href="#" class="category">
+                <a href="collection.php?category=Web Development" class="category">
                     <span class="category-icon category-icon--code" aria-hidden="true">&lt;/&gt;</span>
                     <span class="category-name">Web Development</span>
                 </a>
@@ -256,7 +264,7 @@
                     <?php if (!empty($deck['cover_image'])): ?>
                       <div class="saved-deck-cover">
                         <img
-                          src="../<?= htmlspecialchars($deck['cover_image'], ENT_QUOTES, 'UTF-8') ?>"
+                          src="<?= htmlspecialchars(cover_src($deck['cover_image']), ENT_QUOTES, 'UTF-8') ?>"
                           alt="<?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?> cover"
                         />
                       </div>
@@ -278,19 +286,25 @@
                           <?php if (!empty($deck['category'])): ?>
                             <span class="chip chip--category">
                               <span class="chip-dot"></span>
-                              <?= htmlspecialchars($deck['category'], ENT_QUOTES, 'UTF-8') ?>
+                              <?= htmlspecialchars(ucfirst($deck['category']), ENT_QUOTES, 'UTF-8') ?>
                             </span>
                           <?php endif; ?>
                           <?php if (!empty($deck['tags'])): ?>
                             <?php foreach (array_filter(array_map('trim', explode(',', $deck['tags']))) as $tag): ?>
                               <span class="chip chip--tag">
                                 <span class="chip-dot"></span>
-                                <?= htmlspecialchars($tag, ENT_QUOTES, 'UTF-8') ?>
+                                <?= htmlspecialchars(ucfirst($tag), ENT_QUOTES, 'UTF-8') ?>
                               </span>
                             <?php endforeach; ?>
                           <?php endif; ?>
                         </div>
                       <?php endif; ?>
+
+                      <div class="saved-deck-actions">
+                        <a class="btn-quiz" href="quiz.php?id=<?= (int) $deck['id'] ?>">
+                          Take Quiz <span aria-hidden="true">&rarr;</span>
+                        </a>
+                      </div>
                     </div>
                   </article>
                 <?php endwhile; ?>

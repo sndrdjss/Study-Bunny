@@ -702,7 +702,7 @@ a {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: auto;
+    margin-top: 6px;
     padding-top: 4px;
 }
 
@@ -729,6 +729,57 @@ a {
 
 .chip--category .chip-dot { background: var(--purple-bright); }
 .chip--tag .chip-dot      { background: #f0a832; }
+
+/* Published card action row + Take Quiz button */
+.saved-deck-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 4px;
+}
+
+.btn-quiz {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--purple), var(--purple-bright));
+    border: none;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+    transition: transform 0.05s ease, box-shadow 0.2s ease;
+}
+
+.btn-quiz:hover {
+    box-shadow: 0 8px 22px rgba(157, 92, 255, 0.45);
+}
+
+.btn-quiz:active {
+    transform: translateY(1px);
+}
+
+/* Collection page: back link */
+.breadcrumb-back {
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+.back-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--purple-bright);
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--purple);
+}
 
 /* =========================================================
    RESPONSIVE ADJUSTMENTS
