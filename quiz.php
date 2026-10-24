@@ -1,5 +1,5 @@
 <?php
-require '../db.php';
+require 'db.php';
 
 // Which deck the quiz is for (used later when the quiz is built).
 $id    = isset($_GET['id']) ? (int) $_GET['id'] : 0;
@@ -34,8 +34,8 @@ if ($id > 0) {
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="../css/explore.css?v=4">
-    <link rel="stylesheet" href="../css/theme.css?v=3">
+    <link rel="stylesheet" href="css/explore.css?v=4">
+    <link rel="stylesheet" href="css/theme.css?v=3">
 </head>
 <body>
 
@@ -47,9 +47,9 @@ if ($id > 0) {
 
         <nav class="nav-center" aria-label="Primary">
             <a href="explore.php" class="nav-link">Explore</a>
-            <a href="../create.php" class="nav-link">Create</a>
-            <a href="library.html" class="nav-link">Library</a>
-            <a href="progress.html" class="nav-link">Progress</a>
+            <a href="create.php" class="nav-link">Create</a>
+            <a href="html/library.html" class="nav-link">Library</a>
+            <a href="html/progress.html" class="nav-link">Progress</a>
         </nav>
 
         <div class="nav-right">
@@ -75,6 +75,6 @@ if ($id > 0) {
         <span class="placeholder-badge">Under construction</span>
     </main>
 
-    <script src="../js/theme-toggle.js"></script>
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>

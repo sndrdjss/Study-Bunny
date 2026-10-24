@@ -1,10 +1,7 @@
 <?php
-require '../db.php';
+require 'db.php';
 function cover_src($path) {
-    if (preg_match('#^https?://#i', $path)) {
-        return $path;
-    }
-    return '../' . $path;
+    return $path;
 }
 ?>
 <!DOCTYPE html>
@@ -22,8 +19,8 @@ function cover_src($path) {
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="../css/explore.css?v=4">
-    <link rel="stylesheet" href="../css/theme.css?v=3">
+    <link rel="stylesheet" href="css/explore.css?v=4">
+    <link rel="stylesheet" href="css/theme.css?v=3">
 </head>
 <body>
 
@@ -35,9 +32,9 @@ function cover_src($path) {
 
         <nav class="nav-center" aria-label="Primary">
             <a href="explore.php" class="nav-link active" aria-current="page">Explore</a>
-            <a href="../create.php" class="nav-link">Create</a>
-            <a href="library.html" class="nav-link">Library</a>
-            <a href="progress.html" class="nav-link">Progress</a>
+            <a href="create.php" class="nav-link">Create</a>
+            <a href="html/library.html" class="nav-link">Library</a>
+            <a href="html/progress.html" class="nav-link">Progress</a>
         </nav>
 
         <div class="nav-right">
@@ -156,7 +153,7 @@ function cover_src($path) {
                 </article>
 
                 <article class="card card--hidden">
-                    <div class="card-image"><img src="../images/placeholders/science.svg" alt=""></div>
+                    <div class="card-image"><img src="images/placeholders/science.svg" alt=""></div>
                     <div class="card-content">
                         <h2 class="card-title">Cell Biology</h2>
                         <p class="card-desc">Discover how cells work, how living things grow, and how organisms interact within their ecosystems.</p>
@@ -167,7 +164,7 @@ function cover_src($path) {
                 </article>
 
                 <article class="card card--hidden">
-                    <div class="card-image"><img src="../images/placeholders/english.svg" alt=""></div>
+                    <div class="card-image"><img src="images/placeholders/english.svg" alt=""></div>
                     <div class="card-content">
                         <h2 class="card-title">Grammar Essentials</h2>
                         <p class="card-desc">Sharpen your sentence structure, punctuation, and grammar rules for clear and confident communication.</p>
@@ -178,7 +175,7 @@ function cover_src($path) {
                 </article>
 
                 <article class="card card--hidden">
-                    <div class="card-image"><img src="../images/placeholders/geography.svg" alt=""></div>
+                    <div class="card-image"><img src="images/placeholders/geography.svg" alt=""></div>
                     <div class="card-content">
                         <h2 class="card-title">Landforms &amp; Climate</h2>
                         <p class="card-desc">Explore the landforms, oceans, climate patterns, and natural processes that continuously shape our planet.</p>
@@ -189,7 +186,7 @@ function cover_src($path) {
                 </article>
 
                 <article class="card card--hidden">
-                    <div class="card-image"><img src="../images/placeholders/art.svg" alt=""></div>
+                    <div class="card-image"><img src="images/placeholders/art.svg" alt=""></div>
                     <div class="card-content">
                         <h2 class="card-title">Digital Illustration</h2>
                         <p class="card-desc">Create stunning digital illustrations by mastering composition, color, and the essential creative tools.</p>
@@ -316,7 +313,7 @@ function cover_src($path) {
 
     </main>
 
-    <script src="../js/theme-toggle.js"></script>
-    <script src="../js/explore-carousel.js?v=3"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/explore-carousel.js?v=3"></script>
 </body>
 </html>

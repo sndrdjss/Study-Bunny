@@ -1,5 +1,5 @@
 <?php
-require '../db.php';
+require 'db.php';
 
 // Category comes from the query string (e.g. collection.php?category=Mathematics).
 $category = isset($_GET['category']) ? trim($_GET['category']) : '';
@@ -8,13 +8,10 @@ $heading  = $category !== '' ? ucfirst($category) . ' Decks' : 'Collection';
 /**
  * Build the correct <img src> for a deck cover.
  * Absolute URLs (http/https) are used as-is; stored relative paths
- * (e.g. images/covers/..) get the ../ prefix for /html/ pages.
+ * (e.g. images/covers/..) are already root-relative.
  */
 function cover_src($path) {
-    if (preg_match('#^https?://#i', $path)) {
-        return $path;
-    }
-    return '../' . $path;
+    return $path;
 }
 
 $decks    = null;
@@ -48,8 +45,8 @@ if ($category !== '') {
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="../css/explore.css?v=4">
-    <link rel="stylesheet" href="../css/theme.css?v=3">
+    <link rel="stylesheet" href="css/explore.css?v=4">
+    <link rel="stylesheet" href="css/theme.css?v=3">
 </head>
 <body>
 
@@ -61,9 +58,9 @@ if ($category !== '') {
 
         <nav class="nav-center" aria-label="Primary">
             <a href="explore.php" class="nav-link">Explore</a>
-            <a href="../create.php" class="nav-link">Create</a>
-            <a href="library.html" class="nav-link">Library</a>
-            <a href="progress.html" class="nav-link">Progress</a>
+            <a href="create.php" class="nav-link">Create</a>
+            <a href="html/library.html" class="nav-link">Library</a>
+            <a href="html/progress.html" class="nav-link">Progress</a>
         </nav>
 
         <div class="nav-right">
@@ -155,6 +152,6 @@ if ($category !== '') {
 
     </main>
 
-    <script src="../js/theme-toggle.js"></script>
+    <script src="js/theme-toggle.js"></script>
 </body>
 </html>

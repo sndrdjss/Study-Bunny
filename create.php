@@ -28,11 +28,11 @@ require 'db.php';
     <!-- ============================ NAVIGATION BAR ============================ -->
     <header class="navbar">
       <div class="nav-left">
-        <a href="html/explore.php" class="logo">Study<span>Buddy</span></a>
+        <a href="explore.php" class="logo">Study<span>Buddy</span></a>
       </div>
 
       <nav class="nav-center" aria-label="Primary">
-        <a href="html/explore.php" class="nav-link">Explore</a>
+        <a href="explore.php" class="nav-link">Explore</a>
         <a href="create.php" class="nav-link active" aria-current="page"
           >Create</a
         >
