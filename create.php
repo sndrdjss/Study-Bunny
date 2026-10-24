@@ -22,7 +22,7 @@ require 'db.php';
       })();
     </script>
     <link rel="stylesheet" href="css/create.css" />
-    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme.css?v=2" />
   </head>
   <body>
     <!-- ============================ NAVIGATION BAR ============================ -->
