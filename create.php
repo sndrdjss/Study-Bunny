@@ -28,11 +28,11 @@ require 'db.php';
     <!-- ============================ NAVIGATION BAR ============================ -->
     <header class="navbar">
       <div class="nav-left">
-        <a href="html/explore.html" class="logo">Study<span>Buddy</span></a>
+        <a href="html/explore.php" class="logo">Study<span>Buddy</span></a>
       </div>
 
       <nav class="nav-center" aria-label="Primary">
-        <a href="html/explore.html" class="nav-link">Explore</a>
+        <a href="html/explore.php" class="nav-link">Explore</a>
         <a href="create.php" class="nav-link active" aria-current="page"
           >Create</a
         >
@@ -94,6 +94,10 @@ require 'db.php';
       <?php elseif (isset($_GET['deleted']) && $_GET['deleted'] === '1'): ?>
         <div class="banner banner--success" role="status">
           &#10003; Deck deleted.
+        </div>
+      <?php elseif (isset($_GET['published']) && $_GET['published'] === '1'): ?>
+        <div class="banner banner--success" role="status">
+          &#10003; Deck published! It now appears on the Explore page.
         </div>
       <?php elseif (isset($_GET['error'])): ?>
         <?php
@@ -216,7 +220,7 @@ require 'db.php';
           $decks = null;
           $deckError = null;
           try {
-              $decks = $conn->query('SELECT * FROM deck ORDER BY created_at DESC, id DESC');
+              $decks = $conn->query("SELECT * FROM deck WHERE status = 'draft' ORDER BY created_at DESC, id DESC");
           } catch (mysqli_sql_exception $e) {
               $deckError = $e->getMessage();
           }
@@ -272,9 +276,20 @@ require 'db.php';
                   <?php endif; ?>
 
                   <div class="saved-deck-actions">
-                    <button type="button" class="btn-public">
-                      Publish Deck &#8594;
-                    </button>
+                    <form
+                      class="saved-deck-publish-form"
+                      action="publish_deck.php"
+                      method="post"
+                    >
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="<?= (int) $deck['id'] ?>"
+                      />
+                      <button type="submit" class="btn-public">
+                        Publish Deck &#8594;
+                      </button>
+                    </form>
                     <form
                       class="saved-deck-delete-form"
                       action="delete_deck.php"

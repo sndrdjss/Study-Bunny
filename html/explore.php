@@ -1,3 +1,4 @@
+<?php require '../db.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="../css/explore.css?v=2">
+    <link rel="stylesheet" href="../css/explore.css?v=3">
     <link rel="stylesheet" href="../css/theme.css?v=3">
 </head>
 <body>
@@ -21,11 +22,11 @@
     <!-- ============================ NAVIGATION BAR ============================ -->
     <header class="navbar">
         <div class="nav-left">
-            <a href="explore.html" class="logo">Study<span>Buddy</span></a>
+            <a href="explore.php" class="logo">Study<span>Buddy</span></a>
         </div>
 
         <nav class="nav-center" aria-label="Primary">
-            <a href="explore.html" class="nav-link active" aria-current="page">Explore</a>
+            <a href="explore.php" class="nav-link active" aria-current="page">Explore</a>
             <a href="../create.php" class="nav-link">Create</a>
             <a href="library.html" class="nav-link">Library</a>
             <a href="progress.html" class="nav-link">Progress</a>
@@ -230,6 +231,73 @@
                     <span class="category-name">Web Development</span>
                 </a>
             </div>
+        </section>
+
+        <!-- ============================ PUBLISHED DECKS ============================ -->
+        <section class="published" aria-label="Published Decks">
+            <h2 class="published-title">Published Decks</h2>
+
+            <?php
+              $published = null;
+              $pubError = null;
+              try {
+                  $published = $conn->query("SELECT * FROM deck WHERE status = 'published' ORDER BY created_at DESC, id DESC");
+              } catch (mysqli_sql_exception $e) {
+                  $pubError = $e->getMessage();
+              }
+            ?>
+
+            <?php if ($pubError): ?>
+              <p class="published-empty">Could not load published decks.</p>
+            <?php elseif ($published && $published->num_rows > 0): ?>
+              <div class="published-grid">
+                <?php while ($deck = $published->fetch_assoc()): ?>
+                  <article class="saved-deck">
+                    <?php if (!empty($deck['cover_image'])): ?>
+                      <div class="saved-deck-cover">
+                        <img
+                          src="../<?= htmlspecialchars($deck['cover_image'], ENT_QUOTES, 'UTF-8') ?>"
+                          alt="<?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?> cover"
+                        />
+                      </div>
+                    <?php endif; ?>
+
+                    <div class="saved-deck-body">
+                      <h3 class="saved-deck-title">
+                        <?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?>
+                      </h3>
+
+                      <?php if (!empty($deck['description'])): ?>
+                        <p class="saved-deck-desc">
+                          <?= htmlspecialchars($deck['description'], ENT_QUOTES, 'UTF-8') ?>
+                        </p>
+                      <?php endif; ?>
+
+                      <?php if (!empty($deck['category']) || !empty($deck['tags'])): ?>
+                        <div class="saved-deck-chips">
+                          <?php if (!empty($deck['category'])): ?>
+                            <span class="chip chip--category">
+                              <span class="chip-dot"></span>
+                              <?= htmlspecialchars($deck['category'], ENT_QUOTES, 'UTF-8') ?>
+                            </span>
+                          <?php endif; ?>
+                          <?php if (!empty($deck['tags'])): ?>
+                            <?php foreach (array_filter(array_map('trim', explode(',', $deck['tags']))) as $tag): ?>
+                              <span class="chip chip--tag">
+                                <span class="chip-dot"></span>
+                                <?= htmlspecialchars($tag, ENT_QUOTES, 'UTF-8') ?>
+                              </span>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
+                        </div>
+                      <?php endif; ?>
+                    </div>
+                  </article>
+                <?php endwhile; ?>
+              </div>
+            <?php else: ?>
+              <p class="published-empty">No published decks yet. Publish one from the Create page to see it here.</p>
+            <?php endif; ?>
         </section>
 
     </main>

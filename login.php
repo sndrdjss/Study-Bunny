@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- ============================ NAVIGATION BAR ============================ -->
     <header class="navbar">
         <div class="nav-left">
-            <a href="html/explore.html" class="logo">Study<span>Buddy</span></a>
+            <a href="html/explore.php" class="logo">Study<span>Buddy</span></a>
         </div>
     </header>
 
