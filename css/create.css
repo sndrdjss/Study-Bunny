@@ -780,3 +780,342 @@ a {
         height: 180px;
     }
 }
+
+/* =========================================================
+   MANAGE ITEMS PAGE (deck_items.php)
+   Reuses: .page, .builder-card, .section-head/.section-title,
+   .divider, .field/.field-label, .text-input/.text-area/
+   .select-input, .btn-public/.btn-secondary, .banner, .chip.
+   ========================================================= */
+
+/* ---------- "Manage items" link button on each saved deck ----------
+   Variant of .btn-secondary used inside .saved-deck-actions so the
+   anchor lines up with the Publish button and Delete bin. */
+.btn-manage {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.05s ease;
+    white-space: nowrap;
+}
+
+.btn-manage:hover {
+    background-color: var(--surface-3);
+    border-color: var(--purple);
+}
+
+.btn-manage:active {
+    transform: translateY(1px);
+}
+
+/* ---------- Not-found state ---------- */
+.items-notfound {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+}
+
+.items-notfound-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+.items-notfound p {
+    margin-bottom: 20px;
+}
+
+/* ---------- Existing items list ---------- */
+.item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 34px;
+}
+
+.item-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: linear-gradient(180deg, #161d36 0%, #121830 100%);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--purple);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    padding: 18px 20px;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.item-row:hover {
+    border-color: var(--purple);
+    transform: translateY(-2px);
+}
+
+/* Header line: index + type badge on the left, delete form on the right */
+.item-row-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.item-head-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.item-index {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+}
+
+/* Type badges — extend the existing .chip pattern */
+.chip--type {
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-size: 0.72rem;
+}
+
+.chip--type.chip--flashcard .chip-dot {
+    background: var(--purple-bright);
+}
+
+.chip--type.chip--multiple_choice .chip-dot {
+    background: #38bdf8;
+}
+
+/* Question + answer text */
+.item-question {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.item-answer {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.item-answer .item-answer-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-right: 8px;
+}
+
+/* Option list for multiple-choice items */
+.item-options {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 2px 0 0;
+    padding: 0;
+}
+
+.item-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    background-color: rgba(13, 18, 36, 0.5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+}
+
+/* Highlight the correct option using the --purple theme variable */
+.item-option--correct {
+    color: var(--text);
+    font-weight: 600;
+    background-color: rgba(124, 58, 237, 0.16);
+    border-color: var(--purple);
+    box-shadow: inset 0 0 0 1px rgba(124, 58, 237, 0.35);
+}
+
+.item-option-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background-color: var(--surface-2);
+}
+
+.item-option--correct .item-option-mark {
+    color: #fff;
+    background: linear-gradient(135deg, var(--purple), var(--purple-bright));
+    border-color: transparent;
+}
+
+/* Small inline delete form */
+.item-delete-form {
+    display: inline-flex;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.item-delete {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+    line-height: 1;
+    color: var(--text-muted);
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.05s ease;
+}
+
+.item-delete:hover {
+    color: #fca5a5;
+    background-color: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+.item-delete:active {
+    transform: translateY(1px);
+}
+
+.items-empty {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    padding: 8px 0 28px;
+}
+
+/* ---------- Add-item form ---------- */
+/* Toggle groups — JS flips the [hidden] attribute / .is-hidden class */
+.type-fields.is-hidden {
+    display: none;
+}
+
+/* Option rows in the add form: radio + text input per row */
+.option-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.option-row .option-text {
+    flex: 1;
+}
+
+/* Custom radio to mark the correct option */
+.option-radio {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    flex-shrink: 0;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background-color: rgba(13, 18, 36, 0.6);
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.option-radio:hover {
+    border-color: var(--purple-bright);
+}
+
+.option-radio:checked {
+    border-color: var(--purple);
+}
+
+.option-radio:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--purple-bright));
+}
+
+.option-radio:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(157, 92, 255, 0.3);
+}
+
+/* Add-form action row */
+.item-add-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+/* =========================================================
+   LIGHT THEME OVERRIDES for manage-items page
+   create.css item rows use hardcoded dark gradients/rgba, so
+   restate them for [data-theme="light"] like theme.css does.
+   ========================================================= */
+[data-theme="light"] .item-row {
+    background: linear-gradient(180deg, #ffffff 0%, #f6f8fc 100%);
+    border-color: var(--border);
+    border-left-color: var(--purple);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="light"] .item-option {
+    background-color: #ffffff;
+    border-color: var(--border);
+}
+
+[data-theme="light"] .item-option--correct {
+    background-color: rgba(124, 58, 237, 0.10);
+    border-color: var(--purple);
+    box-shadow: inset 0 0 0 1px rgba(124, 58, 237, 0.30);
+}
+
+[data-theme="light"] .item-option-mark {
+    background-color: var(--surface-2);
+}
+
+[data-theme="light"] .option-radio {
+    background-color: #ffffff;
+    border-color: var(--border);
+}
+
+/* Manage link + item delete buttons share the existing surface vars,
+   so they re-theme automatically; nothing extra needed. */

@@ -21,7 +21,7 @@ require 'db.php';
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="css/create.css?v=4" />
+    <link rel="stylesheet" href="css/create.css?v=5" />
     <link rel="stylesheet" href="css/theme.css?v=3" />
   </head>
   <body>
@@ -276,6 +276,12 @@ require 'db.php';
                   <?php endif; ?>
 
                   <div class="saved-deck-actions">
+                    <a
+                      class="btn-secondary saved-deck-manage"
+                      href="deck_items.php?id=<?= (int) $deck['id'] ?>"
+                    >
+                      Manage Items
+                    </a>
                     <form
                       class="saved-deck-publish-form"
                       action="publish_deck.php"
