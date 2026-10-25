@@ -19,8 +19,11 @@ function cover_src($path) {
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="css/explore.css?v=5">
-    <link rel="stylesheet" href="css/theme.css?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/explore.css?v=6">
+    <link rel="stylesheet" href="css/theme.css?v=4">
 </head>
 <body>
 
@@ -38,6 +41,11 @@ function cover_src($path) {
         </nav>
 
         <div class="nav-right">
+            <div class="game-pill" aria-label="Your progress">
+                <span class="stat stat--streak" title="Day streak"><span class="ico" aria-hidden="true">&#128293;</span>7</span>
+                <span class="divider-dot" aria-hidden="true"></span>
+                <span class="stat stat--xp" title="Level"><span class="ico" aria-hidden="true">&#11088;</span>Lv 4</span>
+            </div>
             <label class="theme-switch" title="Toggle light / dark mode">
                 <input type="checkbox" role="switch" aria-label="Toggle light or dark mode" />
                 <span class="track">
@@ -60,6 +68,26 @@ function cover_src($path) {
         <section class="hero">
             <h1 class="hero-title">Explore, Learn, and <span class="gradient-text">Have Fun</span></h1>
             <p class="hero-subtitle">Master equations, codebases, languages, and history with verified peer-crafted decks and spaced repetition.</p>
+
+            <!-- Mascot placeholder (dashed slot, no image yet) -->
+            <div class="mascot-slot" aria-hidden="true">
+                <span class="mascot-face">&#128048;</span>
+                <span class="mascot-label">mascot</span>
+            </div>
+
+            <!-- Streak / day-dots strip (static sample) -->
+            <div class="streak-strip" aria-label="7 day study streak">
+                <span class="streak-count"><span class="flame" aria-hidden="true">&#128293;</span> 7 day streak</span>
+                <ul class="streak-dots">
+                    <li class="done"></li>
+                    <li class="done"></li>
+                    <li class="done"></li>
+                    <li class="done"></li>
+                    <li class="done"></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
 
             <!-- ============================ SEARCH BAR ============================ -->
             <form class="search" role="search" action="search.php" method="get">

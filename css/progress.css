@@ -3,19 +3,33 @@
    HTML + CSS only. Matches the existing StudyBuddy design.
    ========================================================= */
 
-/* ---------- Theme variables ---------- */
+/* ---------- Theme variables — BUNNY THEME (dark default) ----------
+   Matches explore.css / create.css. Light overrides come from theme.css. */
 :root {
-    --bg:            #0a0e1a;
-    --bg-nav:        #10162a;
-    --surface-2:     #1c2540;
-    --purple:        #7c3aed;
-    --purple-bright: #9d5cff;
-    --text:          #f5f7ff;
-    --text-muted:    #9aa4c2;
-    --border:        #263054;
-    --radius-md: 16px;
+    --bg:            #11201a;
+    --bg-nav:        #16271f;
+    --surface:       #1b2e25;
+    --surface-2:     #223a2e;
+    --surface-3:     #2c4a3a;
+    --purple:        #58cc6a;
+    --purple-bright: #7be08a;
+    --mint:          #58cc6a;
+    --mint-deep:     #3da652;
+    --carrot:        #ff9838;
+    --pink:          #ff86b3;
+    --streak-gold:   #ffc93c;
+    --text:          #f3fbf4;
+    --text-muted:    #a7c4b1;
+    --text-dim:      #7a9a85;
+    --border:        #2e4d3c;
+    --radius-sm: 14px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
     --radius-pill: 999px;
-    --font: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    --shadow: 0 10px 24px rgba(0, 0, 0, 0.30), 0 2px 6px rgba(0, 0, 0, 0.20);
+    --font-display: "Fredoka", "Baloo 2", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Nunito", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    --font: var(--font-body);
 }
 
 /* ---------- Reset ---------- */
@@ -34,13 +48,13 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
 
-    /* Gradient background matching StudyBuddy */
+    /* Soft meadow gradient matching StudyBuddy bunny theme */
     background-color: var(--bg);
     background-image:
-        radial-gradient(1000px 600px at 50% -5%, rgba(124, 58, 237, 0.20), transparent 60%),
-        radial-gradient(900px 700px at 12% 25%, rgba(37, 99, 235, 0.14), transparent 55%),
-        radial-gradient(900px 700px at 88% 30%, rgba(157, 92, 255, 0.14), transparent 55%),
-        linear-gradient(180deg, #0b1024 0%, #0a0e1a 55%, #070a14 100%);
+        radial-gradient(1000px 600px at 50% -5%, rgba(88, 204, 106, 0.18), transparent 60%),
+        radial-gradient(900px 700px at 12% 25%, rgba(255, 152, 56, 0.10), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(255, 134, 179, 0.10), transparent 55%),
+        linear-gradient(180deg, #13241c 0%, #11201a 55%, #0d1a14 100%);
     background-attachment: fixed;
 }
 
@@ -75,62 +89,116 @@ a {
 }
 
 .logo {
-    font-size: 1.4rem;
-    font-weight: 800;
-    letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
     color: var(--text);
 }
 
+/* CSS-only bunny-ear mark (placeholder brand glyph, no image). */
+.logo::before {
+    content: "";
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border-radius: 50% 50% 45% 45%;
+    background: linear-gradient(135deg, var(--mint) 0%, var(--pink) 100%);
+    box-shadow:
+        -7px -9px 0 -4px var(--mint),
+        7px -9px 0 -4px var(--mint);
+}
+
 .logo span {
-    color: var(--purple-bright);
+    color: var(--mint);
 }
 
 .nav-center {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .nav-link {
-    padding: 8px 18px;
+    padding: 9px 18px;
     border-radius: var(--radius-pill);
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 700;
     color: var(--text-muted);
-    transition: color 0.2s ease, background-color 0.2s ease;
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
 }
 
 .nav-link:hover {
     color: var(--text);
     background-color: var(--surface-2);
+    transform: translateY(-1px);
 }
 
 .nav-link.active {
-    background-color: var(--purple);
-    color: #fff;
-    font-weight: 600;
+    background-color: var(--mint);
+    color: #0f2415;
+    font-weight: 800;
+    box-shadow: 0 3px 0 var(--mint-deep);
 }
 
 .nav-link.active:hover {
     background-color: var(--purple-bright);
+    transform: translateY(-1px);
+}
+
+/* Gamified nav pill: XP/level + streak flame (static sample) */
+.game-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 6px 14px;
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.game-pill .stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    line-height: 1;
+}
+
+.game-pill .stat--streak { color: var(--streak-gold); }
+.game-pill .stat--xp     { color: var(--mint); }
+.game-pill .stat .ico    { font-size: 1.05rem; }
+
+.game-pill .divider-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--text-dim);
 }
 
 .avatar {
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple), var(--purple-bright));
-    color: #fff;
-    font-size: 0.8rem;
+    background: linear-gradient(135deg, var(--mint), var(--pink));
+    color: #0f2415;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
     font-weight: 700;
     flex-shrink: 0;
+    box-shadow: 0 3px 0 var(--mint-deep);
 }
 
 .username {
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 700;
     white-space: nowrap;
 }
 
@@ -150,8 +218,9 @@ a {
 }
 
 .placeholder-title {
+    font-family: var(--font-display);
     font-size: clamp(2rem, 4.5vw, 3rem);
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: -0.5px;
     margin-bottom: 12px;
 }
@@ -167,10 +236,10 @@ a {
     margin-top: 22px;
     padding: 8px 18px;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.6px;
     text-transform: uppercase;
-    color: var(--purple-bright);
+    color: var(--mint);
     background-color: var(--surface-2);
     border: 1px solid var(--border);
     border-radius: var(--radius-pill);
@@ -189,5 +258,19 @@ a {
     .nav-left,
     .nav-right {
         flex: 0 0 auto;
+    }
+}
+
+/* Game pill — hide on small screens to keep nav uncluttered */
+@media (max-width: 720px) {
+    .game-pill { display: none; }
+}
+
+/* Reduced motion — disable nav bounce */
+@media (prefers-reduced-motion: reduce) {
+    .nav-link,
+    .nav-link:hover {
+        transition: none;
+        transform: none;
     }
 }

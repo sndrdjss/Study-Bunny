@@ -46,7 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyBuddy — Register</title>
-    <link rel="stylesheet" href="css/register.css">
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem("studybuddy-theme") === "light") {
+            document.documentElement.setAttribute("data-theme", "light");
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="css/register.css?v=2">
+    <link rel="stylesheet" href="css/theme.css?v=3">
 </head>
 <body>
 
@@ -54,6 +64,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header class="navbar">
         <div class="nav-left">
             <a href="explore.php" class="logo">Study<span>Buddy</span></a>
+        </div>
+
+        <div class="nav-right">
+            <label class="theme-switch" title="Toggle light / dark mode">
+                <input type="checkbox" role="switch" aria-label="Toggle light or dark mode" />
+                <span class="track">
+                    <svg class="icon track-icon sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                    <svg class="icon track-icon moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <span class="knob">
+                        <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                        <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    </span>
+                </span>
+            </label>
         </div>
     </header>
 
@@ -64,24 +88,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1 class="auth-title">SIGN UP</h1>
             <p class="auth-subtitle">Create your StudyBuddy account.</p>
 
-            <!-- Shows a message based on the ?error= flag added above -->
-            <script>
-                (function () {
-                    var params = new URLSearchParams(window.location.search);
-                    var err = params.get('error');
-                    var messages = {
-                        empty: 'Please fill in all fields.',
-                        mismatch: 'Passwords do not match.',
-                        taken: 'That username is already taken.',
-                        db: 'Something went wrong. Please try again.'
-                    };
-                    if (err && messages[err]) {
-                        document.write(
-                            '<p style="color:#c0392b;font-weight:bold;">' + messages[err] + '</p>'
-                        );
-                    }
-                })();
-            </script>
+            <!-- Styled, themed status banner (replaces inline document.write) -->
+            <?php
+                $regMessages = [
+                    'empty'    => 'Please fill in all fields.',
+                    'mismatch' => 'Passwords do not match.',
+                    'taken'    => 'That username is already taken.',
+                    'db'       => 'Something went wrong. Please try again.',
+                ];
+                $regErr = $_GET['error'] ?? '';
+            ?>
+            <?php if (isset($regMessages[$regErr])): ?>
+                <div class="auth-alert auth-alert--error" role="alert">
+                    <span class="alert-icon" aria-hidden="true">&#9888;</span>
+                    <span><?= htmlspecialchars($regMessages[$regErr], ENT_QUOTES, 'UTF-8') ?></span>
+                </div>
+            <?php endif; ?>
 
             <form class="auth-form" action="register.php" method="post">
                 <div class="field-row">
@@ -117,9 +139,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </section>
         </div>
 
-        <!-- Right-side area (plain, reserved for future content) -->
-        <aside class="auth-side" aria-hidden="true"></aside>
+        <!-- Right-side branded showcase panel -->
+        <aside class="auth-side">
+            <span class="showcase-eyebrow">Join StudyBuddy</span>
+            <h2 class="showcase-heading">Build decks. Beat exams. <span class="accent">Have fun.</span></h2>
+            <p class="showcase-text">Create an account to craft your own decks, save favorites, and turn study sessions into a streak you'll want to keep.</p>
+            <ul class="showcase-features">
+                <li><span class="feat-icon" aria-hidden="true">&#43;</span> Create and publish your own decks</li>
+                <li><span class="feat-icon" aria-hidden="true">&#9733;</span> Save favorites to your library</li>
+                <li><span class="feat-icon" aria-hidden="true">&#9650;</span> Watch your progress climb</li>
+            </ul>
+        </aside>
     </main>
+
+    <script src="js/theme-toggle.js"></script>
 
 </body>
 </html>

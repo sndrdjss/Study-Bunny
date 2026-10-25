@@ -15,29 +15,37 @@
    --------------------------------------------------------- */
 :root[data-theme="light"],
 [data-theme="light"] {
-    --bg:            #e8ebf2;   /* page background (soft light grey) */
-    --bg-nav:        #eef1f7;   /* nav + surfaces */
-    --surface:       #f4f6fb;   /* card background */
-    --surface-2:     #e6eaf3;   /* raised / pills / inputs */
-    --surface-3:     #dbe1ee;   /* hover / secondary buttons */
-    --purple:        #7c3aed;   /* primary accent (kept) */
-    --purple-bright: #6d28d9;   /* accent highlight (darkened for light bg) */
-    --text:          #1b2138;   /* primary dark text */
-    --text-muted:    #556083;   /* secondary text */
-    --text-dim:      #7b85a3;   /* subtle labels */
-    --border:        #d2d9e8;   /* light borders */
-    --shadow:        0 18px 40px rgba(90, 104, 150, 0.22);
+    --bg:            #f3f6ef;   /* page background (soft cream) */
+    --bg-nav:        #fbfdf8;   /* nav + surfaces */
+    --surface:       #ffffff;   /* card background */
+    --surface-2:     #eef3e7;   /* raised / pills / inputs */
+    --surface-3:     #e3ecd9;   /* hover / secondary buttons */
+    --purple:        #58cc6a;   /* primary (mint) — name kept */
+    --purple-bright: #46b958;   /* primary highlight (slightly deeper for light bg) */
+    --mint:          #46b958;
+    --mint-deep:     #37a049;
+    --carrot:        #f08a1d;
+    --carrot-deep:   #d9760f;
+    --pink:          #ec5f97;
+    --streak-gold:   #f0a81e;
+    --flame:         #f2702c;
+    --xp:            #46b958;
+    --text:          #1d2b20;   /* primary dark text */
+    --text-muted:    #4e6b56;   /* secondary text */
+    --text-dim:      #6f8a77;   /* subtle labels */
+    --border:        #d6e2cc;   /* light borders */
+    --shadow:        0 10px 28px rgba(60, 90, 60, 0.14), 0 2px 6px rgba(60, 90, 60, 0.08);
 }
 
-/* Light-mode page background gradient (replaces the dark navy
-   radial/linear glows with soft light-grey tints + faint purple). */
+/* Light-mode page background gradient — soft cream with faint
+   green/carrot/pink tints to match the meadow theme. */
 [data-theme="light"] body {
     background-color: var(--bg);
     background-image:
-        radial-gradient(1000px 600px at 50% -5%, rgba(124, 58, 237, 0.10), transparent 60%),
-        radial-gradient(900px 700px at 12% 25%, rgba(37, 99, 235, 0.07), transparent 55%),
-        radial-gradient(900px 700px at 88% 30%, rgba(157, 92, 255, 0.07), transparent 55%),
-        linear-gradient(180deg, #eef1f7 0%, #e8ebf2 55%, #e2e6f0 100%);
+        radial-gradient(1000px 600px at 50% -5%, rgba(88, 204, 106, 0.12), transparent 60%),
+        radial-gradient(900px 700px at 12% 25%, rgba(240, 138, 29, 0.07), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(236, 95, 151, 0.07), transparent 55%),
+        linear-gradient(180deg, #f6f9f1 0%, #f3f6ef 55%, #eef3e7 100%);
 }
 
 /* Smooth color transition when switching themes. */
@@ -59,28 +67,28 @@ body,
    Per-theme neumorphic palette so it matches each background.
    ========================================================= */
 
-/* Neumorphic palette — DARK mode (default) */
+/* Neumorphic palette — DARK mode (default, cozy green) */
 :root {
-    --neu-surface:      #10162a;  /* track/knob base ~ --bg-nav */
-    --neu-shadow-dark:  #080b17;  /* lower-right dark shadow */
-    --neu-shadow-light: #1a2440;  /* upper-left light highlight */
-    --neu-track-inset-d:#070a14;
-    --neu-track-inset-l:#182138;
-    --icon-sun:         #f59e0b;  /* orange */
-    --icon-moon:        #6366f1;  /* indigo/blue */
-    --icon-dim:         #4b5578;  /* dimmed inactive icon */
+    --neu-surface:      #16271f;  /* track/knob base ~ --bg-nav */
+    --neu-shadow-dark:  #0d1a14;  /* lower-right dark shadow */
+    --neu-shadow-light: #234034;  /* upper-left light highlight */
+    --neu-track-inset-d:#0b1710;
+    --neu-track-inset-l:#1f3a2e;
+    --icon-sun:         #ffc93c;  /* gold */
+    --icon-moon:        #7be08a;  /* mint */
+    --icon-dim:         #4e6b56;  /* dimmed inactive icon */
 }
 
-/* Neumorphic palette — LIGHT mode (soft grey, like the reference) */
+/* Neumorphic palette — LIGHT mode (soft cream) */
 [data-theme="light"] {
-    --neu-surface:      #e8ebf2;
-    --neu-shadow-dark:  #c3c9d9;
+    --neu-surface:      #eef3e7;
+    --neu-shadow-dark:  #cdd8c2;
     --neu-shadow-light: #ffffff;
-    --neu-track-inset-d:#c8cedd;
+    --neu-track-inset-d:#d2dcc8;
     --neu-track-inset-l:#ffffff;
-    --icon-sun:         #f59e0b;
-    --icon-moon:        #4f46e5;
-    --icon-dim:         #9aa3bd;
+    --icon-sun:         #f0a81e;
+    --icon-moon:        #46b958;
+    --icon-dim:         #9aad9f;
 }
 
 /* Wrapper label — makes the whole control clickable. */
@@ -221,21 +229,17 @@ body,
 /* Create page — main builder/form card */
 [data-theme="light"] .builder-card {
     background:
-        radial-gradient(1200px 300px at 0% -10%, rgba(124, 58, 237, 0.06), transparent 60%),
-        linear-gradient(180deg, #ffffff 0%, #f6f8fc 100%);
+        radial-gradient(1200px 300px at 0% -10%, rgba(88, 204, 106, 0.08), transparent 60%),
+        linear-gradient(180deg, #ffffff 0%, #f7faf3 100%);
     border-color: var(--border);
-    box-shadow:
-        var(--shadow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow);
 }
 
 /* Create page — saved draft cards */
 [data-theme="light"] .saved-deck {
-    background: linear-gradient(180deg, #ffffff 0%, #f6f8fc 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #f7faf3 100%);
     border-color: var(--border);
-    box-shadow:
-        var(--shadow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow);
 }
 
 /* Create page — text inputs, textareas, selects, editor, file input */
@@ -246,19 +250,36 @@ body,
 [data-theme="light"] .file-input {
     background-color: #ffffff;
     border-color: var(--border);
-    box-shadow: inset 0 1px 2px rgba(90, 104, 150, 0.12);
+    box-shadow: inset 0 1px 2px rgba(60, 90, 60, 0.10);
 }
 
 /* Explore page — carousel arrows lighter in light mode */
 [data-theme="light"] .carousel-arrow {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #ffffff;
     border-color: var(--border);
-    color: var(--purple);
-    box-shadow: 0 4px 12px rgba(90, 104, 150, 0.18);
+    color: var(--mint);
+    box-shadow: 0 4px 0 var(--border);
 }
 
 [data-theme="light"] .carousel-arrow:hover {
-    background-color: var(--purple);
-    color: #ffffff;
+    background-color: var(--mint);
+    border-color: var(--mint);
+    color: #0f2415;
+    box-shadow: 0 4px 0 var(--mint-deep);
+}
+
+/* Explore page — category inner disc + mascot slot read well on cream */
+[data-theme="light"] .category-icon::after {
+    background-color: #ffffff;
+    border-color: var(--border);
+}
+
+[data-theme="light"] .mascot-slot {
+    background-color: rgba(88, 204, 106, 0.10);
+}
+
+/* Explore page — search bar on light */
+[data-theme="light"] .search-bar {
+    background-color: #ffffff;
 }
 

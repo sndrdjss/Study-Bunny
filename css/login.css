@@ -77,6 +77,13 @@ a {
     color: var(--purple-bright);
 }
 
+/* Right side of the navbar holds the light/dark theme toggle. */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
 .nav-cta {
     padding: 8px 22px;
     border-radius: var(--radius-pill);
@@ -111,11 +118,152 @@ a {
     justify-content: flex-start;      /* panel toward the LEFT */
 }
 
-/* Right section (~55%) — plain empty area, divided by a vertical line */
+/* Right section (~55%) — branded showcase panel. */
 .auth-side {
     flex: 1 1 55%;
     max-width: 55%;
-    border-left: 1px solid var(--border);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+    padding: 48px 56px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-image:
+        radial-gradient(600px 300px at 80% 0%, rgba(157, 92, 255, 0.28), transparent 60%),
+        radial-gradient(500px 400px at 0% 100%, rgba(37, 99, 235, 0.22), transparent 55%),
+        linear-gradient(160deg, #161d38 0%, #10162a 55%, #0c1122 100%);
+    border: 1px solid var(--border);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Soft decorative glow blobs inside the showcase. */
+.auth-side::before,
+.auth-side::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(8px);
+    opacity: 0.5;
+    pointer-events: none;
+}
+.auth-side::before {
+    width: 180px;
+    height: 180px;
+    top: -40px;
+    right: -30px;
+    background: radial-gradient(circle, rgba(157, 92, 255, 0.5), transparent 70%);
+}
+.auth-side::after {
+    width: 220px;
+    height: 220px;
+    bottom: -60px;
+    left: -40px;
+    background: radial-gradient(circle, rgba(255, 179, 230, 0.35), transparent 70%);
+}
+
+.showcase-eyebrow {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 8px;
+    padding: 6px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--purple-bright);
+    background-color: rgba(157, 92, 255, 0.12);
+    border: 1px solid rgba(157, 92, 255, 0.35);
+    border-radius: var(--radius-pill);
+}
+
+.showcase-heading {
+    position: relative;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.2;
+    max-width: 18ch;
+}
+
+.showcase-heading .accent {
+    background-image: linear-gradient(90deg, var(--purple-bright) 0%, var(--pink) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.showcase-text {
+    position: relative;
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 42ch;
+}
+
+.showcase-features {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 4px;
+    list-style: none;
+}
+
+.showcase-features li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.95rem;
+    color: var(--text);
+}
+
+.showcase-features .feat-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--purple) 0%, var(--purple-bright) 100%);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+}
+
+/* =========================================================
+   STYLED ALERT BANNER (replaces inline document.write)
+   ========================================================= */
+.auth-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+}
+
+.auth-alert--error {
+    color: #ffb4b4;
+    background-color: rgba(192, 57, 43, 0.14);
+    border-color: rgba(192, 57, 43, 0.4);
+}
+
+.auth-alert--success {
+    color: #9ff0bd;
+    background-color: rgba(39, 174, 96, 0.14);
+    border-color: rgba(39, 174, 96, 0.4);
+}
+
+.auth-alert .alert-icon {
+    flex: none;
+    font-size: 1rem;
+    line-height: 1;
 }
 
 /* Login panel */
@@ -232,6 +380,54 @@ a {
 }
 
 /* =========================================================
+   LIGHT THEME OVERRIDES (driven by [data-theme="light"])
+   ========================================================= */
+[data-theme="light"] {
+    --bg:            #e8ebf2;
+    --bg-nav:        #eef1f7;
+    --surface:       #f4f6fb;
+    --surface-2:     #e6eaf3;
+    --purple:        #7c3aed;
+    --purple-bright: #6d28d9;
+    --pink:          #d6409f;
+    --text:          #1b2138;
+    --text-muted:    #556083;
+    --text-dim:      #7b85a3;
+    --border:        #d2d9e8;
+}
+
+[data-theme="light"] body {
+    background-image:
+        radial-gradient(1000px 600px at 50% -5%, rgba(124, 58, 237, 0.10), transparent 60%),
+        radial-gradient(900px 700px at 12% 25%, rgba(37, 99, 235, 0.07), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(157, 92, 255, 0.07), transparent 55%),
+        linear-gradient(180deg, #eef1f7 0%, #e8ebf2 55%, #e2e6f0 100%);
+}
+
+[data-theme="light"] .field input {
+    background-color: #ffffff;
+    box-shadow: inset 0 1px 2px rgba(90, 104, 150, 0.12);
+}
+
+[data-theme="light"] .auth-side {
+    background-image:
+        radial-gradient(600px 300px at 80% 0%, rgba(124, 58, 237, 0.14), transparent 60%),
+        radial-gradient(500px 400px at 0% 100%, rgba(37, 99, 235, 0.10), transparent 55%),
+        linear-gradient(160deg, #ffffff 0%, #f4f6fb 100%);
+    box-shadow: var(--shadow, 0 18px 40px rgba(90, 104, 150, 0.22));
+}
+
+[data-theme="light"] .auth-alert--error {
+    color: #b02a1e;
+    background-color: rgba(192, 57, 43, 0.10);
+}
+
+[data-theme="light"] .auth-alert--success {
+    color: #1e7e46;
+    background-color: rgba(39, 174, 96, 0.12);
+}
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 @media (max-width: 900px) {
@@ -247,8 +443,10 @@ a {
     .auth-left {
         justify-content: center;
     }
+    /* Showcase moves below the form on narrow screens. */
     .auth-side {
-        min-height: 200px;
+        order: 2;
+        padding: 36px 32px;
     }
 }
 

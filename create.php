@@ -21,8 +21,11 @@ require 'db.php';
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="css/create.css?v=5" />
-    <link rel="stylesheet" href="css/theme.css?v=3" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/create.css?v=6" />
+    <link rel="stylesheet" href="css/theme.css?v=4" />
   </head>
   <body>
     <!-- ============================ NAVIGATION BAR ============================ -->
@@ -41,6 +44,11 @@ require 'db.php';
       </nav>
 
       <div class="nav-right">
+        <div class="game-pill" aria-label="Your progress">
+          <span class="stat stat--streak" title="Day streak"><span class="ico" aria-hidden="true">&#128293;</span>7</span>
+          <span class="divider-dot" aria-hidden="true"></span>
+          <span class="stat stat--xp" title="Level"><span class="ico" aria-hidden="true">&#11088;</span>Lv 4</span>
+        </div>
         <label class="theme-switch" title="Toggle light / dark mode">
           <input type="checkbox" role="switch" aria-label="Toggle light or dark mode" />
           <span class="track">
