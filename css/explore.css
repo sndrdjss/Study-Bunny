@@ -208,6 +208,13 @@ a {
     display: flex;
     justify-content: center;
     margin-top: 32px;
+    position: relative;      /* positioning context for the suggestions dropdown */
+}
+
+/* Compact variant used on the search results page. */
+.search--compact {
+    margin-top: 8px;
+    margin-bottom: 24px;
 }
 
 .search-bar {
@@ -248,6 +255,99 @@ a {
 .search-input::placeholder {
     font-size: 0.9rem;       /* smaller than typed text */
     color: #6b7180;          /* slightly muted */
+}
+
+/* =========================================================
+   SEARCH SUGGESTIONS DROPDOWN
+   ========================================================= */
+.search-suggestions {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(680px, 100%);
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+    z-index: 50;
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.search-suggestions[hidden] {
+    display: none;
+}
+
+.suggestion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text);
+    transition: background-color 0.15s ease;
+}
+
+.suggestion:hover,
+.suggestion.is-active {
+    background-color: var(--surface-3);
+}
+
+.suggestion.is-active {
+    box-shadow: inset 0 0 0 1px rgba(124, 58, 237, 0.55);
+}
+
+.suggestion-type {
+    flex-shrink: 0;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    color: var(--text);
+    background-color: var(--surface-2);
+}
+
+.suggestion--category .suggestion-type {
+    background-color: rgba(124, 58, 237, 0.22);
+    color: var(--purple-bright);
+}
+
+.suggestion-label {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Clickable category chips on the results page. */
+.chip--link {
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.chip--link:hover {
+    transform: translateY(-1px);
+}
+
+.results-subhead {
+    margin: 22px 0 12px;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+}
+
+.results-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 /* =========================================================

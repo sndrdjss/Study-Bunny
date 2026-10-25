@@ -19,7 +19,7 @@ function cover_src($path) {
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="css/explore.css?v=4">
+    <link rel="stylesheet" href="css/explore.css?v=5">
     <link rel="stylesheet" href="css/theme.css?v=3">
 </head>
 <body>
@@ -62,7 +62,7 @@ function cover_src($path) {
             <p class="hero-subtitle">Master equations, codebases, languages, and history with verified peer-crafted decks and spaced repetition.</p>
 
             <!-- ============================ SEARCH BAR ============================ -->
-            <form class="search" role="search" action="#" method="get">
+            <form class="search" role="search" action="search.php" method="get">
                 <label for="search-input" class="sr-only">Search subjects, decks, formulas, or concepts</label>
                 <div class="search-bar">
                     <span class="search-icon" aria-hidden="true">&#128269;</span>
@@ -72,9 +72,13 @@ function cover_src($path) {
                         name="q"
                         class="search-input"
                         placeholder="Search subjects, decks, formulas, or concepts ..."
-                        autocomplete="off">
+                        autocomplete="off"
+                        aria-autocomplete="list"
+                        aria-controls="search-suggestions"
+                        aria-expanded="false">
                     <button type="submit" class="search-submit sr-only">Search</button>
                 </div>
+                <ul id="search-suggestions" class="search-suggestions" role="listbox" hidden></ul>
             </form>
         </section>
 
@@ -315,5 +319,6 @@ function cover_src($path) {
 
     <script src="js/theme-toggle.js"></script>
     <script src="js/explore-carousel.js?v=3"></script>
+    <script src="js/search-suggest.js?v=1"></script>
 </body>
 </html>
