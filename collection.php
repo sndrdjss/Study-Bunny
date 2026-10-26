@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/auth.php';
 require 'db.php';
 
 // Category comes from the query string (e.g. collection.php?category=Mathematics).
@@ -49,7 +50,7 @@ if ($category !== '') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/explore.css?v=6">
-    <link rel="stylesheet" href="css/theme.css?v=5">
+    <link rel="stylesheet" href="css/theme.css?v=6">
 </head>
 <body>
 
@@ -62,8 +63,8 @@ if ($category !== '') {
         <nav class="nav-center" aria-label="Primary">
             <a href="explore.php" class="nav-link">Explore</a>
             <a href="create.php" class="nav-link">Create</a>
-            <a href="html/library.html" class="nav-link">Library</a>
-            <a href="html/progress.html" class="nav-link">Progress</a>
+            <a href="library.php" class="nav-link">Library</a>
+            <a href="progress.php" class="nav-link">Progress</a>
         </nav>
 
         <div class="nav-right">
@@ -83,8 +84,7 @@ if ($category !== '') {
                     </span>
                 </span>
             </label>
-            <span class="avatar" aria-hidden="true">JD</span>
-            <span class="username">Jane Doe</span>
+            <?php include __DIR__ . '/partials/nav_user.php'; ?>
         </div>
     </header>
 
@@ -161,5 +161,6 @@ if ($category !== '') {
     </main>
 
     <script src="js/theme-toggle.js"></script>
+    <script src="js/user-menu.js"></script>
 </body>
 </html>

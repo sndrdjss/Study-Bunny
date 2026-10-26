@@ -314,3 +314,182 @@ body,
     color: #1e7e46;
     background-color: rgba(39, 174, 96, 0.12);
 }
+
+
+/* =========================================================
+   5. USER MENU + NAV AUTH BUTTONS
+   Uses only theme variables so it re-skins in dark + light.
+   The .avatar / .username inside the button keep each page's
+   existing styles (explore.css / create.css).
+   ========================================================= */
+.user-menu {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.user-menu__btn {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    margin: 0;
+    font: inherit;
+    color: var(--text);
+    background-color: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 4px 12px 4px 4px;
+    border-radius: var(--radius-pill, 999px);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.user-menu__btn:hover,
+.user-menu__btn[aria-expanded="true"] {
+    background-color: var(--surface-2);
+}
+
+.user-menu__btn:focus-visible {
+    outline: 2px solid var(--mint);
+    outline-offset: 2px;
+}
+
+.user-menu__chevron {
+    flex: none;
+    color: var(--text-muted);
+    transition: transform 0.18s ease;
+}
+
+.user-menu__btn[aria-expanded="true"] .user-menu__chevron {
+    transform: rotate(180deg);
+}
+
+.user-menu__list {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 180px;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md, 16px);
+    box-shadow: var(--shadow);
+    z-index: 50;
+}
+
+.user-menu__list[hidden] {
+    display: none;
+}
+
+.user-menu__list li,
+.user-menu__list form {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.user-menu__item {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 0;
+    margin: 0;
+    font: inherit;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: left;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm, 12px);
+    color: var(--text);
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.user-menu__item svg {
+    flex: none;
+}
+
+.user-menu__item:hover,
+.user-menu__item:focus-visible {
+    background-color: var(--surface-2);
+    outline: none;
+}
+
+.user-menu__item:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--mint);
+}
+
+.user-menu__logout {
+    color: var(--carrot);
+}
+
+/* ---------- Guest: Log in / Sign up ---------- */
+.nav-auth-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 8px 18px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill, 999px);
+    font-weight: 700;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    text-decoration: none;
+    background-color: var(--mint);
+    color: #0f2415;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.nav-auth-btn:hover {
+    background-color: var(--mint-deep);
+}
+
+.nav-auth-btn:focus-visible {
+    outline: 2px solid var(--mint);
+    outline-offset: 2px;
+}
+
+.nav-auth-btn--ghost {
+    background-color: transparent;
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.nav-auth-btn--ghost:hover {
+    background-color: transparent;
+    border-color: var(--mint);
+}
+
+@media (max-width: 640px) {
+    .user-menu__btn .username {
+        display: none;
+    }
+    .user-menu__btn {
+        padding-right: 8px;
+        gap: 6px;
+    }
+    .nav-auth-btn {
+        padding: 8px 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .user-menu__btn,
+    .user-menu__chevron,
+    .user-menu__item,
+    .nav-auth-btn {
+        transition: none;
+    }
+}

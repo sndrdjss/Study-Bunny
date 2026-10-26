@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/auth.php';
 require 'db.php';
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
@@ -70,7 +71,7 @@ if ($id > 0) {
       })();
     </script>
     <link rel="stylesheet" href="css/create.css?v=5" />
-    <link rel="stylesheet" href="css/theme.css?v=5" />
+    <link rel="stylesheet" href="css/theme.css?v=6" />
   </head>
   <body>
     <!-- ============================ NAVIGATION BAR ============================ -->
@@ -82,8 +83,8 @@ if ($id > 0) {
       <nav class="nav-center" aria-label="Primary">
         <a href="explore.php" class="nav-link">Explore</a>
         <a href="create.php" class="nav-link active" aria-current="page">Create</a>
-        <a href="html/library.html" class="nav-link">Library</a>
-        <a href="html/progress.html" class="nav-link">Progress</a>
+        <a href="library.php" class="nav-link">Library</a>
+        <a href="progress.php" class="nav-link">Progress</a>
       </nav>
 
       <div class="nav-right">
@@ -98,8 +99,7 @@ if ($id > 0) {
             </span>
           </span>
         </label>
-        <span class="avatar" aria-hidden="true">JD</span>
-        <span class="username">Jane Doe</span>
+        <?php include __DIR__ . '/partials/nav_user.php'; ?>
       </div>
     </header>
 
@@ -201,6 +201,7 @@ if ($id > 0) {
           <hr class="divider" />
 
           <form method="post" action="add_quiz_item.php" class="item-add-form">
+            <?= csrf_field() ?>
             <input type="hidden" name="deck_id" value="<?= (int) $deck['id'] ?>" />
 
             <!-- TYPE -->
@@ -295,6 +296,7 @@ if ($id > 0) {
                       method="post"
                       onsubmit="return confirm('Remove this item? This cannot be undone.');"
                     >
+                      <?= csrf_field() ?>
                       <input type="hidden" name="id" value="<?= (int) $item['id'] ?>" />
                       <input type="hidden" name="deck_id" value="<?= (int) $deck['id'] ?>" />
                       <button
@@ -356,5 +358,6 @@ if ($id > 0) {
       })();
     </script>
     <script src="js/theme-toggle.js"></script>
+    <script src="js/user-menu.js"></script>
   </body>
 </html>

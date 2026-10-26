@@ -1,31 +1,77 @@
 <?php
 //login database po ituh
+require_once __DIR__ . '/auth.php';
 require 'db.php';
 
+// Already logged in → no need to see the login form.
+if (is_logged_in()) {
+    header('Location: ' . safe_next($_GET['next'] ?? ''));
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verify_csrf();
 
     $username = trim($_POST['username'] ?? '');
-    $pass     = $_POST['password'] ?? '';
+    $pass     = (string) ($_POST['password'] ?? '');
+    $next     = safe_next($_POST['next'] ?? '');
 
-    $stmt = $conn->prepare('SELECT password FROM study_buddy_auth WHERE username = ?');
+    $stmt = $conn->prepare(
+        'SELECT id, first_name, last_name, username, password, created_at FROM study_buddy_auth WHERE username = ?'
+    );
     $stmt->bind_param('s', $username);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $row = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
 
-    if ($row = $result->fetch_assoc()) {
-        if ($pass === $row['password']) {
-            // Success → go to the create page.
-            header('Location: create.php');
-            exit;
+    $ok = false;
+    $newHash = null;
+
+    if ($row && $pass !== '') {
+        $stored = (string) $row['password'];
+
+        if (password_verify($pass, $stored)) {
+            $ok = true;
+            // Re-hash if PHP's default algorithm/cost has changed.
+            if (password_needs_rehash($stored, PASSWORD_DEFAULT)) {
+                $newHash = password_hash($pass, PASSWORD_DEFAULT);
+            }
+        } elseif (empty(password_get_info($stored)['algo']) && hash_equals($stored, $pass)) {
+            // Legacy plain-text password (created before hashing) → upgrade now.
+            $ok = true;
+            $newHash = password_hash($pass, PASSWORD_DEFAULT);
         }
     }
 
+    if ($ok) {
+        if ($newHash !== null) {
+            $up = $conn->prepare('UPDATE study_buddy_auth SET password = ? WHERE id = ?');
+            $id = (int) $row['id'];
+            $up->bind_param('si', $newHash, $id);
+            $up->execute();
+            $up->close();
+        }
+        $conn->close();
+
+        // New session ID on login prevents session fixation.
+        session_regenerate_id(true);
+        set_session_user($row);
+
+        header('Location: ' . $next);
+        exit;
+    }
+
     // Wrong username/password → back to this login page with an error flag.
-    $stmt->close();
     $conn->close();
-    header('Location: login.php?error=1');
+    $back = 'login.php?error=1';
+    if (!empty($_POST['next'])) {
+        $back .= '&next=' . urlencode($next);
+    }
+    header('Location: ' . $back);
     exit;
 }
+
+$nextParam = isset($_GET['next']) ? safe_next($_GET['next'], '') : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/login.css?v=3">
-    <link rel="stylesheet" href="css/theme.css?v=5">
+    <link rel="stylesheet" href="css/theme.css?v=6">
 </head>
 <body>
 
@@ -84,6 +130,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <span class="alert-icon" aria-hidden="true">&#10003;</span>
                     <span>Account created! Please log in.</span>
                 </div>
+            <?php elseif (isset($_GET['loggedout']) && $_GET['loggedout'] === '1'): ?>
+                <div class="auth-alert auth-alert--success" role="status">
+                    <span class="alert-icon" aria-hidden="true">&#10003;</span>
+                    <span>You've been logged out.</span>
+                </div>
+            <?php elseif ($nextParam !== '' && !isset($_GET['error'])): ?>
+                <div class="auth-alert auth-alert--success" role="status">
+                    <span class="alert-icon" aria-hidden="true">&#8505;</span>
+                    <span>Please log in to continue.</span>
+                </div>
             <?php elseif (isset($_GET['error']) && $_GET['error'] === '1'): ?>
                 <div class="auth-alert auth-alert--error" role="alert">
                     <span class="alert-icon" aria-hidden="true">&#9888;</span>
@@ -92,6 +148,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form class="auth-form" action="login.php" method="post">
+                <?= csrf_field() ?>
+                <?php if ($nextParam !== ''): ?>
+                    <input type="hidden" name="next" value="<?= e($nextParam) ?>">
+                <?php endif; ?>
                 <div class="field">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username">

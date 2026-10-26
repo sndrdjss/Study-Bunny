@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/auth.php';
 require 'db.php';
 
 // Search term from the query string (e.g. search.php?q=algebra).
@@ -67,7 +68,7 @@ $deckCount = ($decks && !$loadError) ? $decks->num_rows : 0;
       })();
     </script>
     <link rel="stylesheet" href="css/explore.css?v=5">
-    <link rel="stylesheet" href="css/theme.css?v=5">
+    <link rel="stylesheet" href="css/theme.css?v=6">
 </head>
 <body>
 
@@ -80,8 +81,8 @@ $deckCount = ($decks && !$loadError) ? $decks->num_rows : 0;
         <nav class="nav-center" aria-label="Primary">
             <a href="explore.php" class="nav-link">Explore</a>
             <a href="create.php" class="nav-link">Create</a>
-            <a href="html/library.html" class="nav-link">Library</a>
-            <a href="html/progress.html" class="nav-link">Progress</a>
+            <a href="library.php" class="nav-link">Library</a>
+            <a href="progress.php" class="nav-link">Progress</a>
         </nav>
 
         <div class="nav-right">
@@ -96,8 +97,7 @@ $deckCount = ($decks && !$loadError) ? $decks->num_rows : 0;
                     </span>
                 </span>
             </label>
-            <span class="avatar" aria-hidden="true">JD</span>
-            <span class="username">Jane Doe</span>
+            <?php include __DIR__ . '/partials/nav_user.php'; ?>
         </div>
     </header>
 
@@ -218,6 +218,7 @@ $deckCount = ($decks && !$loadError) ? $decks->num_rows : 0;
     </main>
 
     <script src="js/theme-toggle.js"></script>
+    <script src="js/user-menu.js"></script>
     <script src="js/search-suggest.js?v=1"></script>
 </body>
 </html>

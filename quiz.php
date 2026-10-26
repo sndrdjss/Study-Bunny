@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/auth.php';
 require 'db.php';
 
 // Which deck the quiz is for (used later when the quiz is built).
@@ -35,7 +36,7 @@ if ($id > 0) {
       })();
     </script>
     <link rel="stylesheet" href="css/explore.css?v=4">
-    <link rel="stylesheet" href="css/theme.css?v=5">
+    <link rel="stylesheet" href="css/theme.css?v=6">
 </head>
 <body>
 
@@ -48,8 +49,8 @@ if ($id > 0) {
         <nav class="nav-center" aria-label="Primary">
             <a href="explore.php" class="nav-link">Explore</a>
             <a href="create.php" class="nav-link">Create</a>
-            <a href="html/library.html" class="nav-link">Library</a>
-            <a href="html/progress.html" class="nav-link">Progress</a>
+            <a href="library.php" class="nav-link">Library</a>
+            <a href="progress.php" class="nav-link">Progress</a>
         </nav>
 
         <div class="nav-right">
@@ -64,8 +65,7 @@ if ($id > 0) {
                     </span>
                 </span>
             </label>
-            <span class="avatar" aria-hidden="true">JD</span>
-            <span class="username">Jane Doe</span>
+            <?php include __DIR__ . '/partials/nav_user.php'; ?>
         </div>
     </header>
 
@@ -76,5 +76,6 @@ if ($id > 0) {
     </main>
 
     <script src="js/theme-toggle.js"></script>
+    <script src="js/user-menu.js"></script>
 </body>
 </html>

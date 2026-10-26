@@ -1,14 +1,22 @@
 <?php
+require_once __DIR__ . '/auth.php';
 require 'db.php';
 
+// Already logged in → straight to the app.
+if (is_logged_in()) {
+    header('Location: explore.php');
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verify_csrf();
 
     // Read the posted fields (names match the form below).
-    $lastName  = $_POST['last-name'];
-    $firstName = $_POST['first-name'];
-    $username  = $_POST['username'];
-    $pass      = $_POST['password'];
-    $confirm   = $_POST['confirm-password'];
+    $lastName  = trim($_POST['last-name'] ?? '');
+    $firstName = trim($_POST['first-name'] ?? '');
+    $username  = trim($_POST['username'] ?? '');
+    $pass      = (string) ($_POST['password'] ?? '');
+    $confirm   = (string) ($_POST['confirm-password'] ?? '');
 
     // Basic validation.
     //para sa fill up all fields kung kulang ang pagka input (fill in)
@@ -16,22 +24,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: register.php?error=empty');
         exit;
     }
+    if (mb_strlen($lastName) > 50 || mb_strlen($firstName) > 50) {
+        header('Location: register.php?error=name');
+        exit;
+    }
+    if (!preg_match('/^[A-Za-z0-9_.]{3,30}$/', $username)) {
+        header('Location: register.php?error=username');
+        exit;
+    }
+    if (strlen($pass) < 8) {
+        header('Location: register.php?error=short');
+        exit;
+    }
     //para sa confirmation kung tugma yung nilagay sa password habang nagrereg (password)
     if ($pass !== $confirm) {
         header('Location: register.php?error=mismatch');
         exit;
     }
-    //insert the values sa mysql
+    //insert the values sa mysql (prepared statement + hashed password)
     try {
-        $sql = "INSERT INTO study_buddy_auth (last_name, first_name, username, password)
-              VALUES ('$lastName', '$firstName', '$username', '$pass')";
-        $conn->query($sql);
+        $hash = password_hash($pass, PASSWORD_DEFAULT);
+        $stmt = $conn->prepare(
+            'INSERT INTO study_buddy_auth (last_name, first_name, username, password) VALUES (?, ?, ?, ?)'
+        );
+        $stmt->bind_param('ssss', $lastName, $firstName, $username, $hash);
+        $stmt->execute();
+        $stmt->close();
 
         // Success → go to the login page.
         header('Location: login.php?registered=1');
         exit;
     } catch (mysqli_sql_exception $e) {
-        if ($conn->errno === 1062) {
+        if ($e->getCode() === 1062) {
             header('Location: register.php?error=taken');
         } else {
             header('Location: register.php?error=db');
@@ -59,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/register.css?v=3">
-    <link rel="stylesheet" href="css/theme.css?v=5">
+    <link rel="stylesheet" href="css/theme.css?v=6">
 </head>
 <body>
 
@@ -95,6 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php
                 $regMessages = [
                     'empty'    => 'Please fill in all fields.',
+                    'name'     => 'Names can be at most 50 characters.',
+                    'username' => 'Username must be 3–30 characters: letters, numbers, "_" or ".".',
+                    'short'    => 'Password must be at least 8 characters.',
                     'mismatch' => 'Passwords do not match.',
                     'taken'    => 'That username is already taken.',
                     'db'       => 'Something went wrong. Please try again.',
@@ -109,6 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form class="auth-form" action="register.php" method="post">
+                <?= csrf_field() ?>
                 <div class="field-row">
                     <div class="field">
                         <label for="last-name">Last Name</label>
@@ -127,7 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="field">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Create a password" autocomplete="new-password">
+                    <input type="password" id="password" name="password" placeholder="Create a password" autocomplete="new-password" minlength="8" aria-describedby="password-hint">
+                    <small id="password-hint" class="field-hint">At least 8 characters.</small>
                 </div>
 
                 <div class="field">

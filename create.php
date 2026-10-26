@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/auth.php';
+require_login();
 // TEMP DEBUG — shows errors on screen so we can diagnose. Remove later.
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
@@ -25,7 +27,7 @@ require 'db.php';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/create.css?v=6" />
-    <link rel="stylesheet" href="css/theme.css?v=5" />
+    <link rel="stylesheet" href="css/theme.css?v=6" />
   </head>
   <body>
     <!-- ============================ NAVIGATION BAR ============================ -->
@@ -39,8 +41,8 @@ require 'db.php';
         <a href="create.php" class="nav-link active" aria-current="page"
           >Create</a
         >
-        <a href="html/library.html" class="nav-link">Library</a>
-        <a href="html/progress.html" class="nav-link">Progress</a>
+        <a href="library.php" class="nav-link">Library</a>
+        <a href="progress.php" class="nav-link">Progress</a>
       </nav>
 
       <div class="nav-right">
@@ -60,8 +62,7 @@ require 'db.php';
             </span>
           </span>
         </label>
-        <span class="avatar" aria-hidden="true">JD</span>
-        <span class="username">Jane Doe</span>
+        <?php include __DIR__ . '/partials/nav_user.php'; ?>
       </div>
     </header>
 
@@ -69,7 +70,7 @@ require 'db.php';
     <main class="page">
       <!-- ---------- Breadcrumb ---------- -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="html/library.html" class="breadcrumb-link">Decks</a>
+        <a href="library.php" class="breadcrumb-link">Decks</a>
         <span class="breadcrumb-sep" aria-hidden="true">/</span>
         <span class="breadcrumb-current">Studio Builder</span>
       </nav>
@@ -134,6 +135,7 @@ require 'db.php';
         action="create_deck.php"
         enctype="multipart/form-data"
       >
+        <?= csrf_field() ?>
         <section class="builder-card" aria-label="Name and Description">
           <div class="section-head">
             <h2 class="section-title">Name &amp; Description</h2>
@@ -295,6 +297,7 @@ require 'db.php';
                       action="publish_deck.php"
                       method="post"
                     >
+                      <?= csrf_field() ?>
                       <input
                         type="hidden"
                         name="id"
@@ -335,5 +338,6 @@ require 'db.php';
       </section>
     </main>
     <script src="js/theme-toggle.js"></script>
+    <script src="js/user-menu.js"></script>
   </body>
 </html>

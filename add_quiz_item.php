@@ -1,12 +1,17 @@
 <?php
 
+require_once __DIR__ . '/auth.php';
 require 'db.php';
+
+require_login();
 
 // Only act on POST; otherwise go back to the create page.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: create.php');
     exit;
 }
+
+verify_csrf();
 
 $deckId = isset($_POST['deck_id']) ? (int) $_POST['deck_id'] : 0;
 $type   = $_POST['type'] ?? '';
