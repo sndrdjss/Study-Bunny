@@ -119,6 +119,10 @@ require 'db.php';
               $message = 'Could not save your draft. Please try again.';
           } elseif ($error === 'delete') {
               $message = 'Could not delete the deck. Please try again.';
+          } elseif ($error === 'forbidden') {
+              $message = 'You can only change decks you created.';
+          } elseif ($error === 'publish') {
+              $message = 'Could not publish the deck. Please try again.';
           } else {
               $message = 'Something went wrong. Please try again.';
           }
@@ -230,7 +234,12 @@ require 'db.php';
           $decks = null;
           $deckError = null;
           try {
-              $decks = $conn->query("SELECT * FROM deck WHERE status = 'draft' ORDER BY created_at DESC, id DESC");
+              // Only the logged-in user's own drafts.
+              $draftUserId = (int) current_user()['id'];
+              $draftStmt = $conn->prepare("SELECT * FROM deck WHERE status = 'draft' AND user_id = ? ORDER BY created_at DESC, id DESC");
+              $draftStmt->bind_param('i', $draftUserId);
+              $draftStmt->execute();
+              $decks = $draftStmt->get_result();
           } catch (mysqli_sql_exception $e) {
               $deckError = $e->getMessage();
           }
@@ -313,6 +322,7 @@ require 'db.php';
                       method="post"
                       onsubmit="return confirm('Delete this deck? This cannot be undone.');"
                     >
+                      <?= csrf_field() ?>
                       <input
                         type="hidden"
                         name="id"

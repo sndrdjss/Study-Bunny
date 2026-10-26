@@ -21,7 +21,11 @@ $loadError = null;
 if ($category !== '') {
     try {
         $stmt = $conn->prepare(
-            "SELECT * FROM deck WHERE status = 'published' AND category = ? ORDER BY title ASC"
+            "SELECT d.*, u.username AS author_username
+             FROM deck d
+             LEFT JOIN study_buddy_auth u ON u.id = d.user_id
+             WHERE d.status = 'published' AND d.category = ?
+             ORDER BY d.title ASC"
         );
         $stmt->bind_param('s', $category);
         $stmt->execute();
@@ -49,7 +53,7 @@ if ($category !== '') {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/explore.css?v=6">
+    <link rel="stylesheet" href="css/explore.css?v=7">
     <link rel="stylesheet" href="css/theme.css?v=6">
 </head>
 <body>
@@ -118,6 +122,9 @@ if ($category !== '') {
                       <h3 class="saved-deck-title">
                         <?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?>
                       </h3>
+                      <?php if (!empty($deck['author_username'])): ?>
+                        <span class="deck-author">by @<?= e($deck['author_username']) ?></span>
+                      <?php endif; ?>
 
                       <?php if (!empty($deck['description'])): ?>
                         <p class="saved-deck-desc">

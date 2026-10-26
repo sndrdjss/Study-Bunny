@@ -21,11 +21,21 @@ if ($id <= 0) {
 }
 
 // Mark the deck as published so it appears on the Explore page.
+// Only the owner's own decks match the WHERE clause.
 try {
-    $stmt = $conn->prepare("UPDATE deck SET status = 'published' WHERE id = ?");
-    $stmt->bind_param('i', $id);
+    $userId = (int) current_user()['id'];
+    $stmt = $conn->prepare("UPDATE deck SET status = 'published' WHERE id = ? AND user_id = ?");
+    $stmt->bind_param('ii', $id, $userId);
     $stmt->execute();
+    $changed = $stmt->affected_rows;
     $stmt->close();
+
+    // 0 rows: not your deck (or already published). Confirm which.
+    if ($changed < 1 && !fetch_owned_deck($conn, $id)) {
+        $conn->close();
+        header('Location: create.php?error=forbidden');
+        exit;
+    }
     $conn->close();
 } catch (mysqli_sql_exception $e) {
     header('Location: create.php?error=publish');

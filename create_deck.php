@@ -67,13 +67,14 @@ if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
 }
 
 $status = 'draft';
+$userId = (int) current_user()['id'];
 
 // Insert using a prepared statement; mysqli throws on error.
 try {
     $stmt = $conn->prepare(
-        'INSERT INTO deck (title, description, category, tags, cover_image, status) VALUES (?, ?, ?, ?, ?, ?)'
+        'INSERT INTO deck (user_id, title, description, category, tags, cover_image, status) VALUES (?, ?, ?, ?, ?, ?, ?)'
     );
-    $stmt->bind_param('ssssss', $title, $description, $category, $tags, $coverPath, $status);
+    $stmt->bind_param('issssss', $userId, $title, $description, $category, $tags, $coverPath, $status);
     $stmt->execute();
     $stmt->close();
     $conn->close();

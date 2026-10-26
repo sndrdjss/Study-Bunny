@@ -11,7 +11,7 @@ $loadError = null;
 if ($id > 0) {
     try {
         // Look up the deck.
-        $stmt = $conn->prepare('SELECT id, title, description, category, tags, status FROM deck WHERE id = ?');
+        $stmt = $conn->prepare('SELECT id, user_id, title, description, category, tags, status FROM deck WHERE id = ?');
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $res  = $stmt->get_result();
@@ -53,6 +53,9 @@ if ($id > 0) {
         $loadError = $e->getMessage();
     }
 }
+
+// Only the deck's owner may add or remove items; everyone else gets a read-only view.
+$isOwner = owns_deck($deck);
 ?>
 <!doctype html>
 <html lang="en">
@@ -147,14 +150,20 @@ if ($id > 0) {
         <div class="studio-header">
           <div class="studio-header-left">
             <h1 class="studio-title">
-              Manage items &mdash; <?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?>
+              <?= $isOwner ? 'Manage items &mdash; ' : '' ?><?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?>
             </h1>
             <p class="studio-subtitle">
-              Add flashcards and multiple-choice questions to this deck.
+              <?= $isOwner
+                  ? 'Add flashcards and multiple-choice questions to this deck.'
+                  : 'You are viewing this deck. Only its creator can add or remove items.' ?>
             </p>
           </div>
           <div class="studio-actions">
-            <a href="create.php" class="btn-secondary">&#8592; Back to Create</a>
+            <?php if ($isOwner): ?>
+              <a href="create.php" class="btn-secondary">&#8592; Back to Create</a>
+            <?php else: ?>
+              <a href="explore.php" class="btn-secondary">&#8592; Back to Explore</a>
+            <?php endif; ?>
           </div>
         </div>
 
@@ -193,7 +202,8 @@ if ($id > 0) {
           </div>
         <?php endif; ?>
 
-        <!-- ---------- Add item form ---------- -->
+        <!-- ---------- Add item form (owner only) ---------- -->
+        <?php if ($isOwner): ?>
         <section class="builder-card" aria-label="Add an item">
           <div class="section-head">
             <h2 class="section-title">Add an item</h2>
@@ -274,13 +284,14 @@ if ($id > 0) {
             </div>
           </form>
         </section>
+        <?php endif; ?>
 
         <!-- ---------- Existing items ---------- -->
         <section class="saved-section" aria-label="Deck items">
           <h2 class="saved-heading">Items (<?= count($items) ?>)</h2>
 
           <?php if (count($items) === 0): ?>
-            <p class="saved-empty">No items yet. Add your first item above.</p>
+            <p class="saved-empty"><?= $isOwner ? 'No items yet. Add your first item above.' : 'This deck has no items yet.' ?></p>
           <?php else: ?>
             <div class="item-list">
               <?php foreach ($items as $item): ?>
@@ -290,6 +301,7 @@ if ($id > 0) {
                       <span class="chip-dot"></span>
                       <?= $item['type'] === 'flashcard' ? 'Flashcard' : 'Multiple choice' ?>
                     </span>
+                    <?php if ($isOwner): ?>
                     <form
                       class="item-delete-form"
                       action="delete_quiz_item.php"
@@ -308,6 +320,7 @@ if ($id > 0) {
                         &#128465;
                       </button>
                     </form>
+                    <?php endif; ?>
                   </div>
 
                   <p class="item-question">

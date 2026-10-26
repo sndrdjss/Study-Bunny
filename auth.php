@@ -134,3 +134,32 @@ function user_initials(?array $user): string
     }
     return $initials;
 }
+
+
+/* ---------------- Deck ownership (Tier 2) ---------------- */
+
+/**
+ * Return the deck row if it exists AND belongs to the logged-in user, else null.
+ * Unowned (user_id NULL) decks never match, so nobody can edit them.
+ */
+function fetch_owned_deck(mysqli $conn, int $deckId): ?array
+{
+    $user = current_user();
+    if (!$user || $deckId <= 0) {
+        return null;
+    }
+    $uid  = (int) $user['id'];
+    $stmt = $conn->prepare('SELECT * FROM deck WHERE id = ? AND user_id = ?');
+    $stmt->bind_param('ii', $deckId, $uid);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    return $row ?: null;
+}
+
+/** True when the given deck row belongs to the logged-in user. */
+function owns_deck(?array $deck): bool
+{
+    $user = current_user();
+    return $user && $deck && isset($deck['user_id']) && (int) $deck['user_id'] === (int) $user['id'];
+}

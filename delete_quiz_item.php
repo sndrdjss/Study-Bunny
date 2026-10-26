@@ -28,6 +28,12 @@ if ($id <= 0) {
 
 // Delete the quiz_item; its quiz_option rows cascade via the FK.
 try {
+    // Only the deck owner may remove items.
+    if (!fetch_owned_deck($conn, $deckId)) {
+        $conn->close();
+        header('Location: create.php?error=forbidden');
+        exit;
+    }
     $stmt = $conn->prepare('DELETE FROM quiz_item WHERE id = ? AND deck_id = ?');
     $stmt->bind_param('ii', $id, $deckId);
     $stmt->execute();

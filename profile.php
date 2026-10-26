@@ -144,6 +144,81 @@ if (!empty($user['created_at'])) {
         $memberSince = date('F Y', $ts);
     }
 }
+
+/* ---------------- My decks ---------------- */
+$myDecks        = [];
+$decksError     = false;
+$draftDecks     = [];
+$publishedDecks = [];
+$totalQuestions = 0;
+try {
+    $deckOwnerId = (int) $user['id'];
+    $stmt = $conn->prepare(
+        'SELECT d.id, d.title, d.category, d.status, d.cover_image, d.created_at,
+                (SELECT COUNT(*) FROM quiz_item q WHERE q.deck_id = d.id) AS item_count
+           FROM deck d
+          WHERE d.user_id = ?
+          ORDER BY d.created_at DESC, d.id DESC'
+    );
+    if ($stmt === false) {
+        // mysqli not in exception mode — normalise to the same error path.
+        throw new mysqli_sql_exception('Could not prepare deck query.');
+    }
+    $stmt->bind_param('i', $deckOwnerId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $myDecks[] = $row;
+    }
+    $stmt->close();
+} catch (mysqli_sql_exception $ex) {
+    $decksError = true;
+    $myDecks = [];
+}
+
+foreach ($myDecks as $deckRow) {
+    $totalQuestions += (int) $deckRow['item_count'];
+    if (($deckRow['status'] ?? '') === 'published') {
+        $publishedDecks[] = $deckRow;
+    } else {
+        $draftDecks[] = $deckRow;
+    }
+}
+$totalDecks     = count($myDecks);
+$publishedCount = count($publishedDecks);
+$draftCount     = count($draftDecks);
+
+/** Render one deck list row (title, category chip, question count, actions). */
+function profile_render_deck_row(array $deck, bool $isDraft): void
+{
+    $id    = (int) $deck['id'];
+    $count = (int) $deck['item_count'];
+    $title = trim((string) $deck['title']) !== '' ? (string) $deck['title'] : 'Untitled deck';
+    $cat   = trim((string) ($deck['category'] ?? ''));
+    ?>
+    <li class="deck-row">
+        <div class="deck-row-main">
+            <span class="deck-row-title" title="<?= e($title) ?>"><?= e($title) ?></span>
+            <span class="deck-row-meta">
+                <?php if ($cat !== ''): ?>
+                    <span class="deck-chip"><?= e($cat) ?></span>
+                <?php endif; ?>
+                <span class="deck-row-count"><?= $count ?> <?= $count === 1 ? 'question' : 'questions' ?></span>
+            </span>
+        </div>
+        <div class="deck-row-actions">
+            <a class="btn-ghost btn-sm" href="deck_items.php?id=<?= $id ?>" aria-label="Manage <?= e($title) ?>">Manage</a>
+            <?php if ($isDraft): ?>
+                <form method="post" action="publish_deck.php" class="deck-publish-form">
+                    <?= csrf_field() ?>
+                    <input type="hidden" name="id" value="<?= $id ?>">
+                    <button type="submit" class="btn-primary btn-sm" aria-label="Publish <?= e($title) ?>">Publish</button>
+                </form>
+            <?php endif; ?>
+        </div>
+    </li>
+    <?php
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -163,7 +238,7 @@ if (!empty($user['created_at'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/profile.css?v=1">
+    <link rel="stylesheet" href="css/profile.css?v=3">
     <link rel="stylesheet" href="css/theme.css?v=6">
 </head>
 <body>
@@ -281,14 +356,64 @@ if (!empty($user['created_at'])) {
                 </form>
             </section>
 
-            <!-- ============================ PLACEHOLDERS ============================ -->
-            <section class="profile-card profile-card--placeholder" aria-labelledby="my-decks-title">
+            <!-- ============================ MY DECKS ============================ -->
+            <section class="profile-card profile-card--wide my-decks" aria-labelledby="my-decks-title">
                 <div class="card-head">
                     <h2 id="my-decks-title" class="card-title">My decks</h2>
-                    <span class="badge-soon">Coming soon</span>
+                    <a href="create.php" class="btn-ghost btn-sm">+ New deck</a>
                 </div>
-                <p class="card-text">All the decks you've created and saved will show up here.</p>
+
+                <?php if ($decksError): ?>
+                    <div class="auth-alert auth-alert--error" role="alert">
+                        <span class="alert-icon" aria-hidden="true">!</span>
+                        <span>We couldn't load your decks right now. Please try again later.</span>
+                    </div>
+                <?php elseif ($totalDecks === 0): ?>
+                    <div class="decks-empty">
+                        <p class="card-text">You haven't made any decks yet.</p>
+                        <a href="create.php" class="btn-primary">Create your first deck</a>
+                    </div>
+                <?php else: ?>
+                    <ul class="deck-stats" aria-label="Deck stats">
+                        <li class="deck-stat">
+                            <span class="deck-stat-num"><?= $totalDecks ?></span>
+                            <span class="deck-stat-label">Decks created</span>
+                        </li>
+                        <li class="deck-stat">
+                            <span class="deck-stat-num"><?= $publishedCount ?></span>
+                            <span class="deck-stat-label">Published</span>
+                        </li>
+                        <li class="deck-stat">
+                            <span class="deck-stat-num"><?= $totalQuestions ?></span>
+                            <span class="deck-stat-label">Questions written</span>
+                        </li>
+                    </ul>
+
+                    <div class="deck-group">
+                        <h3 class="deck-group-title">Drafts <span class="deck-group-count">(<?= $draftCount ?>)</span></h3>
+                        <?php if ($draftCount === 0): ?>
+                            <p class="deck-group-empty">No drafts.</p>
+                        <?php else: ?>
+                            <ul class="deck-list">
+                                <?php foreach ($draftDecks as $deck) { profile_render_deck_row($deck, true); } ?>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="deck-group">
+                        <h3 class="deck-group-title">Published <span class="deck-group-count">(<?= $publishedCount ?>)</span></h3>
+                        <?php if ($publishedCount === 0): ?>
+                            <p class="deck-group-empty">No published decks yet.</p>
+                        <?php else: ?>
+                            <ul class="deck-list">
+                                <?php foreach ($publishedDecks as $deck) { profile_render_deck_row($deck, false); } ?>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
             </section>
+
+            <!-- ============================ PLACEHOLDERS ============================ -->
 
             <section class="profile-card profile-card--placeholder" aria-labelledby="stats-title">
                 <div class="card-head">

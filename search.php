@@ -37,10 +37,12 @@ if ($q !== '') {
     try {
         $like = '%' . $q . '%';
         $stmt = $conn->prepare(
-            "SELECT * FROM deck
-             WHERE status = 'published'
-               AND (title LIKE ? OR category LIKE ? OR tags LIKE ? OR description LIKE ?)
-             ORDER BY title ASC"
+            "SELECT d.*, u.username AS author_username
+             FROM deck d
+             LEFT JOIN study_buddy_auth u ON u.id = d.user_id
+             WHERE d.status = 'published'
+               AND (d.title LIKE ? OR d.category LIKE ? OR d.tags LIKE ? OR d.description LIKE ?)
+             ORDER BY d.title ASC"
         );
         $stmt->bind_param('ssss', $like, $like, $like, $like);
         $stmt->execute();
@@ -67,7 +69,7 @@ $deckCount = ($decks && !$loadError) ? $decks->num_rows : 0;
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="css/explore.css?v=5">
+    <link rel="stylesheet" href="css/explore.css?v=7">
     <link rel="stylesheet" href="css/theme.css?v=6">
 </head>
 <body>
@@ -171,6 +173,9 @@ $deckCount = ($decks && !$loadError) ? $decks->num_rows : 0;
                         <h3 class="saved-deck-title">
                           <?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?>
                         </h3>
+                        <?php if (!empty($deck['author_username'])): ?>
+                          <span class="deck-author">by @<?= e($deck['author_username']) ?></span>
+                        <?php endif; ?>
 
                         <?php if (!empty($deck['description'])): ?>
                           <p class="saved-deck-desc">

@@ -40,16 +40,9 @@ if ($question === '') {
 }
 
 try {
-    // Confirm the deck exists before inserting anything.
-    $stmt = $conn->prepare('SELECT id FROM deck WHERE id = ?');
-    $stmt->bind_param('i', $deckId);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    $deckExists = $res->fetch_assoc() !== null;
-    $stmt->close();
-
-    if (!$deckExists) {
-        header('Location: create.php?error=notfound');
+    // Confirm the deck exists AND belongs to the logged-in user before inserting anything.
+    if (!fetch_owned_deck($conn, $deckId)) {
+        header('Location: create.php?error=forbidden');
         exit;
     }
 
