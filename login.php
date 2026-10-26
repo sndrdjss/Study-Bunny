@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $next     = safe_next($_POST['next'] ?? '');
 
     $stmt = $conn->prepare(
-        'SELECT id, first_name, last_name, username, password, created_at FROM study_buddy_auth WHERE username = ?'
+        'SELECT id, first_name, last_name, username, password, avatar, created_at FROM study_buddy_auth WHERE username = ?'
     );
     $stmt->bind_param('s', $username);
     $stmt->execute();
@@ -92,7 +92,7 @@ $nextParam = isset($_GET['next']) ? safe_next($_GET['next'], '') : '';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/login.css?v=3">
-    <link rel="stylesheet" href="css/theme.css?v=6">
+    <link rel="stylesheet" href="css/theme.css?v=7">
 </head>
 <body>
 

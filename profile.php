@@ -10,10 +10,23 @@ function profile_redirect(string $query = ''): void
     exit;
 }
 
+/** Delete an old avatar file, but only inside images/avatars/. */
+function profile_delete_avatar_file(string $relPath): void
+{
+    if ($relPath === '') {
+        return;
+    }
+    $dir  = realpath(__DIR__ . '/images/avatars');
+    $file = realpath(__DIR__ . '/' . $relPath);
+    if ($dir && $file && str_starts_with($file, $dir . DIRECTORY_SEPARATOR) && is_file($file)) {
+        @unlink($file);
+    }
+}
+
 /** Load the user row fresh from the database (includes password hash). */
 function profile_load_user(mysqli $conn, int $id): ?array
 {
-    $stmt = $conn->prepare('SELECT id, first_name, last_name, username, password, created_at FROM study_buddy_auth WHERE id = ?');
+    $stmt = $conn->prepare('SELECT id, first_name, last_name, username, password, avatar, created_at FROM study_buddy_auth WHERE id = ?');
     $stmt->bind_param('i', $id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -108,6 +121,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         profile_redirect('msg=password');
     }
 
+    if ($action === 'update_avatar') {
+        if (!isset($_FILES['avatar']) || $_FILES['avatar']['error'] === UPLOAD_ERR_NO_FILE) {
+            profile_redirect('error=avatar_none');
+        }
+        if ($_FILES['avatar']['error'] !== UPLOAD_ERR_OK) {
+            // Covers INI_SIZE / FORM_SIZE / partial uploads.
+            profile_redirect('error=avatar_big');
+        }
+        if ($_FILES['avatar']['size'] > 2 * 1024 * 1024) {
+            profile_redirect('error=avatar_big');
+        }
+
+        // Confirm it's a real image of an allowed type.
+        $info = getimagesize($_FILES['avatar']['tmp_name']);
+        $allowed = [
+            IMAGETYPE_JPEG => 'jpg',
+            IMAGETYPE_PNG  => 'png',
+            IMAGETYPE_WEBP => 'webp',
+        ];
+        if ($info === false || !isset($allowed[$info[2]])) {
+            profile_redirect('error=avatar_type');
+        }
+
+        $dir = __DIR__ . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'avatars';
+        if (!is_dir($dir) && !mkdir($dir, 0777, true) && !is_dir($dir)) {
+            profile_redirect('error=db');
+        }
+
+        $filename = 'u' . (int) $user['id'] . '_' . bin2hex(random_bytes(6)) . '.' . $allowed[$info[2]];
+        $target   = $dir . DIRECTORY_SEPARATOR . $filename;
+        if (!move_uploaded_file($_FILES['avatar']['tmp_name'], $target)) {
+            profile_redirect('error=db');
+        }
+        $newPath = 'images/avatars/' . $filename;
+        $oldPath = trim((string) ($user['avatar'] ?? ''));
+
+        try {
+            $stmt = $conn->prepare('UPDATE study_buddy_auth SET avatar = ? WHERE id = ?');
+            $id = (int) $user['id'];
+            $stmt->bind_param('si', $newPath, $id);
+            $stmt->execute();
+            $stmt->close();
+        } catch (Throwable $ex) {
+            @unlink($target);
+            profile_redirect('error=db');
+        }
+
+        profile_delete_avatar_file($oldPath);
+        $user['avatar'] = $newPath;
+        set_session_user($user);
+        profile_redirect('msg=avatar');
+    }
+
+    if ($action === 'remove_avatar') {
+        $oldPath = trim((string) ($user['avatar'] ?? ''));
+        try {
+            $stmt = $conn->prepare('UPDATE study_buddy_auth SET avatar = NULL WHERE id = ?');
+            $id = (int) $user['id'];
+            $stmt->bind_param('i', $id);
+            $stmt->execute();
+            $stmt->close();
+        } catch (Throwable $ex) {
+            profile_redirect('error=db');
+        }
+        profile_delete_avatar_file($oldPath);
+        $user['avatar'] = '';
+        set_session_user($user);
+        profile_redirect('msg=avatar_removed');
+    }
+
     // Unknown action.
     profile_redirect();
 }
@@ -116,6 +199,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $successMessages = [
     'name'     => 'Your name has been updated.',
     'password' => 'Your password has been changed.',
+    'avatar'   => 'Your profile picture has been updated.',
+    'avatar_removed' => 'Your profile picture has been removed.',
 ];
 $errorMessages = [
     'name_empty' => 'Please enter both your first and last name.',
@@ -124,6 +209,9 @@ $errorMessages = [
     'short'      => 'Your new password must be at least 8 characters.',
     'mismatch'   => 'The new passwords do not match.',
     'same'       => 'Your new password must be different from your current one.',
+    'avatar_none' => 'Please choose an image to upload.',
+    'avatar_type' => 'Please upload a JPG, PNG or WebP image.',
+    'avatar_big'  => 'That image is too large. Please keep it under 2 MB.',
     'db'         => 'Something went wrong saving your changes. Please try again.',
 ];
 
@@ -238,8 +326,8 @@ function profile_render_deck_row(array $deck, bool $isDraft): void
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/profile.css?v=3">
-    <link rel="stylesheet" href="css/theme.css?v=6">
+    <link rel="stylesheet" href="css/profile.css?v=4">
+    <link rel="stylesheet" href="css/theme.css?v=7">
 </head>
 <body>
 
@@ -289,12 +377,33 @@ function profile_render_deck_row(array $deck, bool $isDraft): void
 
         <!-- ============================ HEADER CARD ============================ -->
         <section class="profile-card profile-header" aria-labelledby="profile-name">
-            <span class="profile-avatar" aria-hidden="true"><?= e(user_initials($user)) ?></span>
+            <?php $headerAvatar = avatar_src($user); ?>
+            <?php if ($headerAvatar !== null): ?>
+                <span class="profile-avatar profile-avatar--img" aria-hidden="true"><img src="<?= e($headerAvatar) ?>" alt=""></span>
+            <?php else: ?>
+                <span class="profile-avatar" aria-hidden="true"><?= e(user_initials($user)) ?></span>
+            <?php endif; ?>
             <div class="profile-identity">
                 <h1 id="profile-name" class="profile-name"><?= e($fullName) ?></h1>
                 <p class="profile-handle">@<?= e($user['username']) ?></p>
                 <?php if ($memberSince !== ''): ?>
                     <p class="profile-since">Member since <?= e($memberSince) ?></p>
+                <?php endif; ?>
+
+                <form class="avatar-form" method="post" action="profile.php" enctype="multipart/form-data">
+                    <?= csrf_field() ?>
+                    <input type="hidden" name="action" value="update_avatar">
+                    <input type="file" id="avatar" name="avatar" accept="image/png,image/jpeg,image/webp" class="avatar-file">
+                    <label for="avatar" class="btn-primary btn-sm avatar-choose">Change photo</label>
+                    <button type="submit" class="btn-ghost btn-sm avatar-upload-btn">Upload</button>
+                    <span class="field-hint">JPG, PNG or WebP, up to 2&nbsp;MB.</span>
+                </form>
+                <?php if ($headerAvatar !== null): ?>
+                    <form class="avatar-remove-form" method="post" action="profile.php">
+                        <?= csrf_field() ?>
+                        <input type="hidden" name="action" value="remove_avatar">
+                        <button type="submit" class="btn-ghost btn-sm">Remove photo</button>
+                    </form>
                 <?php endif; ?>
             </div>
         </section>

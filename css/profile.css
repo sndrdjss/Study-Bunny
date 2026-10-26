@@ -265,6 +265,46 @@ a {
     box-shadow: 0 4px 0 var(--mint-deep);
 }
 
+/* Avatar showing an uploaded photo instead of initials. */
+.profile-avatar--img {
+    background: var(--surface-2);
+    overflow: hidden;
+    padding: 0;
+}
+.profile-avatar--img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Avatar controls under the name. */
+.avatar-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+.avatar-file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+}
+.avatar-choose {
+    cursor: pointer;
+}
+/* Keyboard focus on the hidden file input highlights its label. */
+.avatar-file:focus-visible + .avatar-choose {
+    outline: 2px solid var(--mint);
+    outline-offset: 3px;
+}
+.avatar-remove-form {
+    margin-top: 8px;
+}
+
 .profile-identity {
     min-width: 0;
 }

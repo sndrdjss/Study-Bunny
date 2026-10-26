@@ -20,7 +20,7 @@ require_once __DIR__ . '/auth.php';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/library.css?v=3">
-    <link rel="stylesheet" href="css/theme.css?v=6">
+    <link rel="stylesheet" href="css/theme.css?v=7">
 </head>
 <body>
 

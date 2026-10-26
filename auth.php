@@ -42,8 +42,19 @@ function set_session_user(array $row): void
         'first_name' => (string) $row['first_name'],
         'last_name'  => (string) $row['last_name'],
         'username'   => (string) $row['username'],
+        'avatar'     => isset($row['avatar']) ? (string) $row['avatar'] : '',
         'created_at' => (string) ($row['created_at'] ?? ''),
     ];
+}
+
+/** The user's uploaded avatar path, or null to fall back to initials. */
+function avatar_src(?array $user): ?string
+{
+    if (!$user) {
+        return null;
+    }
+    $a = trim((string) ($user['avatar'] ?? ''));
+    return $a !== '' ? $a : null;
 }
 
 /**

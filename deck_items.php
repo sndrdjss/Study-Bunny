@@ -74,7 +74,7 @@ $isOwner = owns_deck($deck);
       })();
     </script>
     <link rel="stylesheet" href="css/create.css?v=5" />
-    <link rel="stylesheet" href="css/theme.css?v=6" />
+    <link rel="stylesheet" href="css/theme.css?v=7" />
   </head>
   <body>
     <!-- ============================ NAVIGATION BAR ============================ -->

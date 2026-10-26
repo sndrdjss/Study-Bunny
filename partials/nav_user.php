@@ -14,7 +14,12 @@ if ($navUser !== null):
 ?>
 <div class="user-menu">
     <button type="button" class="user-menu__btn" aria-haspopup="menu" aria-expanded="false" aria-controls="user-menu-list" aria-label="Account menu for <?= e($navFullName) ?>">
-        <span class="avatar" aria-hidden="true"><?= e(user_initials($navUser)) ?></span>
+        <?php $navAvatar = avatar_src($navUser); ?>
+        <?php if ($navAvatar !== null): ?>
+            <span class="avatar avatar--img" aria-hidden="true"><img src="<?= e($navAvatar) ?>" alt=""></span>
+        <?php else: ?>
+            <span class="avatar" aria-hidden="true"><?= e(user_initials($navUser)) ?></span>
+        <?php endif; ?>
         <span class="username"><?= e($navFirst) ?></span>
         <svg class="user-menu__chevron" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
