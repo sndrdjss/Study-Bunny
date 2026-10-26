@@ -29,6 +29,34 @@ if ($deckId <= 0) {
     exit;
 }
 
+// Confirm the deck exists AND belongs to the logged-in user before doing anything.
+try {
+    if (!fetch_owned_deck($conn, $deckId)) {
+        header('Location: create.php?error=forbidden');
+        exit;
+    }
+
+    // Lock the deck to a single item type: if it already has at least one item,
+    // every new item MUST match that type. This forces server-side consistency
+    // even if the form (hidden input) is tampered with.
+    $existingType = null;
+    $lockStmt = $conn->prepare('SELECT type FROM quiz_item WHERE deck_id = ? ORDER BY position, id LIMIT 1');
+    $lockStmt->bind_param('i', $deckId);
+    $lockStmt->execute();
+    $lockRes = $lockStmt->get_result();
+    if ($lockRow = $lockRes->fetch_assoc()) {
+        $existingType = $lockRow['type'];
+    }
+    $lockStmt->close();
+} catch (mysqli_sql_exception $e) {
+    fail($deckId, 'db');
+}
+
+// If the deck already has items, ignore the posted type and force the locked one.
+if ($existingType !== null) {
+    $type = $existingType;
+}
+
 // Type must be one of the two allowed values.
 if ($type !== 'flashcard' && $type !== 'multiple_choice') {
     fail($deckId, 'type');
@@ -40,12 +68,6 @@ if ($question === '') {
 }
 
 try {
-    // Confirm the deck exists AND belongs to the logged-in user before inserting anything.
-    if (!fetch_owned_deck($conn, $deckId)) {
-        header('Location: create.php?error=forbidden');
-        exit;
-    }
-
     // Gather the data specific to each item type (and validate) BEFORE any insert,
     // so we never write a partial row.
     $answer = null;

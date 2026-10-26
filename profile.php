@@ -296,6 +296,9 @@ function profile_render_deck_row(array $deck, bool $isDraft): void
         </div>
         <div class="deck-row-actions">
             <a class="btn-ghost btn-sm" href="deck_items.php?id=<?= $id ?>" aria-label="Manage <?= e($title) ?>">Manage</a>
+            <?php if ((int) $deck['item_count'] > 0): ?>
+                <a class="btn-ghost btn-sm" href="quiz.php?id=<?= $id ?>" aria-label="Take quiz for <?= e($title) ?>">Take Quiz</a>
+            <?php endif; ?>
             <?php if ($isDraft): ?>
                 <form method="post" action="publish_deck.php" class="deck-publish-form">
                     <?= csrf_field() ?>
@@ -327,7 +330,7 @@ function profile_render_deck_row(array $deck, bool $isDraft): void
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/profile.css?v=4">
-    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/theme.css?v=8">
 </head>
 <body>
 

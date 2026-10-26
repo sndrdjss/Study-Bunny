@@ -499,8 +499,14 @@ body,
    6. NAVBAR AVATAR PHOTO (overrides initials when set)
    ========================================================= */
 .avatar.avatar--img {
+    /* Explicit size so it works even on pages whose CSS has no .avatar rule. */
+    width: 36px;
+    height: 36px;
+    flex: none;
+    display: block;
     overflow: hidden;
     padding: 0;
+    border-radius: 50%;
     background: var(--surface-2);
 }
 .avatar.avatar--img img {

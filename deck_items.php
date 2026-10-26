@@ -74,7 +74,7 @@ $isOwner = owns_deck($deck);
       })();
     </script>
     <link rel="stylesheet" href="css/create.css?v=5" />
-    <link rel="stylesheet" href="css/theme.css?v=7" />
+    <link rel="stylesheet" href="css/theme.css?v=8" />
   </head>
   <body>
     <!-- ============================ NAVIGATION BAR ============================ -->
@@ -160,6 +160,9 @@ $isOwner = owns_deck($deck);
           </div>
           <div class="studio-actions">
             <?php if ($isOwner): ?>
+              <?php if ($items): ?>
+                <a class="btn-public" href="quiz.php?id=<?= (int) $deck['id'] ?>">Take Quiz</a>
+              <?php endif; ?>
               <a href="create.php" class="btn-secondary">&#8592; Back to Create</a>
             <?php else: ?>
               <a href="explore.php" class="btn-secondary">&#8592; Back to Explore</a>
@@ -204,6 +207,12 @@ $isOwner = owns_deck($deck);
 
         <!-- ---------- Add item form (owner only) ---------- -->
         <?php if ($isOwner): ?>
+        <?php
+          // Lock the deck to a single item type. Once the deck has >=1 item, the
+          // type is fixed (all-flashcards OR all-multiple-choice); only an EMPTY
+          // deck lets the user choose. null = empty deck -> user picks.
+          $deckType = $items ? $items[0]['type'] : null;
+        ?>
         <section class="builder-card" aria-label="Add an item">
           <div class="section-head">
             <h2 class="section-title">Add an item</h2>
@@ -215,6 +224,7 @@ $isOwner = owns_deck($deck);
             <input type="hidden" name="deck_id" value="<?= (int) $deck['id'] ?>" />
 
             <!-- TYPE -->
+            <?php if ($deckType === null): ?>
             <div class="field">
               <label class="field-label" for="item-type">Item type</label>
               <select id="item-type" name="type" class="select-input">
@@ -222,6 +232,17 @@ $isOwner = owns_deck($deck);
                 <option value="multiple_choice">Multiple choice</option>
               </select>
             </div>
+            <?php else: ?>
+            <div class="field">
+              <span class="field-label">Item type</span>
+              <input type="hidden" name="type" value="<?= e($deckType) ?>" />
+              <span class="chip chip--type chip--<?= e($deckType) ?>">
+                <span class="chip-dot"></span>
+                <?= $deckType === 'flashcard' ? 'Flashcards' : 'Multiple choice' ?>
+              </span>
+              <span class="field-hint">This deck is locked to one type.</span>
+            </div>
+            <?php endif; ?>
 
             <!-- QUESTION -->
             <div class="field">
@@ -239,6 +260,7 @@ $isOwner = owns_deck($deck);
             </div>
 
             <!-- ANSWER (flashcard only) -->
+            <?php if ($deckType === null || $deckType === 'flashcard'): ?>
             <div class="field" id="answer-field">
               <label class="field-label" for="item-answer">
                 Answer <span class="req">*</span>
@@ -251,9 +273,11 @@ $isOwner = owns_deck($deck);
                 placeholder="Enter the answer"
               />
             </div>
+            <?php endif; ?>
 
             <!-- OPTIONS (multiple choice only) -->
-            <div class="field" id="options-field" hidden>
+            <?php if ($deckType === null || $deckType === 'multiple_choice'): ?>
+            <div class="field" id="options-field"<?= $deckType === null ? ' hidden' : '' ?>>
               <label class="field-label">
                 Options <span class="req">*</span>
                 <span class="field-hint">Mark exactly one as correct</span>
@@ -278,6 +302,7 @@ $isOwner = owns_deck($deck);
                 <?php endfor; ?>
               </div>
             </div>
+            <?php endif; ?>
 
             <div class="item-add-actions">
               <button type="submit" class="btn-public">Add item</button>

@@ -54,7 +54,7 @@ if ($category !== '') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/explore.css?v=7">
-    <link rel="stylesheet" href="css/theme.css?v=7">
+    <link rel="stylesheet" href="css/theme.css?v=8">
 </head>
 <body>
 
