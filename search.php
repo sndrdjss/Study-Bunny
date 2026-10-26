@@ -67,7 +67,7 @@ $deckCount = ($decks && !$loadError) ? $decks->num_rows : 0;
       })();
     </script>
     <link rel="stylesheet" href="css/explore.css?v=5">
-    <link rel="stylesheet" href="css/theme.css?v=3">
+    <link rel="stylesheet" href="css/theme.css?v=5">
 </head>
 <body>
 

@@ -35,7 +35,7 @@ if ($id > 0) {
       })();
     </script>
     <link rel="stylesheet" href="css/explore.css?v=4">
-    <link rel="stylesheet" href="css/theme.css?v=3">
+    <link rel="stylesheet" href="css/theme.css?v=5">
 </head>
 <body>
 

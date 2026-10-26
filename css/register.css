@@ -6,22 +6,31 @@
 
 /* ---------- Theme variables ---------- */
 :root {
-    --bg:            #0a0e1a;
-    --bg-nav:        #10162a;
-    --surface:       #141b30;
-    --surface-2:     #1c2540;
-    --purple:        #7c3aed;
-    --purple-bright: #9d5cff;
-    --pink:          #ffb3e6;
-    --text:          #f5f7ff;
-    --text-muted:    #9aa4c2;
-    --text-dim:      #6b7599;
-    --border:        #263054;
+    --bg:            #11201a;
+    --bg-nav:        #16271f;
+    --surface:       #1b2e25;
+    --surface-2:     #223a2e;
+    --surface-3:     #2c4a3a;
+    --purple:        #58cc6a;
+    --purple-bright: #7be08a;
+    --mint:          #58cc6a;
+    --mint-deep:     #3da652;
+    --carrot:        #ff9838;
+    --carrot-deep:   #e07c1c;
+    --pink:          #ff86b3;
+    --streak-gold:   #ffc93c;
+    --text:          #f3fbf4;
+    --text-muted:    #a7c4b1;
+    --text-dim:      #7a9a85;
+    --border:        #2e4d3c;
+    --shadow: 0 10px 24px rgba(0,0,0,.30), 0 2px 6px rgba(0,0,0,.20);
     --radius-sm: 10px;
     --radius-md: 16px;
     --radius-lg: 24px;
     --radius-pill: 999px;
-    --font: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    --font-display: "Fredoka", "Baloo 2", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Nunito", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    --font: var(--font-body);
 }
 
 /* ---------- Reset ---------- */
@@ -43,10 +52,10 @@ body {
     /* Gradient background matching StudyBuddy */
     background-color: var(--bg);
     background-image:
-        radial-gradient(1000px 600px at 50% -5%, rgba(124, 58, 237, 0.20), transparent 60%),
-        radial-gradient(900px 700px at 12% 25%, rgba(37, 99, 235, 0.14), transparent 55%),
-        radial-gradient(900px 700px at 88% 30%, rgba(157, 92, 255, 0.14), transparent 55%),
-        linear-gradient(180deg, #0b1024 0%, #0a0e1a 55%, #070a14 100%);
+        radial-gradient(1000px 600px at 50% -5%, rgba(88,204,106,0.18), transparent 60%),
+        radial-gradient(900px 700px at 12% 25%, rgba(255,152,56,0.10), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(255,134,179,0.10), transparent 55%),
+        linear-gradient(180deg, #13241c 0%, #11201a 55%, #0d1a14 100%);
     background-attachment: fixed;
 }
 
@@ -68,6 +77,7 @@ a {
 }
 
 .logo {
+    font-family: var(--font-display);
     font-size: 1.4rem;
     font-weight: 800;
     letter-spacing: 0.3px;
@@ -78,7 +88,7 @@ a {
     color: var(--purple-bright);
 }
 
-/* Right side of the navbar holds the light/dark theme toggle. */
+/* Right side of the navbar. */
 .nav-right {
     display: flex;
     align-items: center;
@@ -99,7 +109,7 @@ a {
 
 .nav-cta:hover {
     background-color: var(--surface-2);
-    border-color: var(--purple);
+    border-color: var(--mint);
 }
 
 /* =========================================================
@@ -135,9 +145,9 @@ a {
     border-radius: var(--radius-lg);
     overflow: hidden;
     background-image:
-        radial-gradient(600px 300px at 80% 0%, rgba(157, 92, 255, 0.28), transparent 60%),
-        radial-gradient(500px 400px at 0% 100%, rgba(37, 99, 235, 0.22), transparent 55%),
-        linear-gradient(160deg, #161d38 0%, #10162a 55%, #0c1122 100%);
+        radial-gradient(600px 300px at 80% 0%, rgba(88,204,106,0.22), transparent 60%),
+        radial-gradient(500px 400px at 0% 100%, rgba(255,152,56,0.14), transparent 55%),
+        linear-gradient(160deg, #1d3128 0%, #16271f 55%, #11201a 100%);
     border: 1px solid var(--border);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
@@ -157,14 +167,14 @@ a {
     height: 180px;
     top: -40px;
     right: -30px;
-    background: radial-gradient(circle, rgba(157, 92, 255, 0.5), transparent 70%);
+    background: radial-gradient(circle, rgba(88,204,106,0.45), transparent 70%);
 }
 .auth-side::after {
     width: 220px;
     height: 220px;
     bottom: -60px;
     left: -40px;
-    background: radial-gradient(circle, rgba(255, 179, 230, 0.35), transparent 70%);
+    background: radial-gradient(circle, rgba(255,134,179,0.30), transparent 70%);
 }
 
 .showcase-eyebrow {
@@ -178,14 +188,15 @@ a {
     font-weight: 700;
     letter-spacing: 1.4px;
     text-transform: uppercase;
-    color: var(--purple-bright);
-    background-color: rgba(157, 92, 255, 0.12);
-    border: 1px solid rgba(157, 92, 255, 0.35);
+    color: var(--mint);
+    background-color: rgba(88,204,106,0.12);
+    border: 1px solid rgba(88,204,106,0.35);
     border-radius: var(--radius-pill);
 }
 
 .showcase-heading {
     position: relative;
+    font-family: var(--font-display);
     font-size: clamp(1.8rem, 3vw, 2.6rem);
     font-weight: 800;
     line-height: 1.2;
@@ -193,7 +204,7 @@ a {
 }
 
 .showcase-heading .accent {
-    background-image: linear-gradient(90deg, var(--purple-bright) 0%, var(--pink) 100%);
+    background-image: linear-gradient(90deg, var(--mint) 0%, var(--carrot) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -232,9 +243,9 @@ a {
     height: 38px;
     border-radius: 12px;
     font-size: 1.1rem;
-    color: #fff;
-    background: linear-gradient(135deg, var(--purple) 0%, var(--purple-bright) 100%);
-    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+    color: #0f2415;
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    box-shadow: 0 6px 16px rgba(88,204,106,0.35);
 }
 
 /* =========================================================
@@ -279,12 +290,13 @@ a {
 }
 
 .auth-title {
+    font-family: var(--font-display);
     text-align: left;
     font-size: 1.9rem;
     font-weight: 800;
     letter-spacing: 1px;
     margin-bottom: 6px;
-    background-image: linear-gradient(90deg, var(--purple-bright) 0%, var(--pink) 100%);
+    background-image: linear-gradient(90deg, var(--mint) 0%, var(--carrot) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -337,8 +349,8 @@ a {
 }
 
 .field input:focus {
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.35);
+    border-color: var(--mint);
+    box-shadow: 0 0 0 3px rgba(88,204,106,0.30);
 }
 
 /* Last Name + First Name side by side */
@@ -352,7 +364,7 @@ a {
     min-width: 0;
 }
 
-/* SIGN UP button (styled <a>) with purple-to-pink gradient */
+/* SIGN UP button (styled <a>) with mint-to-carrot gradient */
 .auth-submit {
     display: block;
     width: 100%;
@@ -362,8 +374,8 @@ a {
     font-size: 1rem;
     font-weight: 700;
     letter-spacing: 1px;
-    color: #fff;
-    background: linear-gradient(90deg, var(--purple) 0%, var(--pink) 100%);
+    color: #0f2415;
+    background: linear-gradient(90deg, var(--mint) 0%, var(--carrot) 100%);
     border-radius: var(--radius-pill);
     transition: filter 0.2s ease, transform 0.05s ease;
 }
@@ -391,54 +403,6 @@ a {
 
 .auth-footer a:hover {
     text-decoration: underline;
-}
-
-/* =========================================================
-   LIGHT THEME OVERRIDES (driven by [data-theme="light"])
-   ========================================================= */
-[data-theme="light"] {
-    --bg:            #e8ebf2;
-    --bg-nav:        #eef1f7;
-    --surface:       #f4f6fb;
-    --surface-2:     #e6eaf3;
-    --purple:        #7c3aed;
-    --purple-bright: #6d28d9;
-    --pink:          #d6409f;
-    --text:          #1b2138;
-    --text-muted:    #556083;
-    --text-dim:      #7b85a3;
-    --border:        #d2d9e8;
-}
-
-[data-theme="light"] body {
-    background-image:
-        radial-gradient(1000px 600px at 50% -5%, rgba(124, 58, 237, 0.10), transparent 60%),
-        radial-gradient(900px 700px at 12% 25%, rgba(37, 99, 235, 0.07), transparent 55%),
-        radial-gradient(900px 700px at 88% 30%, rgba(157, 92, 255, 0.07), transparent 55%),
-        linear-gradient(180deg, #eef1f7 0%, #e8ebf2 55%, #e2e6f0 100%);
-}
-
-[data-theme="light"] .field input {
-    background-color: #ffffff;
-    box-shadow: inset 0 1px 2px rgba(90, 104, 150, 0.12);
-}
-
-[data-theme="light"] .auth-side {
-    background-image:
-        radial-gradient(600px 300px at 80% 0%, rgba(124, 58, 237, 0.14), transparent 60%),
-        radial-gradient(500px 400px at 0% 100%, rgba(37, 99, 235, 0.10), transparent 55%),
-        linear-gradient(160deg, #ffffff 0%, #f4f6fb 100%);
-    box-shadow: var(--shadow, 0 18px 40px rgba(90, 104, 150, 0.22));
-}
-
-[data-theme="light"] .auth-alert--error {
-    color: #b02a1e;
-    background-color: rgba(192, 57, 43, 0.10);
-}
-
-[data-theme="light"] .auth-alert--success {
-    color: #1e7e46;
-    background-color: rgba(39, 174, 96, 0.12);
 }
 
 /* =========================================================

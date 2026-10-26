@@ -283,3 +283,34 @@ body,
     background-color: #ffffff;
 }
 
+
+
+/* =========================================================
+   4. AUTH PAGES (login/register) — light overrides
+   login.css / register.css only define the dark palette;
+   these rules handle the hardcoded dark surfaces in light mode.
+   ========================================================= */
+[data-theme="light"] .field input {
+    background-color: #ffffff;
+    border-color: var(--border);
+    box-shadow: inset 0 1px 2px rgba(60, 90, 60, 0.10);
+}
+
+[data-theme="light"] .auth-side {
+    background-image:
+        radial-gradient(600px 300px at 80% 0%, rgba(88, 204, 106, 0.14), transparent 60%),
+        radial-gradient(500px 400px at 0% 100%, rgba(240, 138, 29, 0.08), transparent 55%),
+        linear-gradient(160deg, #ffffff 0%, #f7faf3 100%);
+    border-color: var(--border);
+    box-shadow: var(--shadow);
+}
+
+[data-theme="light"] .auth-alert--error {
+    color: #b02a1e;
+    background-color: rgba(192, 57, 43, 0.10);
+}
+
+[data-theme="light"] .auth-alert--success {
+    color: #1e7e46;
+    background-color: rgba(39, 174, 96, 0.12);
+}

@@ -70,7 +70,7 @@ if ($id > 0) {
       })();
     </script>
     <link rel="stylesheet" href="css/create.css?v=5" />
-    <link rel="stylesheet" href="css/theme.css?v=3" />
+    <link rel="stylesheet" href="css/theme.css?v=5" />
   </head>
   <body>
     <!-- ============================ NAVIGATION BAR ============================ -->

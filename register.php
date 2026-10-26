@@ -55,8 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="css/register.css?v=2">
-    <link rel="stylesheet" href="css/theme.css?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/register.css?v=3">
+    <link rel="stylesheet" href="css/theme.css?v=5">
 </head>
 <body>
 
