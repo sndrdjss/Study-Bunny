@@ -69,7 +69,7 @@ $deckCount = ($decks && !$loadError) ? $decks->num_rows : 0;
         } catch (e) {}
       })();
     </script>
-    <link rel="stylesheet" href="css/explore.css?v=7">
+    <link rel="stylesheet" href="css/explore.css?v=8">
     <link rel="stylesheet" href="css/theme.css?v=8">
 </head>
 <body>
@@ -206,6 +206,11 @@ $deckCount = ($decks && !$loadError) ? $decks->num_rows : 0;
                           <a class="btn-quiz" href="quiz.php?id=<?= (int) $deck['id'] ?>">
                             Take Quiz <span aria-hidden="true">&rarr;</span>
                           </a>
+                          <form class="heart-form" action="favorite_deck.php" method="post">
+                            <?= csrf_field() ?>
+                            <input type="hidden" name="id" value="<?= (int) $deck['id'] ?>">
+                            <button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
+                          </form>
                         </div>
                       </div>
                     </article>

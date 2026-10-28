@@ -53,7 +53,7 @@ if ($category !== '') {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/explore.css?v=7">
+    <link rel="stylesheet" href="css/explore.css?v=8">
     <link rel="stylesheet" href="css/theme.css?v=8">
 </head>
 <body>
@@ -155,6 +155,11 @@ if ($category !== '') {
                         <a class="btn-quiz" href="quiz.php?id=<?= (int) $deck['id'] ?>">
                           Take Quiz <span aria-hidden="true">&rarr;</span>
                         </a>
+                        <form class="heart-form" action="favorite_deck.php" method="post">
+                          <?= csrf_field() ?>
+                          <input type="hidden" name="id" value="<?= (int) $deck['id'] ?>">
+                          <button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
+                        </form>
                       </div>
                     </div>
                   </article>

@@ -917,6 +917,22 @@ a {
     color: var(--text-muted);
 }
 
+/* Small confirmation line under the Library title (?favorited / ?error). */
+.published-note {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--mint-deep);
+    margin-top: -6px;
+    margin-bottom: 18px;
+}
+
+/* Filled heart = this deck is already in the user's library. */
+.btn-heart--on {
+    color: var(--pink);
+    border-color: var(--pink);
+}
+
 /* 3 invisible columns */
 .published-grid {
     display: grid;
@@ -1070,6 +1086,28 @@ a {
 .btn-quiz:active {
     transform: translateY(2px);
     box-shadow: 0 1px 0 var(--mint-deep);
+}
+
+/* Inline favorite form: must not add layout/box of its own so the
+   heart button lines up next to its sibling (Take Quiz / carousel CTA). */
+.heart-form {
+    display: inline-flex;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+/* On the grid cards the heart sits beside the Take Quiz button; keep it
+   a touch smaller than the big carousel heart so the row stays balanced. */
+.saved-deck-actions .btn-heart {
+    width: 42px;
+    height: 42px;
+    font-size: 1.15rem;
+}
+
+/* Push the heart to the far right of the action row. */
+.saved-deck-actions .heart-form {
+    margin-left: auto;
 }
 
 /* Collection page: back link */

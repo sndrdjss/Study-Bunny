@@ -1,5 +1,38 @@
 <?php
 require_once __DIR__ . '/auth.php';
+require 'db.php';
+
+require_login();
+
+/**
+ * Build the correct <img src> for a deck cover.
+ * Stored relative paths (images/covers/..) are already root-relative;
+ * absolute URLs are used as-is.
+ */
+function cover_src($path) {
+    return $path;
+}
+
+// Load the decks this user has favorited (newest first).
+$favorites = null;
+$loadError = null;
+
+try {
+    $uid  = (int) current_user()['id'];
+    $stmt = $conn->prepare(
+        "SELECT d.*, u.username AS author_username
+         FROM deck_favorite f
+         JOIN deck d ON d.id = f.deck_id
+         LEFT JOIN study_buddy_auth u ON u.id = d.user_id
+         WHERE f.user_id = ?
+         ORDER BY f.created_at DESC, f.id DESC"
+    );
+    $stmt->bind_param('i', $uid);
+    $stmt->execute();
+    $favorites = $stmt->get_result();
+} catch (mysqli_sql_exception $e) {
+    $loadError = $e->getMessage();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +52,7 @@ require_once __DIR__ . '/auth.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/explore.css?v=8">
     <link rel="stylesheet" href="css/library.css?v=3">
     <link rel="stylesheet" href="css/theme.css?v=8">
 </head>
@@ -58,11 +92,83 @@ require_once __DIR__ . '/auth.php';
         </div>
     </header>
 
-    <!-- ============================ PLACEHOLDER CONTENT ============================ -->
-    <main class="placeholder">
-        <h1 class="placeholder-title">Library</h1>
-        <p class="placeholder-text">Your saved decks and collections will live here. This page is a placeholder and will be developed later.</p>
-        <span class="placeholder-badge">Coming soon</span>
+    <!-- ============================ FAVORITED DECKS ============================ -->
+    <main class="page">
+        <section class="published" aria-label="Your favorited decks">
+            <h2 class="published-title">Your Library</h2>
+
+            <?php if (isset($_GET['favorited'])): ?>
+              <p class="published-note">Added to your library.</p>
+            <?php elseif (isset($_GET['error'])): ?>
+              <p class="published-note">We couldn't save that just now — please try again.</p>
+            <?php endif; ?>
+
+            <?php if ($loadError): ?>
+              <p class="published-empty">Could not load your library. Please try again.</p>
+            <?php elseif ($favorites && $favorites->num_rows > 0): ?>
+              <div class="published-grid">
+                <?php while ($deck = $favorites->fetch_assoc()): ?>
+                  <article class="saved-deck">
+                    <?php if (!empty($deck['cover_image'])): ?>
+                      <div class="saved-deck-cover">
+                        <img
+                          src="<?= htmlspecialchars(cover_src($deck['cover_image']), ENT_QUOTES, 'UTF-8') ?>"
+                          alt="<?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?> cover"
+                        />
+                      </div>
+                    <?php endif; ?>
+
+                    <div class="saved-deck-body">
+                      <h3 class="saved-deck-title">
+                        <?= htmlspecialchars($deck['title'], ENT_QUOTES, 'UTF-8') ?>
+                      </h3>
+                      <?php if (!empty($deck['author_username'])): ?>
+                        <span class="deck-author">by @<?= e($deck['author_username']) ?></span>
+                      <?php endif; ?>
+
+                      <?php if (!empty($deck['description'])): ?>
+                        <p class="saved-deck-desc">
+                          <?= htmlspecialchars($deck['description'], ENT_QUOTES, 'UTF-8') ?>
+                        </p>
+                      <?php endif; ?>
+
+                      <?php if (!empty($deck['category']) || !empty($deck['tags'])): ?>
+                        <div class="saved-deck-chips">
+                          <?php if (!empty($deck['category'])): ?>
+                            <span class="chip chip--category">
+                              <span class="chip-dot"></span>
+                              <?= htmlspecialchars(ucfirst($deck['category']), ENT_QUOTES, 'UTF-8') ?>
+                            </span>
+                          <?php endif; ?>
+                          <?php if (!empty($deck['tags'])): ?>
+                            <?php foreach (array_filter(array_map('trim', explode(',', $deck['tags']))) as $tag): ?>
+                              <span class="chip chip--tag">
+                                <span class="chip-dot"></span>
+                                <?= htmlspecialchars(ucfirst($tag), ENT_QUOTES, 'UTF-8') ?>
+                              </span>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
+                        </div>
+                      <?php endif; ?>
+
+                      <div class="saved-deck-actions">
+                        <a class="btn-quiz" href="quiz.php?id=<?= (int) $deck['id'] ?>">
+                          Take Quiz <span aria-hidden="true">&rarr;</span>
+                        </a>
+                        <form class="heart-form" action="favorite_deck.php" method="post">
+                          <?= csrf_field() ?>
+                          <input type="hidden" name="id" value="<?= (int) $deck['id'] ?>">
+                          <button type="submit" class="btn-heart btn-heart--on" aria-label="Already in favorites">&#9829;</button>
+                        </form>
+                      </div>
+                    </div>
+                  </article>
+                <?php endwhile; ?>
+              </div>
+            <?php else: ?>
+              <p class="published-empty">No saved decks yet. Tap the &#9825; heart on any deck to add it here.</p>
+            <?php endif; ?>
+        </section>
     </main>
 
     <script src="js/theme-toggle.js"></script>
