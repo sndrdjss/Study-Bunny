@@ -126,6 +126,28 @@ if ($canPlay && $totalQuestions > 0 && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $state['answered'] = $i + 1;
         $_SESSION[$sk] = $state;
 
+        // Log this answer (logged-in users) so Progress can show mistakes to
+        // review. Snapshots keep it readable even if the deck changes later.
+        // Non-fatal: a logging error must never break the quiz.
+        if (is_logged_in()) {
+            try {
+                $loggerUid  = (int) current_user()['id'];
+                $itemId     = (int) $q['id'];
+                $qText      = (string) $q['question'];
+                $correctInt = $isCorrect ? 1 : 0;
+                $log = $conn->prepare(
+                    'INSERT INTO quiz_answer
+                        (user_id, deck_id, quiz_item_id, question_text, your_answer, correct_answer, is_correct)
+                     VALUES (?, ?, ?, ?, ?, ?, ?)'
+                );
+                $log->bind_param('iiisssi', $loggerUid, $deckId, $itemId, $qText, $yourText, $answerText, $correctInt);
+                $log->execute();
+                $log->close();
+            } catch (mysqli_sql_exception $e) {
+                // Ignore — scoring already happened; logging is best-effort.
+            }
+        }
+
         // Show feedback for THIS question before advancing on "Next".
         $_SESSION[$sk]['feedback'] = [
             'correct' => $isCorrect,
