@@ -8,6 +8,8 @@
    ========================================================= */
 require_once __DIR__ . '/auth.php';
 require 'db.php';
+require_once __DIR__ . '/pets.php';
+require_once __DIR__ . '/partials/pet_art.php';
 
 $deckId = isset($_GET['id']) ? (int) $_GET['id'] : (isset($_POST['deck_id']) ? (int) $_POST['deck_id'] : 0);
 
@@ -184,6 +186,7 @@ $token = csrf_token();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/quiz.css?v=1">
+    <link rel="stylesheet" href="css/pet.css?v=2">
     <link rel="stylesheet" href="css/theme.css?v=8">
 </head>
 <body>
@@ -261,6 +264,26 @@ $token = csrf_token();
             <h1 class="quiz-title"><?= e($deck['title']) ?></h1>
             <p class="quiz-score"><?= $score ?> / <?= $totalQuestions ?></p>
             <p class="quiz-sub"><?= $pct ?>% correct<?= (!is_logged_in()) ? ' (not saved — log in to track progress)' : '' ?></p>
+            <?php
+                // Egg progress reward (display only; the attempt was already saved).
+                $isPerfect = $totalQuestions > 0 && $score === $totalQuestions;
+                $eggNow    = ($isPerfect && is_logged_in()) ? pet_state($conn, (int) current_user()['id']) : null;
+            ?>
+            <?php if ($eggNow && in_array($eggNow['stage'], ['incubating', 'ready'], true)): ?>
+                <div class="egg-reward" role="status">
+                    <?= render_egg($eggNow['egg'], $eggNow['progress'], 'egg-art--fresh') ?>
+                    <div>
+                        <?php if ($eggNow['stage'] === 'ready'): ?>
+                            <p class="egg-reward-title">Your <?= e(EGGS[$eggNow['egg']]['name']) ?> is ready to hatch!</p>
+                            <p class="egg-reward-sub"><?= PERFECTS_TO_HATCH ?>/<?= PERFECTS_TO_HATCH ?> perfect scores</p>
+                            <a class="egg-reward-link" href="explore.php#pet-stage">Go hatch it &rarr;</a>
+                        <?php else: ?>
+                            <p class="egg-reward-title">Perfect! Your <?= e(EGGS[$eggNow['egg']]['name']) ?> cracked</p>
+                            <p class="egg-reward-sub"><?= (int) $eggNow['progress'] ?>/<?= PERFECTS_TO_HATCH ?> perfect scores &middot; keep going!</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
             <div class="quiz-actions">
                 <form method="post" action="quiz.php">
                     <input type="hidden" name="csrf_token" value="<?= e($token) ?>">

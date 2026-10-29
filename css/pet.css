@@ -1,0 +1,706 @@
+/* =========================================================
+   StudyBuddy â€” egg & pet mascot styles
+   Linked on explore.php and quiz.php (after the page CSS).
+   Sections: 1 hero slot Â· 2 idle motion Â· 3 welcome overlay
+             4 quiz reward card Â· 5 hatch scene Â· 6 light theme
+             7 small screens Â· 8 reduced motion
+   ========================================================= */
+
+/* ---------------- 1. HERO SLOT ---------------- */
+.pet-stage {
+    margin: 20px auto 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.pet-holder {
+    width: 124px;
+    display: grid;
+    place-items: center;
+}
+
+.pet-holder .egg-art { width: 100px; height: auto; overflow: visible; }
+.pet-holder .pet-art { width: 120px; height: auto; overflow: visible; }
+
+.pet-progress {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    background-color: var(--surface-2);
+    border: 2px solid var(--border);
+    border-radius: 999px;
+}
+
+.pet-progress-dots { display: inline-flex; gap: 5px; }
+
+.pet-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: var(--surface-3);
+    border: 2px solid var(--border);
+}
+
+.pet-dot.is-on {
+    background-color: var(--streak-gold, #ffc93c);
+    border-color: var(--streak-gold, #ffc93c);
+    box-shadow: 0 0 8px rgba(255, 201, 60, 0.7);
+}
+
+.pet-hint {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-dim);
+}
+
+.btn-hatch,
+.btn-egg-confirm,
+.btn-yay {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 12px 28px;
+    font-family: var(--font-display, "Fredoka", sans-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #3a2203;
+    background: linear-gradient(180deg, #ffd65c 0%, #ffb52e 100%);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #d98a12, 0 8px 18px rgba(255, 170, 40, 0.35);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-hatch { animation: hatch-btn-pulse 1.6s ease-in-out infinite; }
+
+.btn-hatch:hover,
+.btn-egg-confirm:not(:disabled):hover,
+.btn-yay:hover {
+    filter: brightness(1.06);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 #d98a12, 0 10px 22px rgba(255, 170, 40, 0.4);
+}
+
+.btn-hatch:active,
+.btn-egg-confirm:not(:disabled):active,
+.btn-yay:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #d98a12;
+}
+
+.btn-hatch:focus-visible,
+.btn-egg-confirm:focus-visible,
+.btn-yay:focus-visible,
+.egg-choice:focus-visible {
+    outline: 3px solid var(--purple-bright, #7be08a);
+    outline-offset: 3px;
+}
+
+.btn-egg-confirm:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: 0 3px 0 #b98b3a;
+}
+
+.pet-nametag {
+    padding: 4px 14px;
+    font-family: var(--font-display, "Fredoka", sans-serif);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    background-color: var(--surface-2);
+    border: 2px solid var(--pink);
+    border-radius: 999px;
+}
+
+/* ---------------- 2. IDLE MOTION ---------------- */
+.egg-idle .egg-art {
+    transform-origin: 50% 92%;
+    animation: egg-wobble 3.4s ease-in-out infinite;
+}
+
+.egg-ready .egg-art {
+    transform-origin: 50% 92%;
+    animation: egg-shake 1.4s ease-in-out infinite, egg-glow 1.4s ease-in-out infinite;
+}
+
+.pet-idle .pet-art { animation: pet-float 3s ease-in-out infinite; }
+
+.pet-holder--arrive .egg-art {
+    animation: egg-arrive 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               egg-wobble 3.4s ease-in-out 0.9s infinite;
+}
+
+.pet-holder--cheer .pet-art { animation: pet-cheer 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 2, pet-float 3s ease-in-out 1.4s infinite; }
+
+.pet-eyes {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pet-blink 4.6s ease-in-out infinite;
+}
+
+.pet-ear {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: ear-twitch 5.2s ease-in-out infinite;
+}
+.pet-ear--floppy { transform-origin: 50% 0%; }
+.pet-ear--r { animation-delay: 2.6s; }
+
+.pet-tail {
+    transform-box: fill-box;
+    transform-origin: 0% 100%;
+    animation: tail-wag 1.8s ease-in-out infinite;
+}
+
+@keyframes egg-wobble {
+    0%, 100% { transform: rotate(0deg); }
+    20%      { transform: rotate(-5deg); }
+    40%      { transform: rotate(4deg); }
+    55%      { transform: rotate(0deg); }
+}
+
+@keyframes egg-shake {
+    0%, 55%, 100% { transform: rotate(0) translateY(0); }
+    60% { transform: rotate(-9deg) translateY(-2px); }
+    68% { transform: rotate(8deg); }
+    76% { transform: rotate(-7deg) translateY(-3px); }
+    84% { transform: rotate(6deg); }
+    92% { transform: rotate(-3deg); }
+}
+
+@keyframes egg-glow {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 210, 80, 0.45)); }
+    50%      { filter: drop-shadow(0 0 16px rgba(255, 210, 80, 0.95)); }
+}
+
+@keyframes egg-arrive {
+    0%   { transform: translateY(-140px) scale(0.6); opacity: 0; }
+    60%  { transform: translateY(6px) scale(1.05, 0.92); opacity: 1; }
+    80%  { transform: translateY(-6px) scale(0.98, 1.03); }
+    100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes pet-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-7px); }
+}
+
+@keyframes pet-cheer {
+    0%   { transform: translateY(0) scale(1); }
+    40%  { transform: translateY(-22px) scale(1.06, 0.96); }
+    70%  { transform: translateY(0) scale(1.08, 0.9); }
+    100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes pet-blink {
+    0%, 92%, 100% { transform: scaleY(1); }
+    95%           { transform: scaleY(0.1); }
+}
+
+@keyframes ear-twitch {
+    0%, 86%, 100% { transform: rotate(0); }
+    90% { transform: rotate(-9deg); }
+    94% { transform: rotate(6deg); }
+}
+
+@keyframes tail-wag {
+    0%, 100% { transform: rotate(0); }
+    50%      { transform: rotate(-14deg); }
+}
+
+@keyframes hatch-btn-pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.06); }
+}
+
+@keyframes crack-draw {
+    from { stroke-dashoffset: 80; }
+    to   { stroke-dashoffset: 0; }
+}
+
+@keyframes pop-in {
+    0%   { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ---------------- 3. WELCOME OVERLAY ---------------- */
+body.pet-modal-open { overflow: hidden; }
+
+.egg-welcome {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background-color: rgba(8, 18, 12, 0.72);
+    backdrop-filter: blur(4px);
+    animation: fade-in 0.3s ease both;
+}
+
+.egg-welcome-card {
+    position: relative;
+    width: min(720px, 100%);
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    padding: 30px 24px 26px;
+    text-align: center;
+    color: var(--text);
+    background-color: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    animation: pop-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.egg-welcome-sparkles span {
+    position: absolute;
+    font-size: 1.1rem;
+    color: var(--streak-gold, #ffc93c);
+    animation: sparkle-twinkle 2.2s ease-in-out infinite;
+    pointer-events: none;
+}
+.egg-welcome-sparkles span:nth-child(1) { top: 16px;  left: 22px; }
+.egg-welcome-sparkles span:nth-child(2) { top: 26px;  right: 30px; animation-delay: 0.7s; }
+.egg-welcome-sparkles span:nth-child(3) { bottom: 24px; left: 36px; animation-delay: 1.3s; }
+.egg-welcome-sparkles span:nth-child(4) { bottom: 30px; right: 22px; animation-delay: 0.4s; }
+
+@keyframes sparkle-twinkle {
+    0%, 100% { transform: scale(0.6) rotate(0); opacity: 0.4; }
+    50%      { transform: scale(1.15) rotate(20deg); opacity: 1; }
+}
+
+.egg-welcome-eyebrow {
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 10px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mint);
+    background-color: var(--surface-2);
+    border-radius: 999px;
+}
+
+.egg-welcome-title {
+    font-family: var(--font-display, "Fredoka", sans-serif);
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.egg-welcome-sub {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.egg-choices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 24px 0 22px;
+}
+
+.egg-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 16px 10px 14px;
+    font: inherit;
+    color: var(--text);
+    background-color: var(--surface-2);
+    border: 3px solid var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    animation: egg-drop 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: calc(0.25s + var(--i, 0) * 0.14s);
+}
+
+.egg-choice .egg-art {
+    width: 88px;
+    height: auto;
+    overflow: visible;
+    transform-origin: 50% 92%;
+}
+
+.egg-choice:hover,
+.egg-choice:focus-visible {
+    border-color: var(--mint);
+    transform: translateY(-3px);
+}
+
+.egg-choice:hover .egg-art,
+.egg-choice:focus-visible .egg-art {
+    animation: egg-wobble 1.1s ease-in-out infinite;
+}
+
+.egg-choice[aria-pressed="true"] {
+    border-color: var(--streak-gold, #ffc93c);
+    background-color: rgba(255, 201, 60, 0.12);
+    box-shadow: 0 0 0 4px rgba(255, 201, 60, 0.25), 0 10px 24px rgba(255, 190, 40, 0.25);
+    transform: translateY(-4px);
+}
+
+.egg-choice[aria-pressed="true"] .egg-art {
+    animation: egg-picked 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), egg-glow 1.6s ease-in-out 0.6s infinite;
+}
+
+.egg-choices.has-pick .egg-choice:not([aria-pressed="true"]) { opacity: 0.6; }
+
+.egg-choice-name {
+    font-family: var(--font-display, "Fredoka", sans-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.egg-choice-habitat {
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background-color: var(--surface-3);
+    border-radius: 999px;
+}
+
+.egg-choice-pool {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.egg-welcome-actions[hidden] { display: none; }
+
+.egg-welcome-note {
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+@keyframes egg-drop {
+    0%   { transform: translateY(-80px) scale(0.7); opacity: 0; }
+    60%  { transform: translateY(8px) scale(1.04, 0.94); opacity: 1; }
+    80%  { transform: translateY(-4px) scale(0.99, 1.02); }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes egg-picked {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.18, 0.88); }
+    70%  { transform: scale(0.94, 1.08); }
+    100% { transform: scale(1); }
+}
+
+/* ---------------- 4. QUIZ REWARD CARD ---------------- */
+.egg-reward {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 400px;
+    margin: 18px auto 4px;
+    padding: 12px 18px;
+    text-align: left;
+    background-color: var(--surface-2);
+    border: 2px dashed var(--streak-gold, #ffc93c);
+    border-radius: 20px;
+    animation: pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+
+.egg-reward .egg-art {
+    flex: 0 0 auto;
+    width: 64px;
+    height: auto;
+    overflow: visible;
+    transform-origin: 50% 92%;
+    animation: egg-shake 1.4s ease-in-out 0.7s 2;
+}
+
+.egg-art--fresh .egg-crack:last-of-type {
+    stroke-dasharray: 80;
+    animation: crack-draw 0.6s ease-out 0.8s both;
+}
+
+.egg-reward-title {
+    font-family: var(--font-display, "Fredoka", sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.egg-reward-sub {
+    margin-top: 2px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.egg-reward-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-weight: 800;
+    color: var(--streak-gold, #ffc93c);
+}
+
+/* ---------------- 5. HATCH SCENE ---------------- */
+.hatch-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 45%, rgba(60, 50, 20, 0.85), rgba(6, 10, 8, 0.92) 70%);
+    animation: fade-in 0.35s ease both;
+}
+
+.hatch-overlay.is-closing { animation: fade-out 0.35s ease both; }
+
+/* Don't spoil the surprise: hide the hero pet behind the scene. */
+body.pet-modal-open .pet-stage--hatched,
+body:has(#hatch-overlay) .pet-stage--hatched { visibility: hidden; }
+
+@keyframes fade-out {
+    to { opacity: 0; visibility: hidden; }
+}
+
+.hatch-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+}
+
+.hatch-scene {
+    position: relative;
+    width: 220px;
+    height: 240px;
+}
+
+.hatch-rays {
+    position: absolute;
+    inset: -60px;
+    background: repeating-conic-gradient(from 0deg, rgba(255, 220, 110, 0.22) 0deg 12deg, transparent 12deg 30deg);
+    border-radius: 50%;
+    mask-image: radial-gradient(circle, #000 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle, #000 30%, transparent 70%);
+    opacity: 0;
+    animation: rays-in 0.6s ease-out 1.8s forwards, rays-spin 14s linear 1.8s infinite;
+}
+
+.hatch-shells,
+.hatch-pet {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 200px;
+    transform: translateX(-50%);
+}
+
+.hatch-shells { height: 233px; animation: hatch-rumble 1.7s ease-in both; }
+
+.hatch-shell {
+    position: absolute;
+    inset: 0;
+}
+.hatch-shell .egg-art { width: 100%; height: auto; overflow: visible; }
+
+.hatch-shell--top {
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 90% 44%, 80% 52%, 70% 44%, 60% 52%, 50% 44%, 40% 52%, 30% 44%, 20% 52%, 10% 44%, 0 50%);
+    animation: shell-top 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) 1.75s forwards;
+}
+
+.hatch-shell--bottom {
+    clip-path: polygon(0 50%, 10% 44%, 20% 52%, 30% 44%, 40% 52%, 50% 44%, 60% 52%, 70% 44%, 80% 52%, 90% 44%, 100% 50%, 100% 100%, 0 100%);
+    animation: shell-bottom 0.8s ease-in 1.85s forwards;
+}
+
+.hatch-pet {
+    width: 190px;
+    opacity: 0;
+    animation: pet-emerge 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.85s forwards;
+}
+.hatch-pet .pet-art { width: 100%; height: auto; overflow: visible; }
+
+.hatch-flash {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 45%, #fffbe8, rgba(255, 255, 255, 0.7) 40%, transparent 75%);
+    opacity: 0;
+    pointer-events: none;
+    animation: hatch-flash 0.7s ease-out 1.65s;
+}
+
+.hatch-confetti {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.hatch-confetti i {
+    position: absolute;
+    width: 9px;
+    height: 14px;
+    border-radius: 3px;
+    background-color: var(--c);
+    opacity: 0;
+    animation: confetti-burst 1.7s cubic-bezier(0.15, 0.6, 0.35, 1) var(--d) forwards;
+}
+.hatch-confetti i.is-star {
+    width: auto;
+    height: auto;
+    background: none;
+    color: var(--c);
+    font-style: normal;
+    font-size: 1.2rem;
+}
+
+.hatch-banner {
+    opacity: 0;
+    animation: banner-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s forwards;
+}
+
+.hatch-banner-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffd65c;
+}
+
+.hatch-banner-title {
+    margin: 4px 0 16px;
+    font-family: var(--font-display, "Fredoka", sans-serif);
+    font-size: clamp(1.6rem, 5vw, 2.3rem);
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+@keyframes hatch-rumble {
+    0%   { transform: translateX(-50%) rotate(0); }
+    10%  { transform: translateX(-50%) rotate(-3deg); }
+    20%  { transform: translateX(-50%) rotate(3deg); }
+    30%  { transform: translateX(-50%) rotate(-4deg); }
+    40%  { transform: translateX(-50%) rotate(5deg); }
+    50%  { transform: translateX(calc(-50% - 3px)) rotate(-7deg); }
+    60%  { transform: translateX(calc(-50% + 3px)) rotate(8deg); }
+    70%  { transform: translateX(calc(-50% - 4px)) rotate(-10deg) scale(1.03); }
+    80%  { transform: translateX(calc(-50% + 4px)) rotate(10deg) scale(1.05); }
+    90%  { transform: translateX(calc(-50% - 2px)) rotate(-6deg) scale(1.08, 0.95); }
+    100% { transform: translateX(-50%) rotate(0) scale(1.1, 0.92); }
+}
+
+@keyframes shell-top {
+    to { transform: translate(-30px, -170px) rotate(-38deg); opacity: 0; }
+}
+
+@keyframes shell-bottom {
+    0%   { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(60px) scale(0.9); opacity: 0; }
+}
+
+@keyframes pet-emerge {
+    0%   { transform: translateX(-50%) translateY(50px) scale(0.3); opacity: 0; }
+    60%  { transform: translateX(-50%) translateY(-24px) scale(1.08, 0.94); opacity: 1; }
+    80%  { transform: translateX(-50%) translateY(4px) scale(0.97, 1.04); }
+    100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes hatch-flash {
+    0%   { opacity: 0; }
+    25%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes confetti-burst {
+    0%   { transform: translate(0, 0) rotate(0); opacity: 1; }
+    70%  { opacity: 1; }
+    100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+}
+
+@keyframes rays-in { to { opacity: 1; } }
+@keyframes rays-spin { to { transform: rotate(360deg); } }
+
+@keyframes banner-in {
+    0%   { transform: translateY(24px) scale(0.9); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* ---------------- 6. LIGHT THEME ---------------- */
+[data-theme="light"] .egg-welcome { background-color: rgba(40, 60, 45, 0.45); }
+[data-theme="light"] .egg-choice { background-color: #ffffff; }
+[data-theme="light"] .egg-choice[aria-pressed="true"] { background-color: #fff7dc; }
+[data-theme="light"] .pet-dot.is-on { background-color: #f0a81e; border-color: #f0a81e; }
+[data-theme="light"] .egg-reward-link { color: #b8760a; }
+
+/* ---------------- 7. SMALL SCREENS ---------------- */
+@media (max-width: 520px) {
+    .egg-welcome-card { padding: 24px 14px 20px; }
+    .egg-choices { gap: 8px; }
+    .egg-choice { padding: 12px 4px 10px; border-radius: 16px; }
+    .egg-choice .egg-art { width: 62px; }
+    .egg-choice-name { font-size: 0.88rem; }
+    .egg-choice-pool { font-size: 0.7rem; }
+    .egg-choice-habitat { font-size: 0.6rem; padding: 2px 7px; }
+}
+
+/* ---------------- 8. REDUCED MOTION ---------------- */
+@media (prefers-reduced-motion: reduce) {
+    .egg-idle .egg-art,
+    .egg-ready .egg-art,
+    .pet-idle .pet-art,
+    .pet-holder--arrive .egg-art,
+    .pet-holder--cheer .pet-art,
+    .pet-eyes, .pet-ear, .pet-tail,
+    .btn-hatch,
+    .egg-choice, .egg-choice .egg-art,
+    .egg-choice:hover .egg-art,
+    .egg-choice:focus-visible .egg-art,
+    .egg-choice[aria-pressed="true"] .egg-art,
+    .egg-welcome-sparkles span,
+    .egg-reward .egg-art,
+    .egg-art--fresh .egg-crack:last-of-type,
+    .hatch-shells, .hatch-rays {
+        animation: none !important;
+    }
+    .egg-choice:hover,
+    .egg-choice:focus-visible,
+    .egg-choice[aria-pressed="true"] { transform: none; }
+    .egg-ready .egg-art { filter: drop-shadow(0 0 10px rgba(255, 210, 80, 0.8)); }
+
+    /* Hatch: skip the burst, fade straight to the reveal. */
+    .hatch-shell, .hatch-flash, .hatch-confetti { display: none; }
+    .hatch-pet,
+    .hatch-banner {
+        opacity: 1;
+        animation: fade-in 0.4s ease both !important;
+    }
+    .hatch-pet { transform: translateX(-50%); }
+    .egg-welcome-card, .egg-reward { animation: fade-in 0.3s ease both; }
+}

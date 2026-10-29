@@ -7,6 +7,12 @@ function cover_src($path) {
 
 // Set of deck IDs this user has favorited, for filled-heart rendering.
 $favIds = favorite_deck_ids($conn, (int) (current_user()['id'] ?? 0));
+
+// Egg / pet mascot state for the hero slot.
+require_once __DIR__ . '/pets.php';
+require_once __DIR__ . '/partials/pet_art.php';
+$petState  = pet_state($conn, (int) (current_user()['id'] ?? 0));
+$petArrive = isset($_GET['egg']) && $petState['stage'] === 'incubating';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +33,7 @@ $favIds = favorite_deck_ids($conn, (int) (current_user()['id'] ?? 0));
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/explore.css?v=8">
+    <link rel="stylesheet" href="css/pet.css?v=2">
     <link rel="stylesheet" href="css/theme.css?v=8">
 </head>
 <body>
@@ -72,11 +79,7 @@ $favIds = favorite_deck_ids($conn, (int) (current_user()['id'] ?? 0));
             <h1 class="hero-title">Explore, Learn, and <span class="gradient-text">Have Fun</span></h1>
             <p class="hero-subtitle">Master equations, codebases, languages, and history with verified peer-crafted decks and spaced repetition.</p>
 
-            <!-- Mascot placeholder (dashed slot, no image yet) -->
-            <div class="mascot-slot" aria-hidden="true">
-                <span class="mascot-face">&#128048;</span>
-                <span class="mascot-label">mascot</span>
-            </div>
+            <?php include __DIR__ . '/partials/mascot.php'; ?>
 
             <!-- Streak / day-dots strip (static sample) -->
             <div class="streak-strip" aria-label="7 day study streak">
@@ -358,9 +361,16 @@ $favIds = favorite_deck_ids($conn, (int) (current_user()['id'] ?? 0));
 
     </main>
 
+    <?php if ($petState['stage'] === 'none'): ?>
+        <?php include __DIR__ . '/partials/egg_welcome.php'; ?>
+    <?php elseif ($petState['stage'] === 'hatched' && isset($_GET['hatched'])): ?>
+        <?php include __DIR__ . '/partials/hatch_scene.php'; ?>
+    <?php endif; ?>
+
     <script src="js/theme-toggle.js"></script>
     <script src="js/user-menu.js"></script>
     <script src="js/explore-carousel.js?v=3"></script>
     <script src="js/search-suggest.js?v=1"></script>
+    <script src="js/pet.js?v=1"></script>
 </body>
 </html>
