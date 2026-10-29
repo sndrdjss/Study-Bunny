@@ -530,3 +530,94 @@ a.deck-row:focus-visible { outline: 2px solid var(--mint); outline-offset: -2px;
     .btn-progress, .btn-progress:hover, .btn-progress:active,
     .deck-row { transition: none; }
 }
+
+
+/* =========================================================
+   LEVEL BANNER (overview)
+   ========================================================= */
+.level-banner {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    background:
+        radial-gradient(120% 140% at 0% 0%, rgba(74,168,255,0.16), transparent 60%),
+        radial-gradient(120% 140% at 100% 100%, rgba(155,108,255,0.16), transparent 60%),
+        var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+.level-badge {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    min-width: 58px;
+    height: 58px;
+    padding: 0 10px;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f2415;
+    background: linear-gradient(135deg, #3ddc84, #18c6c6 55%, #4aa8ff);
+    border-radius: 18px;
+    box-shadow: 0 4px 0 rgba(24,120,120,0.5);
+}
+
+.level-meter { flex: 1 1 auto; min-width: 0; }
+.level-meter-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 7px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+.level-xp { color: var(--text); }
+.level-next { color: var(--text-dim); }
+
+.level-bar {
+    height: 12px;
+    border-radius: 999px;
+    background-color: var(--surface-3);
+    overflow: hidden;
+}
+.level-bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #3ddc84, #18c6c6 40%, #4aa8ff 75%, #9b6cff);
+    box-shadow: 0 0 10px rgba(74,168,255,0.55);
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.level-flame {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--streak-gold);
+}
+
+/* Colorful doughnut center picks up the accent gradient. */
+.doughnut-center {
+    background: linear-gradient(135deg, #3ddc84, #4aa8ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--mint); /* fallback */
+}
+
+@media (max-width: 560px) {
+    .level-banner { flex-wrap: wrap; gap: 12px; }
+    .level-meter { order: 3; flex-basis: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .level-bar-fill { transition: none; }
+}

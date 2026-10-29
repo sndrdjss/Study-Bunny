@@ -13,6 +13,7 @@ $deckView  = ($deckParam > 0 && user_attempted_deck($conn, $uid, $deckParam)) ? 
 
 $overall  = overall_stats($conn, $uid);
 $hasData  = $overall['total_quizzes'] > 0;
+$game     = user_game_stats($conn, $uid);
 
 if ($deckView > 0) {
     $deckName     = deck_title($conn, $deckView);
@@ -45,7 +46,7 @@ if ($deckView > 0) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/progress.css?v=4">
+    <link rel="stylesheet" href="css/progress.css?v=5">
     <link rel="stylesheet" href="css/theme.css?v=8">
 </head>
 <body>
@@ -64,11 +65,7 @@ if ($deckView > 0) {
         </nav>
 
         <div class="nav-right">
-            <div class="game-pill" aria-label="Your progress">
-                <span class="stat stat--streak" title="Day streak"><span class="ico" aria-hidden="true">&#128293;</span>7</span>
-                <span class="divider-dot" aria-hidden="true"></span>
-                <span class="stat stat--xp" title="Level"><span class="ico" aria-hidden="true">&#11088;</span>Lv 4</span>
-            </div>
+            <?php include __DIR__ . '/partials/game_pill.php'; ?>
             <label class="theme-switch" title="Toggle light / dark mode">
                 <input type="checkbox" role="switch" aria-label="Toggle light or dark mode" />
                 <span class="track">
@@ -166,6 +163,18 @@ if ($deckView > 0) {
             <p class="progress-sub">Stats from every quiz you've taken</p>
         </section>
 
+        <section class="level-banner" aria-label="Your level">
+            <span class="level-badge">Lv <?= (int) $game['level'] ?></span>
+            <div class="level-meter">
+                <div class="level-meter-top">
+                    <span class="level-xp"><?= (int) $game['xp'] ?> XP</span>
+                    <span class="level-next"><?= (int) $game['into'] ?> / <?= (int) $game['needed'] ?> to Lv <?= (int) $game['level'] + 1 ?></span>
+                </div>
+                <div class="level-bar"><span class="level-bar-fill" style="width: <?= (int) $game['pct'] ?>%"></span></div>
+            </div>
+            <span class="level-flame" title="Day streak"><span aria-hidden="true">&#128293;</span> <?= (int) $game['streak'] ?></span>
+        </section>
+
         <section class="stat-grid" aria-label="Overall stats">
             <div class="stat-card">
                 <span class="stat-value"><?= (int) $overall['total_quizzes'] ?></span>
@@ -251,22 +260,63 @@ if ($deckView > 0) {
         var grid = v("--border", "#2e4d3c");
         var text = v("--text-muted", "#a7c4b1");
 
+        // Vibrant palette for a colorful, gamified feel.
+        var C = {
+          green:  "#3ddc84",
+          teal:   "#18c6c6",
+          blue:   "#4aa8ff",
+          purple: "#9b6cff",
+          pink:   "#ff6fae",
+          amber:  "#ffb43d",
+          red:    "#ff6b6b"
+        };
+
+        // Point color by score band (red < 50, amber < 80, green otherwise).
+        function bandColor(pct) {
+          if (pct < 50) return C.red;
+          if (pct < 80) return C.amber;
+          return C.green;
+        }
+
+        // A left-to-right rainbow-ish gradient for the line stroke.
+        function strokeGradient(ctx, w) {
+          var g = ctx.createLinearGradient(0, 0, w, 0);
+          g.addColorStop(0.00, C.green);
+          g.addColorStop(0.35, C.teal);
+          g.addColorStop(0.65, C.blue);
+          g.addColorStop(1.00, C.purple);
+          return g;
+        }
+        // Soft vertical fill under the line.
+        function fillGradient(ctx, h) {
+          var g = ctx.createLinearGradient(0, 0, 0, h);
+          g.addColorStop(0, "rgba(74,168,255,0.28)");
+          g.addColorStop(1, "rgba(61,220,132,0.02)");
+          return g;
+        }
+
         function lineChart(id, labels, data) {
           var el = document.getElementById(id);
           if (!el) return;
+          var ctx = el.getContext("2d");
+          var stroke = strokeGradient(ctx, el.width || 600);
+          var fill = fillGradient(ctx, el.height || 240);
           new Chart(el, {
             type: "line",
             data: {
               labels: labels,
               datasets: [{
                 data: data,
-                borderColor: mint,
-                backgroundColor: "rgba(88,204,106,0.14)",
-                borderWidth: 3,
+                borderWidth: 4,
                 fill: true,
-                tension: 0.35,
-                pointRadius: data.length > 30 ? 0 : 4,
-                pointBackgroundColor: mint
+                tension: 0.38,
+                borderColor: stroke,
+                backgroundColor: fill,
+                pointRadius: data.length > 30 ? 0 : 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: data.map(bandColor),
+                pointBorderColor: "#ffffff",
+                pointBorderWidth: 2
               }]
             },
             options: {
@@ -293,10 +343,24 @@ if ($deckView > 0) {
           var acc = <?= (int) $overall['avg_pct'] ?>;
           var accEl = document.getElementById("accuracyChart");
           if (accEl) {
+            // Filled arc gets a vibrant gradient; remainder is a faint track.
+            var accColor = (function () {
+              var ctx = accEl.getContext("2d");
+              var g = ctx.createLinearGradient(0, 0, accEl.width, accEl.height);
+              g.addColorStop(0, bandColor(acc));
+              g.addColorStop(1, acc < 50 ? C.pink : (acc < 80 ? C.carrot || carrot : C.teal));
+              return g;
+            })();
             new Chart(accEl, {
               type: "doughnut",
-              data: { datasets: [{ data: [acc, 100 - acc], backgroundColor: [mint, grid], borderWidth: 0 }] },
-              options: { responsive: true, maintainAspectRatio: false, cutout: "72%",
+              data: { datasets: [{
+                data: [acc, 100 - acc],
+                backgroundColor: [accColor, grid],
+                borderWidth: 0,
+                borderRadius: [20, 0],
+                spacing: 0
+              }] },
+              options: { responsive: true, maintainAspectRatio: false, cutout: "72%", rotation: -90, circumference: 360,
                 plugins: { legend: { display: false }, tooltip: { enabled: false } } }
             });
           }

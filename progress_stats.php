@@ -236,6 +236,107 @@ function user_attempted_deck(mysqli $conn, int $uid, int $deckId): bool
     }
 }
 
+/* =========================================================
+   XP & LEVEL (gamification)
+   All derived live from quiz_attempt, so levels are retroactive
+   and need no extra storage.
+
+   XP per completed quiz (total > 0):
+     base        +10  (for finishing)
+     performance +round(score/total * 10)   (0..10 by accuracy)
+     perfect     +15  bonus when score == total
+   => a perfect quiz is worth 35 XP; a 0% finish is worth 10.
+
+   Level curve: level n starts at XP 50 * (n-1) * n / 2, i.e.
+   you need 50 XP for Lv2, then +100 for Lv3, +150 for Lv4, ...
+   Early levels come quickly; later ones take progressively more.
+   ========================================================= */
+
+const XP_BASE_PER_QUIZ   = 10;
+const XP_PERFORMANCE_MAX = 10;
+const XP_PERFECT_BONUS   = 15;
+
+/** Total lifetime XP for a user, computed from quiz_attempt. */
+function user_xp(mysqli $conn, int $uid): int
+{
+    if ($uid <= 0) {
+        return 0;
+    }
+    try {
+        $stmt = $conn->prepare(
+            'SELECT
+                COUNT(*)                               AS quizzes,
+                COALESCE(SUM(score / total), 0)        AS perf_sum,
+                COALESCE(SUM(total > 0 AND score = total), 0) AS perfects
+             FROM quiz_attempt
+             WHERE user_id = ? AND total > 0'
+        );
+        $stmt->bind_param('i', $uid);
+        $stmt->execute();
+        $r = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        $quizzes  = (int) $r['quizzes'];
+        $perfSum  = (float) $r['perf_sum'];   // sum of accuracy ratios 0..1
+        $perfects = (int) $r['perfects'];
+
+        return (int) round(
+            $quizzes * XP_BASE_PER_QUIZ
+            + $perfSum * XP_PERFORMANCE_MAX
+            + $perfects * XP_PERFECT_BONUS
+        );
+    } catch (\Throwable $e) {
+        return 0;
+    }
+}
+
+/** Total XP required to REACH a given level (level 1 starts at 0). */
+function xp_for_level(int $level): int
+{
+    if ($level <= 1) {
+        return 0;
+    }
+    $n = $level - 1;
+    return (int) (50 * $n * ($n + 1) / 2); // 50,150,300,500,... cumulative
+}
+
+/**
+ * Resolve a level (and progress to the next) from total XP.
+ * @return array{level:int, xp:int, into:int, needed:int, pct:int}
+ */
+function level_from_xp(int $xp): array
+{
+    $xp = max(0, $xp);
+    $level = 1;
+    while ($xp >= xp_for_level($level + 1)) {
+        $level++;
+    }
+    $floor  = xp_for_level($level);
+    $ceil   = xp_for_level($level + 1);
+    $into   = $xp - $floor;
+    $needed = $ceil - $floor;
+    $pct    = $needed > 0 ? (int) round($into / $needed * 100) : 0;
+
+    return ['level' => $level, 'xp' => $xp, 'into' => $into, 'needed' => $needed, 'pct' => $pct];
+}
+
+/**
+ * One call for the nav pill: streak + level + xp.
+ * @return array{streak:int, level:int, xp:int, into:int, needed:int, pct:int}
+ */
+function user_game_stats(mysqli $conn, int $uid): array
+{
+    $lvl = level_from_xp(user_xp($conn, $uid));
+    return [
+        'streak' => active_day_streak($conn, $uid),
+        'level'  => $lvl['level'],
+        'xp'     => $lvl['xp'],
+        'into'   => $lvl['into'],
+        'needed' => $lvl['needed'],
+        'pct'    => $lvl['pct'],
+    ];
+}
+
 /** A deck's title (for the drill-down heading). */
 function deck_title(mysqli $conn, int $deckId): string
 {

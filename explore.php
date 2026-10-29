@@ -11,8 +11,12 @@ $favIds = favorite_deck_ids($conn, (int) (current_user()['id'] ?? 0));
 // Egg / pet mascot state for the hero slot.
 require_once __DIR__ . '/pets.php';
 require_once __DIR__ . '/partials/pet_art.php';
+require_once __DIR__ . '/progress_stats.php';
 $petState  = pet_state($conn, (int) (current_user()['id'] ?? 0));
 $petArrive = isset($_GET['egg']) && $petState['stage'] === 'incubating';
+
+// Real day streak for the hero strip (matches the nav pill).
+$heroStreak = active_day_streak($conn, (int) (current_user()['id'] ?? 0));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,11 +56,7 @@ $petArrive = isset($_GET['egg']) && $petState['stage'] === 'incubating';
         </nav>
 
         <div class="nav-right">
-            <div class="game-pill" aria-label="Your progress">
-                <span class="stat stat--streak" title="Day streak"><span class="ico" aria-hidden="true">&#128293;</span>7</span>
-                <span class="divider-dot" aria-hidden="true"></span>
-                <span class="stat stat--xp" title="Level"><span class="ico" aria-hidden="true">&#11088;</span>Lv 4</span>
-            </div>
+            <?php include __DIR__ . '/partials/game_pill.php'; ?>
             <label class="theme-switch" title="Toggle light / dark mode">
                 <input type="checkbox" role="switch" aria-label="Toggle light or dark mode" />
                 <span class="track">
@@ -81,17 +81,13 @@ $petArrive = isset($_GET['egg']) && $petState['stage'] === 'incubating';
 
             <?php include __DIR__ . '/partials/mascot.php'; ?>
 
-            <!-- Streak / day-dots strip (static sample) -->
-            <div class="streak-strip" aria-label="7 day study streak">
-                <span class="streak-count"><span class="flame" aria-hidden="true">&#128293;</span> 7 day streak</span>
+            <!-- Streak / day-dots strip (real streak) -->
+            <div class="streak-strip" aria-label="<?= (int) $heroStreak ?> day study streak">
+                <span class="streak-count"><span class="flame" aria-hidden="true">&#128293;</span> <?= (int) $heroStreak ?> day streak</span>
                 <ul class="streak-dots">
-                    <li class="done"></li>
-                    <li class="done"></li>
-                    <li class="done"></li>
-                    <li class="done"></li>
-                    <li class="done"></li>
-                    <li></li>
-                    <li></li>
+                    <?php for ($i = 1; $i <= 7; $i++): ?>
+                        <li class="<?= $i <= min((int) $heroStreak, 7) ? 'done' : '' ?>"></li>
+                    <?php endfor; ?>
                 </ul>
             </div>
 

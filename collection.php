@@ -75,11 +75,7 @@ $favIds = favorite_deck_ids($conn, (int) (current_user()['id'] ?? 0));
         </nav>
 
         <div class="nav-right">
-            <div class="game-pill" aria-label="Your progress">
-                <span class="stat stat--streak" title="Day streak"><span class="ico" aria-hidden="true">&#128293;</span>7</span>
-                <span class="divider-dot" aria-hidden="true"></span>
-                <span class="stat stat--xp" title="Level"><span class="ico" aria-hidden="true">&#11088;</span>Lv 4</span>
-            </div>
+            <?php include __DIR__ . '/partials/game_pill.php'; ?>
             <label class="theme-switch" title="Toggle light / dark mode">
                 <input type="checkbox" role="switch" aria-label="Toggle light or dark mode" />
                 <span class="track">
