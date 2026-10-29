@@ -34,6 +34,9 @@ if ($category !== '') {
         $loadError = $e->getMessage();
     }
 }
+
+// Set of deck IDs this user has favorited, for filled-heart rendering.
+$favIds = favorite_deck_ids($conn, (int) (current_user()['id'] ?? 0));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -155,11 +158,11 @@ if ($category !== '') {
                         <a class="btn-quiz" href="quiz.php?id=<?= (int) $deck['id'] ?>">
                           Take Quiz <span aria-hidden="true">&rarr;</span>
                         </a>
-                        <form class="heart-form" action="favorite_deck.php" method="post">
-                          <?= csrf_field() ?>
-                          <input type="hidden" name="id" value="<?= (int) $deck['id'] ?>">
-                          <button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
-                        </form>
+                        <?php
+                          $deckId = (int) $deck['id'];
+                          $return = 'collection.php?category=' . rawurlencode($category);
+                          include __DIR__ . '/partials/heart_button.php';
+                        ?>
                       </div>
                     </div>
                   </article>

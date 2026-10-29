@@ -4,6 +4,9 @@ require 'db.php';
 function cover_src($path) {
     return $path;
 }
+
+// Set of deck IDs this user has favorited, for filled-heart rendering.
+$favIds = favorite_deck_ids($conn, (int) (current_user()['id'] ?? 0));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,11 +138,7 @@ function cover_src($path) {
                         </div>
                         <div class="card-controls">
                             <a class="btn-collection" href="quiz.php?id=6">Take Quiz <span aria-hidden="true">&rarr;</span></a>
-                            <form class="heart-form" action="favorite_deck.php" method="post">
-                                <?= csrf_field() ?>
-                                <input type="hidden" name="id" value="6">
-                                <button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
-                            </form>
+                            <?php $deckId = 6; $return = 'explore.php'; include __DIR__ . '/partials/heart_button.php'; ?>
                         </div>
                     </div>
                 </article>
@@ -161,11 +160,7 @@ function cover_src($path) {
                         </div>
                         <div class="card-controls">
                             <a class="btn-collection" href="quiz.php?id=4">Take Quiz <span aria-hidden="true">&rarr;</span></a>
-                            <form class="heart-form" action="favorite_deck.php" method="post">
-                                <?= csrf_field() ?>
-                                <input type="hidden" name="id" value="4">
-                                <button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
-                            </form>
+                            <?php $deckId = 4; $return = 'explore.php'; include __DIR__ . '/partials/heart_button.php'; ?>
                         </div>
                     </div>
                 </article>
@@ -187,11 +182,7 @@ function cover_src($path) {
                         </div>
                         <div class="card-controls">
                             <a class="btn-collection" href="quiz.php?id=7">Take Quiz <span aria-hidden="true">&rarr;</span></a>
-                            <form class="heart-form" action="favorite_deck.php" method="post">
-                                <?= csrf_field() ?>
-                                <input type="hidden" name="id" value="7">
-                                <button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
-                            </form>
+                            <?php $deckId = 7; $return = 'explore.php'; include __DIR__ . '/partials/heart_button.php'; ?>
                         </div>
                     </div>
                 </article>
@@ -203,7 +194,7 @@ function cover_src($path) {
                         <p class="card-desc">Discover how cells work, how living things grow, and how organisms interact within their ecosystems.</p>
                         <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Sarah Miller</span></div>
                         <div class="card-pills"><span class="pill pill--category">Science</span><span class="pill pill--subject">Living Things</span></div>
-                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=8">Take Quiz <span aria-hidden="true">&rarr;</span></a><form class="heart-form" action="favorite_deck.php" method="post"><?= csrf_field() ?><input type="hidden" name="id" value="8"><button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button></form></div>
+                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=8">Take Quiz <span aria-hidden="true">&rarr;</span></a><?php $deckId = 8; $return = 'explore.php'; include __DIR__ . '/partials/heart_button.php'; ?></div>
                     </div>
                 </article>
 
@@ -214,7 +205,7 @@ function cover_src($path) {
                         <p class="card-desc">Sharpen your sentence structure, punctuation, and grammar rules for clear and confident communication.</p>
                         <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Alex Johnson</span></div>
                         <div class="card-pills"><span class="pill pill--category">English</span><span class="pill pill--subject">Sentence Structure</span></div>
-                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=9">Take Quiz <span aria-hidden="true">&rarr;</span></a><form class="heart-form" action="favorite_deck.php" method="post"><?= csrf_field() ?><input type="hidden" name="id" value="9"><button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button></form></div>
+                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=9">Take Quiz <span aria-hidden="true">&rarr;</span></a><?php $deckId = 9; $return = 'explore.php'; include __DIR__ . '/partials/heart_button.php'; ?></div>
                     </div>
                 </article>
 
@@ -225,7 +216,7 @@ function cover_src($path) {
                         <p class="card-desc">Explore the landforms, oceans, climate patterns, and natural processes that continuously shape our planet.</p>
                         <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Michael Lee</span></div>
                         <div class="card-pills"><span class="pill pill--category">Geography</span><span class="pill pill--subject">Earth Systems</span></div>
-                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=10">Take Quiz <span aria-hidden="true">&rarr;</span></a><form class="heart-form" action="favorite_deck.php" method="post"><?= csrf_field() ?><input type="hidden" name="id" value="10"><button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button></form></div>
+                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=10">Take Quiz <span aria-hidden="true">&rarr;</span></a><?php $deckId = 10; $return = 'explore.php'; include __DIR__ . '/partials/heart_button.php'; ?></div>
                     </div>
                 </article>
 
@@ -236,7 +227,7 @@ function cover_src($path) {
                         <p class="card-desc">Create stunning digital illustrations by mastering composition, color, and the essential creative tools.</p>
                         <div class="card-author"><span class="card-created">CREATED BY</span><span class="card-name">Sophia Brown</span></div>
                         <div class="card-pills"><span class="pill pill--category">Art</span><span class="pill pill--subject">Creative Tools</span></div>
-                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=11">Take Quiz <span aria-hidden="true">&rarr;</span></a><form class="heart-form" action="favorite_deck.php" method="post"><?= csrf_field() ?><input type="hidden" name="id" value="11"><button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button></form></div>
+                        <div class="card-controls"><a class="btn-collection" href="quiz.php?id=11">Take Quiz <span aria-hidden="true">&rarr;</span></a><?php $deckId = 11; $return = 'explore.php'; include __DIR__ . '/partials/heart_button.php'; ?></div>
                     </div>
                 </article>
             </div>
@@ -354,11 +345,7 @@ function cover_src($path) {
                         <a class="btn-quiz" href="quiz.php?id=<?= (int) $deck['id'] ?>">
                           Take Quiz <span aria-hidden="true">&rarr;</span>
                         </a>
-                        <form class="heart-form" action="favorite_deck.php" method="post">
-                          <?= csrf_field() ?>
-                          <input type="hidden" name="id" value="<?= (int) $deck['id'] ?>">
-                          <button type="submit" class="btn-heart" aria-label="Add to favorites">&#9825;</button>
-                        </form>
+                        <?php $deckId = (int) $deck['id']; $return = 'explore.php'; include __DIR__ . '/partials/heart_button.php'; ?>
                       </div>
                     </div>
                   </article>
