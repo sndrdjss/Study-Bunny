@@ -11,12 +11,14 @@
     --surface:       #1b2e25;
     --surface-2:     #223a2e;
     --surface-3:     #2c4a3a;
-    --purple:        #58cc6a;
-    --purple-bright: #7be08a;
-    --mint:          #58cc6a;
-    --mint-deep:     #3da652;
+    --purple:        #8fe3a3;
+    --purple-bright: #aef0bd;
+    --mint:          #8fe3a3;
+    --mint-deep:     #5cbf78;
     --carrot:        #ff9838;
-    --pink:          #ff86b3;
+    --pink:          #ffb3d1;
+    --pink-bright:   #ffd0e2;
+    --pink-deep:     #e98db0;
     --streak-gold:   #ffc93c;
     --text:          #f3fbf4;
     --text-muted:    #a7c4b1;
@@ -51,9 +53,9 @@ body {
     /* Soft meadow gradient matching StudyBuddy bunny theme */
     background-color: var(--bg);
     background-image:
-        radial-gradient(1000px 600px at 50% -5%, rgba(88, 204, 106, 0.18), transparent 60%),
+        radial-gradient(1000px 600px at 50% -5%, rgba(111, 207, 135, 0.18), transparent 60%),
         radial-gradient(900px 700px at 12% 25%, rgba(255, 152, 56, 0.10), transparent 55%),
-        radial-gradient(900px 700px at 88% 30%, rgba(255, 134, 179, 0.10), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(255, 179, 209, 0.10), transparent 55%),
         linear-gradient(180deg, #13241c 0%, #11201a 55%, #0d1a14 100%);
     background-attachment: fixed;
 }

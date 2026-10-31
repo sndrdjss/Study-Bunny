@@ -20,16 +20,19 @@
     --surface:       #ffffff;   /* card background */
     --surface-2:     #eef3e7;   /* raised / pills / inputs */
     --surface-3:     #e3ecd9;   /* hover / secondary buttons */
-    --purple:        #58cc6a;   /* primary (mint) — name kept */
-    --purple-bright: #46b958;   /* primary highlight (slightly deeper for light bg) */
-    --mint:          #46b958;
-    --mint-deep:     #37a049;
+    --purple:        #6fcf87;   /* primary (pastel green) — name kept */
+    --purple-bright: #5bbf74;   /* primary highlight (slightly deeper for light bg) */
+    --mint:          #6fcf87;
+    --mint-deep:     #4aa865;
     --carrot:        #f08a1d;
     --carrot-deep:   #d9760f;
-    --pink:          #ec5f97;
+    --pink:          #f3a7c4;
+    --pink-bright:   #e88bb3;
+    --pink-deep:     #d98aae;
+    --pink-text:     #c2185b;   /* readable pink for text on cream */
     --streak-gold:   #f0a81e;
     --flame:         #f2702c;
-    --xp:            #46b958;
+    --xp:            #6fcf87;
     --text:          #1d2b20;   /* primary dark text */
     --text-muted:    #4e6b56;   /* secondary text */
     --text-dim:      #6f8a77;   /* subtle labels */
@@ -42,9 +45,9 @@
 [data-theme="light"] body {
     background-color: var(--bg);
     background-image:
-        radial-gradient(1000px 600px at 50% -5%, rgba(88, 204, 106, 0.12), transparent 60%),
+        radial-gradient(1000px 600px at 50% -5%, rgba(111, 207, 135, 0.12), transparent 60%),
         radial-gradient(900px 700px at 12% 25%, rgba(240, 138, 29, 0.07), transparent 55%),
-        radial-gradient(900px 700px at 88% 30%, rgba(236, 95, 151, 0.07), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(243, 167, 196, 0.10), transparent 55%),
         linear-gradient(180deg, #f6f9f1 0%, #f3f6ef 55%, #eef3e7 100%);
 }
 
@@ -75,7 +78,7 @@ body,
     --neu-track-inset-d:#0b1710;
     --neu-track-inset-l:#1f3a2e;
     --icon-sun:         #ffc93c;  /* gold */
-    --icon-moon:        #7be08a;  /* mint */
+    --icon-moon:        #ffb3d1;  /* pastel pink */
     --icon-dim:         #4e6b56;  /* dimmed inactive icon */
 }
 
@@ -87,7 +90,7 @@ body,
     --neu-track-inset-d:#d2dcc8;
     --neu-track-inset-l:#ffffff;
     --icon-sun:         #f0a81e;
-    --icon-moon:        #46b958;
+    --icon-moon:        #e88bb3;  /* pastel pink (deeper for cream) */
     --icon-dim:         #9aad9f;
 }
 
@@ -229,7 +232,7 @@ body,
 /* Create page — main builder/form card */
 [data-theme="light"] .builder-card {
     background:
-        radial-gradient(1200px 300px at 0% -10%, rgba(88, 204, 106, 0.08), transparent 60%),
+        radial-gradient(1200px 300px at 0% -10%, rgba(111, 207, 135, 0.08), transparent 60%),
         linear-gradient(180deg, #ffffff 0%, #f7faf3 100%);
     border-color: var(--border);
     box-shadow: var(--shadow);
@@ -275,7 +278,7 @@ body,
 }
 
 [data-theme="light"] .mascot-slot {
-    background-color: rgba(88, 204, 106, 0.10);
+    background-color: rgba(111, 207, 135, 0.12);
 }
 
 /* Explore page — search bar on light */
@@ -298,8 +301,8 @@ body,
 
 [data-theme="light"] .auth-side {
     background-image:
-        radial-gradient(600px 300px at 80% 0%, rgba(88, 204, 106, 0.14), transparent 60%),
-        radial-gradient(500px 400px at 0% 100%, rgba(240, 138, 29, 0.08), transparent 55%),
+        radial-gradient(600px 300px at 80% 0%, rgba(111, 207, 135, 0.14), transparent 60%),
+        radial-gradient(500px 400px at 0% 100%, rgba(243, 167, 196, 0.12), transparent 55%),
         linear-gradient(160deg, #ffffff 0%, #f7faf3 100%);
     border-color: var(--border);
     box-shadow: var(--shadow);
@@ -515,4 +518,99 @@ body,
     object-fit: cover;
     display: block;
     border-radius: 50%;
+}
+
+
+/* =========================================================
+   7. PINK DUOTONE UTILITIES
+   Give PINK equal visual weight to the green primary so the
+   UI reads as a true green + pink duotone (not green-dominant).
+   Uses the themeable --pink / --pink-bright / --pink-deep tokens
+   so these adapt automatically in both dark and light modes.
+   Modeled on the existing green 3D-edge button pattern
+   (box-shadow: 0 Npx 0 var(--mint-deep)).
+   ========================================================= */
+
+/* Pink 3D push-button — mirror of the green primary button. */
+.btn-pink {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: var(--radius-pill, 999px);
+    font-family: var(--font-display, "Fredoka", sans-serif);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    color: #3a0f22;                 /* dark text — AA on pastel pink */
+    background-color: var(--pink);
+    box-shadow: 0 4px 0 var(--pink-deep);
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.2s ease, transform 0.12s ease,
+                box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.btn-pink:hover {
+    background-color: var(--pink-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--pink-deep);
+    filter: brightness(1.02);
+}
+
+.btn-pink:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 var(--pink-deep);
+}
+
+.btn-pink:focus-visible {
+    outline: 3px solid var(--pink);
+    outline-offset: 2px;
+}
+
+/* Pink ghost / outline variant for secondary pink actions. */
+.btn-pink--ghost {
+    color: var(--pink);
+    background-color: transparent;
+    border: 2px solid var(--pink);
+    box-shadow: none;
+}
+
+.btn-pink--ghost:hover {
+    background-color: var(--pink);
+    color: #3a0f22;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Pink-accented card — pink left edge + soft pink tint, the pink
+   counterpart to green stat/accent cards. */
+.card-pink-accent {
+    border-left: 4px solid var(--pink);
+    background-color: color-mix(in srgb, var(--pink) 10%, var(--surface));
+}
+
+/* Fallback for browsers without color-mix(): plain surface + pink edge. */
+@supports not (background-color: color-mix(in srgb, red 10%, white)) {
+    .card-pink-accent {
+        background-color: var(--surface);
+    }
+}
+
+/* Duotone divider / underline accent — half green, half pink. */
+.duotone-rule {
+    height: 4px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--mint) 0%, var(--pink) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-pink { transition: none; }
 }

@@ -13,16 +13,18 @@
     --surface:       #1b2e25;   /* card background */
     --surface-2:     #223a2e;   /* raised / pills / inputs */
     --surface-3:     #2c4a3a;   /* hover / secondary buttons */
-    --purple:        #58cc6a;   /* PRIMARY (mint/green) — name kept */
-    --purple-bright: #7be08a;   /* primary highlight — name kept */
-    --mint:          #58cc6a;   /* semantic alias for primary */
-    --mint-deep:     #3da652;   /* darker edge for 3D buttons */
+    --purple:        #8fe3a3;   /* PRIMARY (pastel green) — name kept */
+    --purple-bright: #aef0bd;   /* primary highlight — name kept */
+    --mint:          #8fe3a3;   /* semantic alias for primary */
+    --mint-deep:     #5cbf78;   /* darker edge for 3D buttons */
     --carrot:        #ff9838;   /* secondary accent (carrot orange) */
     --carrot-deep:   #e07c1c;   /* darker carrot edge */
-    --pink:          #ff86b3;   /* tertiary accent (soft bunny pink) */
+    --pink:          #ffb3d1;   /* co-primary accent (pastel pink) */
+    --pink-bright:   #ffd0e2;   /* pink highlight */
+    --pink-deep:     #e98db0;   /* darker pink edge for 3D buttons */
     --streak-gold:   #ffc93c;   /* streak / XP gold */
     --flame:         #ff7a3d;   /* streak flame */
-    --xp:            #58cc6a;   /* XP fill */
+    --xp:            #8fe3a3;   /* XP fill */
     --text:          #f3fbf4;   /* primary light text */
     --text-muted:    #a7c4b1;   /* secondary text */
     --text-dim:      #7a9a85;   /* subtle labels */
@@ -61,9 +63,9 @@ body {
     /* Soft meadow gradient — warm green glows over a cozy dark base. */
     background-color: var(--bg);
     background-image:
-        radial-gradient(1000px 600px at 50% -5%, rgba(88, 204, 106, 0.18), transparent 60%),
+        radial-gradient(1000px 600px at 50% -5%, rgba(111, 207, 135, 0.18), transparent 60%),
         radial-gradient(900px 700px at 12% 25%, rgba(255, 152, 56, 0.10), transparent 55%),
-        radial-gradient(900px 700px at 88% 30%, rgba(255, 134, 179, 0.10), transparent 55%),
+        radial-gradient(900px 700px at 88% 30%, rgba(255, 179, 209, 0.10), transparent 55%),
         linear-gradient(180deg, #13241c 0%, #11201a 55%, #0d1a14 100%);
     background-attachment: fixed; /* gradient stays fixed behind scrolling content */
 }
@@ -279,7 +281,7 @@ a {
     text-align: center;
     border: 2px dashed var(--mint);
     border-radius: 32px;
-    background-color: rgba(88, 204, 106, 0.08);
+    background-color: rgba(111, 207, 135, 0.08);
     color: var(--text-muted);
     animation: mascot-bob 3s ease-in-out infinite;
 }
@@ -374,7 +376,7 @@ a {
 
 .search-bar:focus-within {
     border-color: var(--mint);
-    box-shadow: 0 0 0 4px rgba(88, 204, 106, 0.28), var(--shadow);
+    box-shadow: 0 0 0 4px rgba(111, 207, 135, 0.28), var(--shadow);
 }
 
 .search-icon {
@@ -446,7 +448,7 @@ a {
 }
 
 .suggestion.is-active {
-    box-shadow: inset 0 0 0 1px rgba(88, 204, 106, 0.6);
+    box-shadow: inset 0 0 0 1px rgba(111, 207, 135, 0.6);
 }
 
 .suggestion-type {
@@ -462,7 +464,7 @@ a {
 }
 
 .suggestion--category .suggestion-type {
-    background-color: rgba(88, 204, 106, 0.22);
+    background-color: rgba(111, 207, 135, 0.22);
     color: var(--mint);
 }
 
@@ -596,17 +598,17 @@ a {
     opacity: 1;
     box-shadow:
         /* bright, tight edge hugging the shape */
-        0 0 3px 0 rgba(123, 224, 138, 0.50),
-        0 0 8px 0 rgba(123, 224, 138, 0.38),
+        0 0 3px 0 rgba(174, 240, 189, 0.50),
+        0 0 8px 0 rgba(174, 240, 189, 0.38),
         /* smooth gradual falloff — blur up, opacity down, no hard ring */
         0 0 16px 0 rgba(100, 214, 120, 0.26),
-        0 0 26px 0 rgba(88, 204, 106, 0.18),
-        0 0 40px 0 rgba(88, 204, 106, 0.12),
-        0 0 58px 0 rgba(88, 204, 106, 0.075),
-        0 0 80px 0 rgba(88, 204, 106, 0.045),
-        0 0 110px 0 rgba(88, 204, 106, 0.022),
+        0 0 26px 0 rgba(111, 207, 135, 0.18),
+        0 0 40px 0 rgba(111, 207, 135, 0.12),
+        0 0 58px 0 rgba(111, 207, 135, 0.075),
+        0 0 80px 0 rgba(111, 207, 135, 0.045),
+        0 0 110px 0 rgba(111, 207, 135, 0.022),
         /* haze tail — fades into transparency */
-        0 0 150px 0 rgba(88, 204, 106, 0.010),
+        0 0 150px 0 rgba(111, 207, 135, 0.010),
         /* subtle grounding depth */
         0 14px 34px rgba(0, 0, 0, 0.38);
 }
@@ -844,7 +846,7 @@ a {
     border-radius: 50%;
     /* Conic ring = progress; --pct set per-category inline or via nth-child below */
     background:
-        conic-gradient(var(--mint) calc(var(--pct, 60) * 1%), var(--surface-3) 0);
+        conic-gradient(var(--ring, var(--mint)) calc(var(--pct, 60) * 1%), var(--surface-3) 0);
     font-size: 1.7rem;
     color: var(--text);
     transition: transform 0.18s ease;
@@ -876,11 +878,11 @@ a {
 
 /* Varied sample progress so rings look alive. */
 .category:nth-child(1) .category-icon { --pct: 72; }
-.category:nth-child(2) .category-icon { --pct: 48; }
+.category:nth-child(2) .category-icon { --pct: 48; --ring: var(--pink); }
 .category:nth-child(3) .category-icon { --pct: 90; }
-.category:nth-child(4) .category-icon { --pct: 35; }
+.category:nth-child(4) .category-icon { --pct: 35; --ring: var(--pink); }
 .category:nth-child(5) .category-icon { --pct: 60; }
-.category:nth-child(6) .category-icon { --pct: 25; }
+.category:nth-child(6) .category-icon { --pct: 25; --ring: var(--pink); }
 .category:nth-child(7) .category-icon { --pct: 80; }
 
 .category:hover .category-icon {
@@ -957,7 +959,7 @@ a {
 .saved-deck:hover {
     transform: translateY(-4px);
     border-color: var(--mint);
-    box-shadow: 0 16px 34px rgba(88, 204, 106, 0.22), var(--shadow);
+    box-shadow: 0 16px 34px rgba(111, 207, 135, 0.22), var(--shadow);
 }
 
 .saved-deck-cover {
@@ -967,7 +969,7 @@ a {
     border-radius: var(--radius-md);
     padding: 3px;
     background: linear-gradient(135deg, var(--mint), var(--pink));
-    box-shadow: 0 8px 20px rgba(88, 204, 106, 0.35);
+    box-shadow: 0 8px 20px rgba(111, 207, 135, 0.35);
 }
 
 .saved-deck-cover img {

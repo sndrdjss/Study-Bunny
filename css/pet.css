@@ -102,7 +102,7 @@
 .btn-egg-confirm:focus-visible,
 .btn-yay:focus-visible,
 .egg-choice:focus-visible {
-    outline: 3px solid var(--purple-bright, #7be08a);
+    outline: 3px solid var(--purple-bright, #aef0bd);
     outline-offset: 3px;
 }
 
