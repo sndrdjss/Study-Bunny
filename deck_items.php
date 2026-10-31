@@ -74,13 +74,13 @@ $isOwner = owns_deck($deck);
       })();
     </script>
     <link rel="stylesheet" href="css/create.css?v=5" />
-    <link rel="stylesheet" href="css/theme.css?v=8" />
+    <link rel="stylesheet" href="css/theme.css?v=14" />
   </head>
   <body>
     <!-- ============================ NAVIGATION BAR ============================ -->
     <header class="navbar">
       <div class="nav-left">
-        <a href="explore.php" class="logo">Study<span>Buddy</span></a>
+        <a href="explore.php" class="logo-slot" aria-label="Study Bunny home"><img src="images/study%20buddy%20no%20bg.png" alt="Study Bunny"></a>
       </div>
 
       <nav class="nav-center" aria-label="Primary">

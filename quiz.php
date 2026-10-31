@@ -209,13 +209,13 @@ $token = csrf_token();
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/quiz.css?v=1">
     <link rel="stylesheet" href="css/pet.css?v=2">
-    <link rel="stylesheet" href="css/theme.css?v=8">
+    <link rel="stylesheet" href="css/theme.css?v=14">
 </head>
 <body>
 
     <header class="navbar">
         <div class="nav-left">
-            <a href="explore.php" class="logo">Study<span>Buddy</span></a>
+            <a href="explore.php" class="logo-slot" aria-label="Study Bunny home"><img src="images/study%20buddy%20no%20bg.png" alt="Study Bunny"></a>
         </div>
         <nav class="nav-center" aria-label="Primary">
             <a href="explore.php" class="nav-link">Explore</a>

@@ -15,40 +15,53 @@
    --------------------------------------------------------- */
 :root[data-theme="light"],
 [data-theme="light"] {
-    --bg:            #f3f6ef;   /* page background (soft cream) */
-    --bg-nav:        #fbfdf8;   /* nav + surfaces */
-    --surface:       #ffffff;   /* card background */
-    --surface-2:     #eef3e7;   /* raised / pills / inputs */
-    --surface-3:     #e3ecd9;   /* hover / secondary buttons */
-    --purple:        #6fcf87;   /* primary (pastel green) — name kept */
-    --purple-bright: #5bbf74;   /* primary highlight (slightly deeper for light bg) */
-    --mint:          #6fcf87;
-    --mint-deep:     #4aa865;
-    --carrot:        #f08a1d;
-    --carrot-deep:   #d9760f;
-    --pink:          #f3a7c4;
-    --pink-bright:   #e88bb3;
-    --pink-deep:     #d98aae;
-    --pink-text:     #c2185b;   /* readable pink for text on cream */
-    --streak-gold:   #f0a81e;
-    --flame:         #f2702c;
-    --xp:            #6fcf87;
-    --text:          #1d2b20;   /* primary dark text */
-    --text-muted:    #4e6b56;   /* secondary text */
-    --text-dim:      #6f8a77;   /* subtle labels */
-    --border:        #d6e2cc;   /* light borders */
-    --shadow:        0 10px 28px rgba(60, 90, 60, 0.14), 0 2px 6px rgba(60, 90, 60, 0.08);
+  --bg: #f3f6ef; /* page background (soft cream) */
+  --bg-nav: #fbfdf8; /* nav + surfaces */
+  --surface: #ffffff; /* card background */
+  --surface-2: #eef3e7; /* raised / pills / inputs */
+  --surface-3: #e3ecd9; /* hover / secondary buttons */
+  --purple: #6fcf87; /* primary (pastel green) — name kept */
+  --purple-bright: #5bbf74; /* primary highlight (slightly deeper for light bg) */
+  --mint: #6fcf87;
+  --mint-deep: #4aa865;
+  --carrot: #f08a1d;
+  --carrot-deep: #d9760f;
+  --pink: #f3a7c4;
+  --pink-bright: #e88bb3;
+  --pink-deep: #d98aae;
+  --pink-text: #c2185b; /* readable pink for text on cream */
+  --streak-gold: #f0a81e;
+  --flame: #f2702c;
+  --xp: #6fcf87;
+  --text: #1d2b20; /* primary dark text */
+  --text-muted: #4e6b56; /* secondary text */
+  --text-dim: #6f8a77; /* subtle labels */
+  --border: #d6e2cc; /* light borders */
+  --shadow:
+    0 10px 28px rgba(60, 90, 60, 0.14), 0 2px 6px rgba(60, 90, 60, 0.08);
 }
 
 /* Light-mode page background gradient — soft cream with faint
    green/carrot/pink tints to match the meadow theme. */
 [data-theme="light"] body {
-    background-color: var(--bg);
-    background-image:
-        radial-gradient(1000px 600px at 50% -5%, rgba(111, 207, 135, 0.12), transparent 60%),
-        radial-gradient(900px 700px at 12% 25%, rgba(240, 138, 29, 0.07), transparent 55%),
-        radial-gradient(900px 700px at 88% 30%, rgba(243, 167, 196, 0.10), transparent 55%),
-        linear-gradient(180deg, #f6f9f1 0%, #f3f6ef 55%, #eef3e7 100%);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(
+      1000px 600px at 50% -5%,
+      rgba(111, 207, 135, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 700px at 12% 25%,
+      rgba(240, 138, 29, 0.07),
+      transparent 55%
+    ),
+    radial-gradient(
+      900px 700px at 88% 30%,
+      rgba(243, 167, 196, 0.1),
+      transparent 55%
+    ),
+    linear-gradient(180deg, #f6f9f1 0%, #f3f6ef 55%, #eef3e7 100%);
 }
 
 /* Smooth color transition when switching themes. */
@@ -57,8 +70,11 @@ body,
 .nav-link,
 .avatar,
 .username {
-    transition: background-color 0.25s ease, color 0.25s ease,
-                border-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 /* =========================================================
@@ -72,153 +88,177 @@ body,
 
 /* Neumorphic palette — DARK mode (default, cozy green) */
 :root {
-    --neu-surface:      #16271f;  /* track/knob base ~ --bg-nav */
-    --neu-shadow-dark:  #0d1a14;  /* lower-right dark shadow */
-    --neu-shadow-light: #234034;  /* upper-left light highlight */
-    --neu-track-inset-d:#0b1710;
-    --neu-track-inset-l:#1f3a2e;
-    --icon-sun:         #ffc93c;  /* gold */
-    --icon-moon:        #ffb3d1;  /* pastel pink */
-    --icon-dim:         #4e6b56;  /* dimmed inactive icon */
+  --neu-surface: #16271f; /* track/knob base ~ --bg-nav */
+  --neu-shadow-dark: #0d1a14; /* lower-right dark shadow */
+  --neu-shadow-light: #234034; /* upper-left light highlight */
+  --neu-track-inset-d: #0b1710;
+  --neu-track-inset-l: #1f3a2e;
+  --icon-sun: #ffc93c; /* gold */
+  --icon-moon: #ffb3d1; /* pastel pink */
+  --icon-dim: #4e6b56; /* dimmed inactive icon */
 }
 
 /* Neumorphic palette — LIGHT mode (soft cream) */
 [data-theme="light"] {
-    --neu-surface:      #eef3e7;
-    --neu-shadow-dark:  #cdd8c2;
-    --neu-shadow-light: #ffffff;
-    --neu-track-inset-d:#d2dcc8;
-    --neu-track-inset-l:#ffffff;
-    --icon-sun:         #f0a81e;
-    --icon-moon:        #e88bb3;  /* pastel pink (deeper for cream) */
-    --icon-dim:         #9aad9f;
+  --neu-surface: #eef3e7;
+  --neu-shadow-dark: #cdd8c2;
+  --neu-shadow-light: #ffffff;
+  --neu-track-inset-d: #d2dcc8;
+  --neu-track-inset-l: #ffffff;
+  --icon-sun: #f0a81e;
+  --icon-moon: #e88bb3; /* pastel pink (deeper for cream) */
+  --icon-dim: #9aad9f;
 }
 
 /* Wrapper label — makes the whole control clickable. */
 .theme-switch {
-    --sw-w: 76px;    /* track width  */
-    --sw-h: 34px;    /* track height */
-    --sw-knob: 42px; /* knob diameter (overhangs the track like the reference) */
+  --sw-w: 76px; /* track width  */
+  --sw-h: 34px; /* track height */
+  --sw-knob: 42px; /* knob diameter (overhangs the track like the reference) */
 
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    width: var(--sw-w);
-    height: var(--sw-knob);
-    flex: none;
-    cursor: pointer;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: var(--sw-w);
+  height: var(--sw-knob);
+  flex: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Hidden native checkbox drives the state. */
 .theme-switch input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-    margin: 0;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
 }
 
 /* The recessed pill track. */
 .theme-switch .track {
-    position: relative;
-    width: var(--sw-w);
-    height: var(--sw-h);
-    border-radius: 999px;
-    background: var(--neu-surface);
-    /* inset dual shadow -> recessed look */
-    box-shadow:
-        inset 3px 3px 6px var(--neu-track-inset-d),
-        inset -3px -3px 6px var(--neu-track-inset-l);
+  position: relative;
+  width: var(--sw-w);
+  height: var(--sw-h);
+  border-radius: 999px;
+  background: var(--neu-surface);
+  /* inset dual shadow -> recessed look */
+  box-shadow:
+    inset 3px 3px 6px var(--neu-track-inset-d),
+    inset -3px -3px 6px var(--neu-track-inset-l);
 }
 
 /* The raised circular knob. */
 .theme-switch .knob {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: var(--sw-knob);
-    height: var(--sw-knob);
-    transform: translateY(-50%);
-    border-radius: 50%;
-    background: var(--neu-surface);
-    display: grid;
-    place-items: center;
-    /* raised dual shadow -> embossed look */
-    box-shadow:
-        4px 4px 8px var(--neu-shadow-dark),
-        -4px -4px 8px var(--neu-shadow-light);
-    transition: left 0.3s cubic-bezier(0.4, 0.1, 0.3, 1);
-    z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: var(--sw-knob);
+  height: var(--sw-knob);
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--neu-surface);
+  display: grid;
+  place-items: center;
+  /* raised dual shadow -> embossed look */
+  box-shadow:
+    4px 4px 8px var(--neu-shadow-dark),
+    -4px -4px 8px var(--neu-shadow-light);
+  transition: left 0.3s cubic-bezier(0.4, 0.1, 0.3, 1);
+  z-index: 2;
 }
 
 /* Knob positions: LEFT = light (default/unchecked), RIGHT = dark (checked). */
 .theme-switch input:not(:checked) ~ .track .knob {
-    left: 0;
+  left: 0;
 }
 .theme-switch input:checked ~ .track .knob {
-    left: calc(var(--sw-w) - var(--sw-knob));
+  left: calc(var(--sw-w) - var(--sw-knob));
 }
 
 /* ---------- Icons ---------- */
 .theme-switch .icon {
-    width: 20px;
-    height: 20px;
-    flex: none;
-    stroke-width: 2;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  stroke-width: 2;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Icon inside the knob (the active one). */
 .theme-switch .knob .icon {
-    position: absolute;
-    transition: opacity 0.2s ease;
+  position: absolute;
+  transition: opacity 0.2s ease;
 }
 
 /* Track icons (background, the inactive-side hint). */
 .theme-switch .track .track-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
-    color: var(--icon-dim);
-    z-index: 1;
-    pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--icon-dim);
+  z-index: 1;
+  pointer-events: none;
 }
-.theme-switch .track .track-icon.sun  { left: 9px; }
-.theme-switch .track .track-icon.moon { right: 9px; }
+.theme-switch .track .track-icon.sun {
+  left: 9px;
+}
+.theme-switch .track .track-icon.moon {
+  right: 9px;
+}
 
 /* Show sun in knob when LIGHT (unchecked), moon when DARK (checked). */
-.theme-switch .knob .icon-sun  { color: var(--icon-sun); }
-.theme-switch .knob .icon-moon { color: var(--icon-moon); }
+.theme-switch .knob .icon-sun {
+  color: var(--icon-sun);
+}
+.theme-switch .knob .icon-moon {
+  color: var(--icon-moon);
+}
 
-.theme-switch input:not(:checked) ~ .track .knob .icon-moon { opacity: 0; }
-.theme-switch input:not(:checked) ~ .track .knob .icon-sun  { opacity: 1; }
-.theme-switch input:checked        ~ .track .knob .icon-sun  { opacity: 0; }
-.theme-switch input:checked        ~ .track .knob .icon-moon { opacity: 1; }
+.theme-switch input:not(:checked) ~ .track .knob .icon-moon {
+  opacity: 0;
+}
+.theme-switch input:not(:checked) ~ .track .knob .icon-sun {
+  opacity: 1;
+}
+.theme-switch input:checked ~ .track .knob .icon-sun {
+  opacity: 0;
+}
+.theme-switch input:checked ~ .track .knob .icon-moon {
+  opacity: 1;
+}
 
 /* Hide the track hint that is currently "covered" by the knob side. */
-.theme-switch input:not(:checked) ~ .track .track-icon.sun  { opacity: 0; }
-.theme-switch input:checked        ~ .track .track-icon.moon { opacity: 0; }
+.theme-switch input:not(:checked) ~ .track .track-icon.sun {
+  opacity: 0;
+}
+.theme-switch input:checked ~ .track .track-icon.moon {
+  opacity: 0;
+}
 
 /* ---------- Accessibility: focus ring ---------- */
 .theme-switch input:focus-visible ~ .track {
-    outline: 2px solid var(--purple-bright);
-    outline-offset: 3px;
+  outline: 2px solid var(--purple-bright);
+  outline-offset: 3px;
 }
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-    .theme-switch .knob,
-    .theme-switch .knob .icon,
-    body, .navbar, .nav-link, .avatar, .username {
-        transition: none;
-    }
+  .theme-switch .knob,
+  .theme-switch .knob .icon,
+  body,
+  .navbar,
+  .nav-link,
+  .avatar,
+  .username {
+    transition: none;
+  }
 }
 
 /* =========================================================
@@ -231,18 +271,22 @@ body,
 
 /* Create page — main builder/form card */
 [data-theme="light"] .builder-card {
-    background:
-        radial-gradient(1200px 300px at 0% -10%, rgba(111, 207, 135, 0.08), transparent 60%),
-        linear-gradient(180deg, #ffffff 0%, #f7faf3 100%);
-    border-color: var(--border);
-    box-shadow: var(--shadow);
+  background:
+    radial-gradient(
+      1200px 300px at 0% -10%,
+      rgba(111, 207, 135, 0.08),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #ffffff 0%, #f7faf3 100%);
+  border-color: var(--border);
+  box-shadow: var(--shadow);
 }
 
 /* Create page — saved draft cards */
 [data-theme="light"] .saved-deck {
-    background: linear-gradient(180deg, #ffffff 0%, #f7faf3 100%);
-    border-color: var(--border);
-    box-shadow: var(--shadow);
+  background: linear-gradient(180deg, #ffffff 0%, #f7faf3 100%);
+  border-color: var(--border);
+  box-shadow: var(--shadow);
 }
 
 /* Create page — text inputs, textareas, selects, editor, file input */
@@ -251,42 +295,40 @@ body,
 [data-theme="light"] .select-input,
 [data-theme="light"] .editor,
 [data-theme="light"] .file-input {
-    background-color: #ffffff;
-    border-color: var(--border);
-    box-shadow: inset 0 1px 2px rgba(60, 90, 60, 0.10);
+  background-color: #ffffff;
+  border-color: var(--border);
+  box-shadow: inset 0 1px 2px rgba(60, 90, 60, 0.1);
 }
 
 /* Explore page — carousel arrows lighter in light mode */
 [data-theme="light"] .carousel-arrow {
-    background-color: #ffffff;
-    border-color: var(--border);
-    color: var(--mint);
-    box-shadow: 0 4px 0 var(--border);
+  background-color: #ffffff;
+  border-color: var(--border);
+  color: var(--mint);
+  box-shadow: 0 4px 0 var(--border);
 }
 
 [data-theme="light"] .carousel-arrow:hover {
-    background-color: var(--mint);
-    border-color: var(--mint);
-    color: #0f2415;
-    box-shadow: 0 4px 0 var(--mint-deep);
+  background-color: var(--mint);
+  border-color: var(--mint);
+  color: #0f2415;
+  box-shadow: 0 4px 0 var(--mint-deep);
 }
 
 /* Explore page — category inner disc + mascot slot read well on cream */
 [data-theme="light"] .category-icon::after {
-    background-color: #ffffff;
-    border-color: var(--border);
+  background-color: #ffffff;
+  border-color: var(--border);
 }
 
 [data-theme="light"] .mascot-slot {
-    background-color: rgba(111, 207, 135, 0.12);
+  background-color: rgba(111, 207, 135, 0.12);
 }
 
 /* Explore page — search bar on light */
 [data-theme="light"] .search-bar {
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
-
-
 
 /* =========================================================
    4. AUTH PAGES (login/register) — light overrides
@@ -294,30 +336,37 @@ body,
    these rules handle the hardcoded dark surfaces in light mode.
    ========================================================= */
 [data-theme="light"] .field input {
-    background-color: #ffffff;
-    border-color: var(--border);
-    box-shadow: inset 0 1px 2px rgba(60, 90, 60, 0.10);
+  background-color: #ffffff;
+  border-color: var(--border);
+  box-shadow: inset 0 1px 2px rgba(60, 90, 60, 0.1);
 }
 
 [data-theme="light"] .auth-side {
-    background-image:
-        radial-gradient(600px 300px at 80% 0%, rgba(111, 207, 135, 0.14), transparent 60%),
-        radial-gradient(500px 400px at 0% 100%, rgba(243, 167, 196, 0.12), transparent 55%),
-        linear-gradient(160deg, #ffffff 0%, #f7faf3 100%);
-    border-color: var(--border);
-    box-shadow: var(--shadow);
+  background-image:
+    radial-gradient(
+      600px 300px at 80% 0%,
+      rgba(111, 207, 135, 0.14),
+      transparent 60%
+    ),
+    radial-gradient(
+      500px 400px at 0% 100%,
+      rgba(243, 167, 196, 0.12),
+      transparent 55%
+    ),
+    linear-gradient(160deg, #ffffff 0%, #f7faf3 100%);
+  border-color: var(--border);
+  box-shadow: var(--shadow);
 }
 
 [data-theme="light"] .auth-alert--error {
-    color: #b02a1e;
-    background-color: rgba(192, 57, 43, 0.10);
+  color: #b02a1e;
+  background-color: rgba(192, 57, 43, 0.1);
 }
 
 [data-theme="light"] .auth-alert--success {
-    color: #1e7e46;
-    background-color: rgba(39, 174, 96, 0.12);
+  color: #1e7e46;
+  background-color: rgba(39, 174, 96, 0.12);
 }
-
 
 /* =========================================================
    5. USER MENU + NAV AUTH BUTTONS
@@ -326,200 +375,205 @@ body,
    existing styles (explore.css / create.css).
    ========================================================= */
 .user-menu {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .user-menu__btn {
-    appearance: none;
-    -webkit-appearance: none;
-    border: 0;
-    margin: 0;
-    font: inherit;
-    color: var(--text);
-    background-color: transparent;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 44px;
-    padding: 4px 12px 4px 4px;
-    border-radius: var(--radius-pill, 999px);
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition: background-color 0.18s ease, color 0.18s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  font: inherit;
+  color: var(--text);
+  background-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 4px 12px 4px 4px;
+  border-radius: var(--radius-pill, 999px);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
 }
 
 .user-menu__btn:hover,
 .user-menu__btn[aria-expanded="true"] {
-    background-color: var(--surface-2);
+  background-color: var(--surface-2);
 }
 
 .user-menu__btn:focus-visible {
-    outline: 2px solid var(--mint);
-    outline-offset: 2px;
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
 }
 
 .user-menu__chevron {
-    flex: none;
-    color: var(--text-muted);
-    transition: transform 0.18s ease;
+  flex: none;
+  color: var(--text-muted);
+  transition: transform 0.18s ease;
 }
 
 .user-menu__btn[aria-expanded="true"] .user-menu__chevron {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .user-menu__list {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 8px);
-    min-width: 180px;
-    margin: 0;
-    padding: 6px;
-    list-style: none;
-    background-color: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md, 16px);
-    box-shadow: var(--shadow);
-    z-index: 50;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 180px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md, 16px);
+  box-shadow: var(--shadow);
+  z-index: 50;
 }
 
 .user-menu__list[hidden] {
-    display: none;
+  display: none;
 }
 
 .user-menu__list li,
 .user-menu__list form {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .user-menu__item {
-    appearance: none;
-    -webkit-appearance: none;
-    border: 0;
-    margin: 0;
-    font: inherit;
-    font-weight: 700;
-    font-size: 0.95rem;
-    text-align: left;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 44px;
-    padding: 10px 12px;
-    border-radius: var(--radius-sm, 12px);
-    color: var(--text);
-    background-color: transparent;
-    cursor: pointer;
-    transition: background-color 0.15s ease, color 0.15s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: left;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm, 12px);
+  color: var(--text);
+  background-color: transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .user-menu__item svg {
-    flex: none;
+  flex: none;
 }
 
 .user-menu__item:hover,
 .user-menu__item:focus-visible {
-    background-color: var(--surface-2);
-    outline: none;
+  background-color: var(--surface-2);
+  outline: none;
 }
 
 .user-menu__item:focus-visible {
-    box-shadow: inset 0 0 0 2px var(--mint);
+  box-shadow: inset 0 0 0 2px var(--mint);
 }
 
 .user-menu__logout {
-    color: var(--carrot);
+  color: var(--carrot);
 }
 
 /* ---------- Guest: Log in / Sign up ---------- */
 .nav-auth-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 40px;
-    padding: 8px 18px;
-    border: 1px solid transparent;
-    border-radius: var(--radius-pill, 999px);
-    font-weight: 700;
-    font-size: 0.95rem;
-    white-space: nowrap;
-    text-decoration: none;
-    background-color: var(--mint);
-    color: #0f2415;
-    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill, 999px);
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  text-decoration: none;
+  background-color: var(--mint);
+  color: #0f2415;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
 }
 
 .nav-auth-btn:hover {
-    background-color: var(--mint-deep);
+  background-color: var(--mint-deep);
 }
 
 .nav-auth-btn:focus-visible {
-    outline: 2px solid var(--mint);
-    outline-offset: 2px;
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
 }
 
 .nav-auth-btn--ghost {
-    background-color: transparent;
-    border-color: var(--border);
-    color: var(--text);
+  background-color: transparent;
+  border-color: var(--border);
+  color: var(--text);
 }
 
 .nav-auth-btn--ghost:hover {
-    background-color: transparent;
-    border-color: var(--mint);
+  background-color: transparent;
+  border-color: var(--mint);
 }
 
 @media (max-width: 640px) {
-    .user-menu__btn .username {
-        display: none;
-    }
-    .user-menu__btn {
-        padding-right: 8px;
-        gap: 6px;
-    }
-    .nav-auth-btn {
-        padding: 8px 12px;
-    }
+  .user-menu__btn .username {
+    display: none;
+  }
+  .user-menu__btn {
+    padding-right: 8px;
+    gap: 6px;
+  }
+  .nav-auth-btn {
+    padding: 8px 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .user-menu__btn,
-    .user-menu__chevron,
-    .user-menu__item,
-    .nav-auth-btn {
-        transition: none;
-    }
+  .user-menu__btn,
+  .user-menu__chevron,
+  .user-menu__item,
+  .nav-auth-btn {
+    transition: none;
+  }
 }
-
 
 /* =========================================================
    6. NAVBAR AVATAR PHOTO (overrides initials when set)
    ========================================================= */
 .avatar.avatar--img {
-    /* Explicit size so it works even on pages whose CSS has no .avatar rule. */
-    width: 36px;
-    height: 36px;
-    flex: none;
-    display: block;
-    overflow: hidden;
-    padding: 0;
-    border-radius: 50%;
-    background: var(--surface-2);
+  /* Explicit size so it works even on pages whose CSS has no .avatar rule. */
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--surface-2);
 }
 .avatar.avatar--img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
 }
-
 
 /* =========================================================
    7. PINK DUOTONE UTILITIES
@@ -533,84 +587,129 @@ body,
 
 /* Pink 3D push-button — mirror of the green primary button. */
 .btn-pink {
-    appearance: none;
-    -webkit-appearance: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    min-height: 44px;
-    padding: 10px 22px;
-    border: 0;
-    border-radius: var(--radius-pill, 999px);
-    font-family: var(--font-display, "Fredoka", sans-serif);
-    font-weight: 700;
-    font-size: 1rem;
-    line-height: 1;
-    color: #3a0f22;                 /* dark text — AA on pastel pink */
-    background-color: var(--pink);
-    box-shadow: 0 4px 0 var(--pink-deep);
-    cursor: pointer;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    transition: background-color 0.2s ease, transform 0.12s ease,
-                box-shadow 0.12s ease, filter 0.12s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: var(--radius-pill, 999px);
+  font-family: var(--font-display, "Fredoka", sans-serif);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  color: #3a0f22; /* dark text — AA on pastel pink */
+  background-color: var(--pink);
+  box-shadow: 0 4px 0 var(--pink-deep);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.2s ease,
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease;
 }
 
 .btn-pink:hover {
-    background-color: var(--pink-bright);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 var(--pink-deep);
-    filter: brightness(1.02);
+  background-color: var(--pink-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--pink-deep);
+  filter: brightness(1.02);
 }
 
 .btn-pink:active {
-    transform: translateY(2px);
-    box-shadow: 0 1px 0 var(--pink-deep);
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--pink-deep);
 }
 
 .btn-pink:focus-visible {
-    outline: 3px solid var(--pink);
-    outline-offset: 2px;
+  outline: 3px solid var(--pink);
+  outline-offset: 2px;
 }
 
 /* Pink ghost / outline variant for secondary pink actions. */
 .btn-pink--ghost {
-    color: var(--pink);
-    background-color: transparent;
-    border: 2px solid var(--pink);
-    box-shadow: none;
+  color: var(--pink);
+  background-color: transparent;
+  border: 2px solid var(--pink);
+  box-shadow: none;
 }
 
 .btn-pink--ghost:hover {
-    background-color: var(--pink);
-    color: #3a0f22;
-    transform: none;
-    box-shadow: none;
+  background-color: var(--pink);
+  color: #3a0f22;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Pink-accented card — pink left edge + soft pink tint, the pink
    counterpart to green stat/accent cards. */
 .card-pink-accent {
-    border-left: 4px solid var(--pink);
-    background-color: color-mix(in srgb, var(--pink) 10%, var(--surface));
+  border-left: 4px solid var(--pink);
+  background-color: color-mix(in srgb, var(--pink) 10%, var(--surface));
 }
 
 /* Fallback for browsers without color-mix(): plain surface + pink edge. */
 @supports not (background-color: color-mix(in srgb, red 10%, white)) {
-    .card-pink-accent {
-        background-color: var(--surface);
-    }
+  .card-pink-accent {
+    background-color: var(--surface);
+  }
 }
 
 /* Duotone divider / underline accent — half green, half pink. */
 .duotone-rule {
-    height: 4px;
-    border: 0;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--mint) 0%, var(--pink) 100%);
+  height: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--mint) 0%, var(--pink) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .btn-pink { transition: none; }
+  .btn-pink {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   8. TOP-LEFT LOGO SLOT (placeholder until a logo image is added)
+   ========================================================= */
+/* The logo PNG has large transparent margins (empty space above/below
+   the artwork). We draw the image slightly larger than the slot and
+   clip it with overflow:hidden so only the artwork shows. The slot
+   height (40px) keeps the navbar at its original height; the small
+   negative top margin hides the empty space above the artwork.
+   To resize: change --logo-h; width/offsets scale from it.
+   (Artwork visible area ~2.166:1, sits at top:80/942, bottom:104/942.) */
+.logo-slot {
+  --logo-h: 52px;                         /* visible logo height */
+  display: block;
+  height: var(--logo-h);                  /* box = full artwork height (no cut) */
+  width: calc(var(--logo-h) * 2.166);     /* visible (cropped) width */
+  margin-left: 32px;                      /* nudge the logo to the right */
+  /* Bleed evenly into the navbar's padding so the bar keeps its height
+     even though the logo is taller than the 40px content row. */
+  margin-top: calc((40px - var(--logo-h)) / 2);
+  margin-bottom: calc((40px - var(--logo-h)) / 2);
+  overflow: hidden;                       /* clips only the transparent side/edge space */
+  flex-shrink: 0;
+}
+.logo-slot img {
+  display: block;
+  height: calc(var(--logo-h) * 1.243);    /* full image scaled so artwork = --logo-h */
+  width: auto;
+  max-width: none;
+  margin-top: calc(var(--logo-h) * -0.105);   /* hide transparent space above artwork */
+  margin-left: calc(var(--logo-h) * -0.018);  /* hide transparent space left of artwork */
+}
+@media (max-width: 640px) {
+  .logo-slot { --logo-h: 44px; margin-left: 20px; }  /* smaller on phones */
+}
+.logo-slot:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 3px;
+  border-radius: 8px;
 }
