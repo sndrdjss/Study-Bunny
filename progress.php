@@ -255,7 +255,7 @@ if ($deckView > 0) {
           var c = css.getPropertyValue(name);
           return (c && c.trim()) || fallback;
         }
-        var mint = v("--mint", "#58cc6a");
+        var mint = v("--mint", "#8fe3a3");
         var carrot = v("--carrot", "#ff9838");
         var grid = v("--border", "#2e4d3c");
         var text = v("--text-muted", "#a7c4b1");
